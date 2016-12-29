@@ -1,0 +1,303 @@
+@charset "utf-8";
+/* =============================== 锟斤拷锟斤拷锟斤拷锟斤拷 / 锟斤拷锟斤拷锟斤拷锟�frame,login) / 唯一锟斤拷式锟斤拷 / 20161008 =============================== */
+
+/* ---------------------------------- 系统应锟斤拷锟斤拷式 ---------------------------------- */
+body{padding-bottom: 5px;}
+/* 锟矫伙拷锟斤拷锟斤拷 */
+.userarea{ overflow: hidden; width: 100%;min-height: 235px; background: #f3f8fb;border-bottom: 1px dashed #dbe3e8;}
+.userarea .userbox{float:left; border-right: 1px dashed #dbe3e8; min-height: 235px;}
+.userarea .userbox:last-child{border-right: none;}
+.userarea .userbox h2{ margin: 10px; color: #333; font-weight: normal;}
+.userarea .userbox h2 span{font-size: 12px;color:#999;}
+.userarea .userbox .charts{ overflow: hidden; width: 100%;height:190px;}
+.userarea .userbox h2.total{ text-align: center;}
+.userarea .userbox h2 strong{ display: block;font-size:30px ;color: #5ea8de;}
+
+/* 锟斤拷锟斤拷锟斤拷锟斤拷 */
+.ulrank{ overflow: hidden;width: 100%;}
+.ulrank li{float: left; overflow: hidden; margin: 5px 0 15px 0; width: 33.3%; font-size: 14px; line-height:24px;}
+.ulrank li span{float:left; margin: 0 2px;}
+.ulrank li .txtrank{float:left;width:76%;}
+.ulrank li  h3{font-size: 16px;  color: #333; font-weight: normal;line-height: 36px;padding: 0 0 0 7px;}
+.ulrank li .txtrank h3 img{margin-right: 5px;}
+.ulrank li p{color: #999;font-size:12px; }
+.ulrank li p span{color:#333;float: none;}
+
+/* 锟斤拷锟斤拷图锟斤拷 */
+.icon-first, .icon-second, .icon-third{width: 27px;height: 35px; text-indent: -5000px;}
+.icon-first{ background: url("images/boncLayout/bg/icon_first.png") no-repeat;}
+.icon-second{ background: url("images/boncLayout/bg/icon_second.png") no-repeat;}
+.icon-third{ background: url("images/boncLayout/bg/icon_third.png") no-repeat;}
+.icon-other{ width:27px;height: 27px; background:#b5b5b5 ; text-align: center;color: #fff; border-radius: 27px;line-height: 27px;}
+.icon-exchange01,.icon-exchange02, .icon-exchange03{ width:25px;height: 25px;text-align: center;color: #fff; border-radius: 3px;line-height: 25px;}
+.icon-exchange01{ background:#f99505;}
+.icon-exchange02{ background:#b94847;}
+.icon-exchange03{ background:#448844;}
+
+/* 锟斤拷锟斤拷锟斤拷锟斤拷 */
+.exchangearea{overflow: hidden; width: 100%;background: #f3f8fb;}
+.exchangearea .exchangebox{ float: left; overflow: hidden;}
+.exchangearea h2{ overflow: hidden; float: left; color: #1a5d85; font-size: 22px; text-align: center;height: 80px; line-height: 80px;}
+.exchangearea h2 span{ float: left; text-align: center; line-height: 22px; margin-top: 29px;}
+.exchangearea h2 .into{ float: left; margin-left: 13%; margin-right: 5.5%;}
+.exchangearea h2 .out{ margin-left: 4%;}
+.exchangearea h2 span em{font-size: 14px;}
+.exchangearea .exchangebox { width: 100%; height: 120px; border-bottom: 1px solid #dbdbdb;}
+.exchangearea .exchangebox .ulrank{padding-top: 15px;}
+.exchangearea .exchangebox.middle{ height: 110px; margin-top: 10px;margin-left:-40px}
+.exchangearea .exchangebox.middle div{float: left;width: 90px; height: 90px;}
+.exchangearea .exchangebox .arrow-left,
+.exchangearea .exchangebox .arrow-right{ color: #fb0000; font-size: 14px; line-height: 60px;}
+.exchangearea .exchangebox .arrow-left{ 
+	background-size: cover!important;
+    width: 27%!important;
+    margin-top: -15px;
+    line-height: 103px;
+   
+	margin-left: 8%; padding-left: 20px; background: url("images/boncLayout/bg/arrow01_exchange.png") no-repeat;}
+.exchangearea .exchangebox .arrow-right{ 
+	width: 30%!important;
+    background-size: cover!important;
+    padding-left: 2px!important;
+    line-height: 100px;
+    margin-top: -12px;
+  
+	padding-left: 10px; background: url("images/boncLayout/bg/arrow02_exchange.png") no-repeat;}
+.exchangearea .exchangebox .brand{ background: #fff; border:5px solid #fde03d; border-radius: 90px; text-align: center;}
+.exchangearea .exchangebox .brand img{width: 60px; height: 60px; margin-top: 12px;}
+.cycle{ margin-top: 10%; background: #fff; border:5px solid #98bcf3;border-radius: 90px; text-align: center;}
+.cycle p{ color:#333333; font-size:18px; height: 55px; line-height: 58px;}
+.cycle p span{color:#999999; font-size:12px;}
+.cycle h3{ background: #98bcf3; color: #fff; height: 35px; line-height: 30px; border-radius: 0 0 35px 35px;}
+
+/* 锟斤拷锟斤拷锟斤拷锟斤拷未锟斤拷预锟斤拷-锟斤拷锟�*/
+.userarea .exchangebox{ float:left; border-right:1px dashed #dbe3e8;}
+.userarea .exchangebox .userbox{ width: 100%; border-right: none; border-bottom:1px dashed #dbe3e8 }
+.userarea .exchangebox .userbox:last-child{ border-bottom: none;}
+.userarea .exchangebox.market{ position: relative; min-height:470px; background: #fff;border-right:1px dashed #dbe3e8;}
+.userarea .exchangebox.market h2{width:44%; padding-left:10px;margin-top:10px;color: #98bcf3; font-size: 20px; font-weight: normal;display:inline-block}
+.hspan {display:inline-block;width:94px;height: 24px;line-height: 24px;text-align: center;color:#98bcf3}
+.onup{background: #98bcf3;color: #fff; border-radius: 24px;}
+/* 锟叫筹拷锟斤拷锟斤拷 */
+.map-market{ position: relative; float:left; min-height:560px;}
+.span-mapmarket{position: absolute; right: 10px; top: 10px;}
+.span-mapmarket a{display: inline-block; width:84px;height:24px;line-height:24px; color:#98bcf3;text-align: center;}
+.span-mapmarket a:hover,
+.span-mapmarket a.on{  background: #98bcf3;color: #fff; border-radius: 24px;}
+.charts-market{ margin: 40px auto 0 auto; width: 95%;}
+.marketbox{ overflow: hidden; float: left; min-height: 560px;}
+.marketbox .market{ height: 212px; border-bottom: 1px dashed #dbe3e8; float:left; border-left: 1px dashed #dbe3e8;}
+.marketbox .market h2{ font-size: 16px; color: #333; margin: 10px 0 5px 10px; font-weight: normal;}
+.TableMarket{ width: 97%; margin-left: 7%;}
+.TableMarket th{ text-align: center ;}
+.TableMarket th span{ border-radius: 3px;width: 25px; height:25px; color: #fff; line-height: 25px;}
+.TableMarket th .thead01{ background: #f99505;}
+.TableMarket th .thead02{ background: #b94847;}
+.TableMarket th .thead03{ background: #448844;}
+.TableMarket th .thead04{ background: #3885ad;}
+.TableMarket th .thead05{ background: #303030;}
+.TableMarket td{ color: #666; font-size: 14px; line-height: 34px;text-align:center}
+.TableMarket td span{text-align: center; background: #fc4e4f;color: #fff; width: 68px; height: 24px; line-height: 24px; border-radius: 24px;}
+.TableMarket th span,
+.TableMarket td span{  display: block;}
+.numtable td span{margin-left:20px;}
+.TableMarket.normal th,
+.TableMarket.normal td{ line-height: 28px;text-align:center}
+.TableMarket td a{ background: none; border: none;color: #4675c8;}
+.TableMarket td a:hover{ background: none;border: none;}
+.TableMarket td a span{ margin: 0; background: none;color: #4675c8;}
+.chart{width:100%}
+.marketbox .market .pricechart{ float: left; width: 60%;}
+.marketbox .market .cycle{ float: left; border-radius:80px !important; width:80px;height:80px;}
+.marketbox .market .cycle h5{height:45px; line-height: 1px;}
+
+/* 锟叫筹拷锟斤拷锟斤拷-锟秸讹拷 */
+.TableTerminal{ width: 100%;}
+.TableTerminal td h2{ font-size: 18px; color: #666;}
+.TableTerminal td{ border-bottom: 1px dashed #dbe3e8; border-right: 1px dashed #dbe3e8;}
+.TableTerminal td:last-child{border-right: none;}
+
+/* 锟斤拷品锟斤拷锟斤拷 */
+.search{ width: 100%; margin: 20px auto;}
+.search02{ width: 100%; margin: 0 auto; overflow:hidden; border-bottom:1px solid #dbdbdb;}
+.search02 dl, .search02 span{ float:right; margin-right:15px;}
+.searcharea{ height:auto; margin:0 auto; width:99%; border:1px solid #dbe3e8;}
+.overflow-h{ overflow:hidden;}
+.dlsearch{ overflow:hidden; float:left; margin-left:20px; color:#999; line-height:60px;}
+.dlsearch dt{ text-align:right;}
+.dlsearch dt, .dlsearch dd{ float:left;}
+.dlsearch dd select{ border:1px solid #dbe3e8; border-radius:3px; width:116px; line-height:28px; height:28px; background:#fff;}
+.dlsearch dd input{ margin:0px 8px 0 8px;}
+.dlsearch dt{ margin-right:8px;}
+.laydate-icon{ border:1px solid #dbe3e8 !important; border-radius:3px;background-position:131px center !important; padding-left:5px;  height:26px !important;}
+.openicon{overflow:hidden; margin-top: -1px; margin-left: 48%;}
+.line{ overflow:hidden;}
+.line2{background:#f1f6f9; overflow:hidden; }
+.dlsearch .textbox{ line-height: 1;}
+
+.btncompare{ margin-left:10px; float:left; width:80px; height:30px; margin-top:15px;  cursor:pointer !important}
+.btncompare .span{width:60px; height:30px; padding-left:20px; line-height:30px; border-radius:3px; color:#fff; display:inline-block; background:#4884e4 url(images/boncLayout/bg/icon_compare.png) 12px 8px no-repeat;}
+.btncompare span:hover{ background:#5a94f0 url(images/boncLayout/bg/icon_compare.png) 12px 8px no-repeat; cursor:pointer !important}
+
+.btnsearch{ margin-left:10px; float:left; width:80px; height:30px; margin-top:15px;  cursor:pointer !important}
+.btnsearch a{width:80px; height:30px; padding-left:20px; line-height:30px; border-radius:3px; color:#fff; display:inline-block; background:#4884e4 url(images/boncLayout/bg/icon_search.png) 12px 8px no-repeat;}
+.btnsearch a:hover{ background:#5a94f0 url(images/boncLayout/bg/icon_search.png) 12px 8px no-repeat; cursor:pointer !important}
+.btn_submit{ background:#dbe3e8; color:#fff; border:none; width:40px;}
+.normal .cd-secondary-nav{ position: relative; z-index: 1; clear: both; width: 100%; height: 40px; background-color: #98bcf3; -webkit-transform: translateZ(0); transform: translateZ(0); will-change: transform; -webkit-transition: -webkit-transform .5s; transition: -webkit-transform .5s; transition: transform .5s; transition: transform .5s, -webkit-transform .5s; }
+.normal .containerWraper{ width:90% !important; height:40px; }
+.normal .containerWraper .current a{ background:#fff; color:#333;}
+.normal .cd-hero{ height:0;}
+.normal .cd-main-content{ padding:0;}
+.normal .cd-zd-tabitem{ padding:0;}
+
+.normal .cd-secondary-nav.fixed{ top:70px;}
+.containerWraper .tabbox{ position: relative; float:left; margin-top:6px;height:34px; line-height:34px;padding:0 5px;text-align:center;}
+.containerWraper .tabbox a{ color:#fff; font-size:14px; padding:0 25px; display:block; background:#7e9fd1; border-radius:5px 5px 0 0; }
+.containerWraper .tabbox a:hover{color:#000; text-decoration:none; background:#fff;}
+
+/* --tab-- */
+.cd-secondary-nav { position: relative; z-index: 1; clear: both; width: 100%; height: 100px; background-color: #f9f9f9; /* Force Hardware Acceleration */
+    -webkit-transform: translateZ(0); transform: translateZ(0); will-change: transform; -webkit-transition: -webkit-transform .5s; transition: -webkit-transform .5s; transition: transform .5s; transition: transform .5s, -webkit-transform .5s; }
+.cd-secondary-nav::after {
+    content: ''; position: absolute; z-index: 1; top: 0; right: 0; height: 100%; pointer-events: none; -webkit-transition: opacity .2s; transition: opacity .2s; }
+.cd-secondary-nav.nav-end::after { opacity: 0; }
+@media only screen and (min-width: 800px) {
+    .cd-secondary-nav {  height: 80px;  overflow: visible;  }
+    .cd-secondary-nav.fixed {  position: fixed;  top: 70px;  }
+    .cd-secondary-nav.slide-up {  -webkit-transform: translateY(-70px);  -ms-transform: translateY(-70px);  transform: translateY(-70px);  }
+}
+/* --tab锟斤拷锟斤拷锟斤拷锟绞斤拷锟�- */
+.containerWraper{ margin:0 auto; overflow:hidden; width:800px !important;height:80px;position:relative;}
+.containerWraper .navbox{ position: relative; float:left; width:200px; text-align:center;}
+.containerWraper .navbox a{ color:#999; font-size:16px; padding-top:50px; width:200px; display:block;}
+.containerWraper .navbox a:hover{color:#ec7f31; text-decoration:none;}
+.cd-zd-tabitem{ display: none; text-align: center;  padding:50px 0 0 0;  overflow: hidden;}
+.containerWraper .line{ position: absolute; left:0px; bottom: 0px; width: 200px; display: block; height:2px; background:#ec7f31; }
+
+.containerWraper .current .nav01{color:#ec7f31;background:url(images/boncLayout/bg/navIcon02.png) center 15px no-repeat !important ;}
+.containerWraper .current .nav02{color:#ec7f31;background:url(images/boncLayout/bg/navIcon04.png) center 15px no-repeat !important ;}
+.containerWraper .current .nav03{color:#ec7f31;background:url(images/boncLayout/bg/navIcon06.png) center 15px no-repeat !important ;}
+.containerWraper .current .nav04{color:#ec7f31;background:url(images/boncLayout/bg/navIcon08.png) center 15px no-repeat !important ;}
+
+.containerWraper .navbox a.nav01{ background:url(images/boncLayout/bg/navIcon01.png) center 15px no-repeat ;}
+.containerWraper .navbox a.nav01:hover{ color:#ec7f31;background:url(images/boncLayout/bg/navIcon02.png) center 15px no-repeat ;}
+
+.containerWraper .navbox a.nav02{background:url(images/boncLayout/bg/navIcon03.png) center 15px no-repeat ;}
+.containerWraper .navbox a.nav02:hover{ color:#ec7f31;background:url(images/boncLayout/bg/navIcon04.png) center 15px no-repeat ;}
+
+.containerWraper .navbox a.nav03{background:url(images/boncLayout/bg/navIcon05.png) center 15px no-repeat ;}
+.containerWraper .navbox a.nav03:hover{ color:#ec7f31;background:url(images/boncLayout/bg/navIcon06.png) center 15px no-repeat ;}
+
+.containerWraper .navbox a.nav04{background:url(images/boncLayout/bg/navIcon07.png) center 15px no-repeat ;}
+.containerWraper .navbox a.nav04:hover{ color:#ec7f31;background:url(images/boncLayout/bg/navIcon08.png) center 15px no-repeat ;}
+/* --//tab锟斤拷锟斤拷锟斤拷锟绞斤拷锟�- */
+
+/* --锟叫诧拷锟斤拷锟斤拷锟斤拷-- */
+.cd-main-content { padding: 60px 5% 2em; overflow: hidden;}
+.cd-main-content.sub-nav {  padding-top: 110px; }
+.cd-main-content.sub-nav-hero {  padding-top: 0; }
+.cd-main-content.sub-nav-hero.secondary-nav-fixed { margin-top: 80px;}
+.cd-main-content p {max-width: 1024px; line-height: 1.6; margin: 2em auto;color: #a5a8a9; }
+.cd-main-content.sub-nav :target::before,
+.cd-main-content.sub-nav-hero :target::before { display: block; content: ""; margin-top: -50px; height: 50px; visibility: hidden; }
+
+/* 锟斤拷品锟斤拷锟斤拷-锟斤拷品锟斤拷页 */
+.box01Product{width:25%;height:auto;float: left}
+.box01Product p{width:160px;height: 30px;border-radius: 15px;line-height: 30px;color:#fff;font-size: 16px;}
+.box01Product .p1{background: #ffbf54}
+.box01Product .p2{background: #00b4c6}
+.box01Product .p3{background: #f07474}
+.box01Product .p4{background: #995db2}
+.chartProduct{ width: 80%;margin: 0 auto;}
+
+/* 锟斤拷品锟斤拷锟斤拷-锟叫筹拷 */
+#sc{width:100%;height:auto;}
+.yidiv{display: none;}
+.left-charts,
+.right-charts{float:left;height:376px;}
+.left-charts{width: 50%;}
+.right-charts{width: 50%;}
+.fhuidiv{width:320px;height:485px;border:1px solid #dbdbdb;margin: 40px;float: left}
+.phone{width:100%;height: 205px; text-align: center;}
+.app img{ width:75px; margin-top: 20px;}
+.fhuidiv>p{width:100%;height:39px;background: #f6f6f6;font-size: 14px;text-align: center;line-height: 39px;margin:0px;}
+.biaodiv{float: left;width:40px;height: 40px;margin-top: 10px;}
+.biao{background: url("images/boncLayout/bg/biao.jpg") no-repeat center}
+.biao1{background: url("images/boncLayout/bg/biao2.jpg") no-repeat center}
+.biao2{background: url("images/boncLayout/bg/biao3.jpg") no-repeat center}
+.biao3{background: url("images/boncLayout/bg/biao4.jpg") no-repeat center}
+.zidiv{float: left;width:82%;height:40px;margin-top: 14px; margin-left: 9px;}
+.ul2{width:90%;height:auto;margin: 0 auto}
+.ul2 li{width:100%;height:60px;}
+.ul2 p{margin: 0px;color:#686868;font-size: 16px;text-align: left;}
+
+/* 锟斤拷品锟斤拷锟斤拷-锟矫伙拷 */
+.AdminProduct{ overflow: hidden; margin: 0 auto 20px auto; width: 99%;border:1px solid #dbe3e8;  -webkit-border-radius:5px;  -moz-border-radius:5px;  border-radius:5px;}
+.AdminProduct h2{ margin: 10px; text-align: left; font-size: 16px; font-weight: normal; color: #333; padding-left: 25px; background: url("images/boncLayout/bg/bg_h2AdminProduct.png") no-repeat;}
+.chartAdmin{ float: left; width: 30%; margin-left: 2%;}
+
+/* 锟斤拷品锟斤拷锟斤拷-锟斤拷锟斤拷 */
+.firstdiv{width:100%;height:438px;border:1px solid #dbe2e8;background: #f9f9f9;border-radius: 20px;}
+.halfchange{float: left;width:50%;}
+.placebox{ overflow: hidden;width: 550px;margin: 0 auto;}
+.AdminProduct h2.place{background: url("images/boncLayout/bg/bg_place.png") no-repeat ;}
+.AdminProduct h2.time{background: url("images/boncLayout/bg/bg_time.png") no-repeat ;}
+.AdminProduct h2.compare{background: url("images/boncLayout/bg/bg_compare.png") no-repeat ;}
+.phonechange{ background: #f9f9f9;}
+.UlCompare{ float: left; width: 115px;}
+.UlCompare li{width: 115px; height:28px; background:#fff;border:1px solid #dbdbdb;border-radius: 28px;line-height: 28px;margin-bottom: 10px;}
+.UlCompare li .red{color: #ff0000;}
+.arrow01,
+.arrow02{ float: left; margin: 0 !important; width: 28px; height: 110px;}
+.arrow01{ background: url("images/boncLayout/bg/bg_arrow01.png") no-repeat;}
+.arrow02{ background: url("images/boncLayout/bg/bg_arrow02.png") no-repeat;}
+.halfchange .city,
+.halfchange .app{ margin-top: 15px;}
+.halfchange .city{float:left;width:80px;height: 80px;background: #3669ba;border-radius: 80px;color:#fff;line-height: 80px;text-align: center;}
+.halfchange .app{float: left;width:80px;height: 80px;border-radius: 80px;border:3px solid #3669ba; background: #fff;}
+.halfchange .app img{ width: 50px;height:50px; margin-top: 15px;}
+.huan{background: url("images/boncLayout/bg/yy.jpg") no-repeat ;}
+
+.jiandiv{background: url("images/boncLayout/bg/sj.jpg") no-repeat center;width:27px;height: 107px;}
+.jiandiv2{background: url("images/boncLayout/bg/sj2.jpg") no-repeat center;width:27px;height: 107px;}
+.appdiv{}
+.secdiv{width:100%;height:618px;border:1px solid #dbe2e8;border-radius: 20px;margin: 35px 0 0 0;}
+.fldiv{float: left;width:39%;height:auto;}
+.fldiv2{float: left;width:24.7%;margin: 0 0 0 25px;}
+.lout{float: left;width:25%;height:240px;line-height: 240px;text-align: center;font-size: 20px;}
+.loutright{float: left;width:74%;height: 240px;border:1px solid #dbe2e8}
+.loutright2{float: left;width:100%;height: 240px;border:1px solid #dbe2e8}
+.lediv{width:28%;float: left;padding:20px 0}
+.lediv img{ width:70px;}
+.lediv p{margin:2px 0}
+.arrow01-compare,
+.arrow02-compare{ float: left; width: 40px; height: 100%; margin: 100px 5px 0 0 ;}
+.arrow01-compare{background: url("images/boncLayout/bg/bg01_arrowcompare.gif") no-repeat}
+.arrow02-compare{background: url("images/boncLayout/bg/bg02_arrowcompare.gif") no-repeat}
+
+.tabdiv{width:55%;float: left;margin: 20px 0 0 0}
+.tabdiv table tbody tr td{line-height: 40px !important}
+.thrdiv{width:100%;height:360px;border:1px solid #dbe2e8;border-radius: 20px;margin: 35px 0 0 0;}
+
+
+/* 知识锟斤拷 */
+.bodyBack{background: #f3f8fb;}
+.knowledgebox{ margin: 8px auto; padding: 5px 0; width: 100%; background: #fff;}
+.knowledgebox h2{ float: left; font-size: 18px; font-weight: bold;}
+.borno{ border: none;}
+.next_btn{width:80px;height:40px;background:#3d8ccf;color:#ffffff;margin-right:14px;font-size:14px;font-weight:600;}
+#tbar{line-height:57px;padding-right:10px;}
+.btnupload{cursor:pointer;width: 70px;height: 30px;padding-left: 25px;line-height: 30px;border-radius: 3px;color: #fff;display: inline-block;background: #4884e4 url(images/boncLayout/img/icon_upload.png) 12px 8px no-repeat;text-align:center;margin-right:10px;margin-bottom:5px;}
+.wardiv{display:none;}
+.blackDiv{width:100%;height:100%;position:fixed;opacity:0.5;background:black;z-index:999;top:0px;}
+.whiteDiv{width:43%;height:300px;background:url(images/boncLayout/img/pgload.jpg) no-repeat center;background-size:contain;position:fixed;z-index:10000;top:20%;left:25%}
+.butspan{display: inline-block;width:75px;height:40px;background:#4884e4;color:#fff;font-size:16px;line-height:40px;text-align:center;margin-left:72%;cursor:pointer}
+/* 新增 */
+.exchangearea_new{ background: none !important;}
+.AdminProduct{ overflow: hidden; margin: 10px auto 20px auto; width: 99%;border:1px solid #dbe3e8;  -webkit-border-radius:5px;  -moz-border-radius:5px;  border-radius:5px;}
+.salearea{ overflow: hidden; margin-top: 10px;}
+.salearea .TableMarket{ float: left;width: 40%;}
+.salearea .TableMarket td span{ width: 100px;}
+.salearea .TableMarket td{ line-height: 50px;}
+.salearea .cycle{float:left;width: 100px;height: 100px;}
+.salearea h3{border-radius: 0 0 45px 45px;height: 45px; font-size: 14px;}

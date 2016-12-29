@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.notice">
+	<sql name="list">
+		<![CDATA[
+			select t1.POST_ID,
+		       t1.POST_TITLE,
+		       t1.ISSUE_DATE ISSUE_DATE, 
+               t1.BEGIN_DATE BEGIN_DATE,
+               t1.END_DATE END_DATE, 
+               (case t1.POST_STATE when 1 then '已发布' when 0 then '未发布' else '未 知' end)  POST_STATE,       
+		       t1.UPDATE_DATE UPDATE_DATE, 
+		       t2.USER_NAME USER_ID
+		    from E_POST t1 left join E_USER t2
+		       on t1.USER_ID=t2.user_id
+		    where 1=1
+			   {and t1.post_title like '%'||#post_title#||'%'}
+			   {and t1.begin_date= #begin_date#}
+			   {and t1.end_date= #end_date#}
+			   {and t1.post_state=#post_state#}
+		    order by t1.issue_date desc
+		]]>
+	</sql>
+	<sql name="nextvalForE_ln_seq">
+		<![CDATA[
+				select NEXT VALUE FOR E_ln_seq POSTID from dual
+		]]>
+	</sql>
+	<sql name="add">
+		<![CDATA[
+				insert into E_POST values(#post_id#,#post_title#,#date()#,#begin_date#,#end_date#,#post_state#,#editor1#,#date()#,#session.UserInfo.USER_ID#);
+				%{
+					for( item : post_role_java) {
+						echo("insert into E_POST_ROLE values('"+post_id+"','"+item+"');");
+					}
+				}
+		]]>
+	</sql>
+	<sql name="quyById">
+		<![CDATA[
+			select POST_ID,
+		       POST_TITLE,
+		       ISSUE_DATE ISSUE_DATE,
+		       BEGIN_DATE BEGIN_DATE,
+		       END_DATE END_DATE,
+		       POST_STATE,
+		       POST_CONTENT,
+		       UPDATE_DATE,
+		       USER_ID
+			  from E_POST
+			 where post_id=#post_id#
+		 ]]>
+	</sql>
+	<sql name="edit">
+		<![CDATA[
+				update E_POST set POST_TITLE=#post_title#,ISSUE_DATE=#issue_date#,BEGIN_DATE=#begin_date#,END_DATE=#end_date#,POST_STATE=#post_state#,POST_CONTENT=#editor1#,UPDATE_DATE=#date()#,USER_ID=#session.UserInfo.USER_ID# where POST_ID=#post_id#;
+				delete E_POST_ROLE where post_id=#post_id#;
+				%{
+					for( item : post_role_java) {
+						echo("insert into E_POST_ROLE values('"+post_id+"','"+item+"');");
+					}
+				}
+		]]>		
+	</sql>
+	<sql name="delete">
+		<![CDATA[
+			delete E_POST where POST_ID = #postId#;
+			delete E_POST_ROLE WHERE POST_ID=#postId#;
+		]]>	
+	</sql>
+	<sql name="post">
+		<![CDATA[
+				   select t1.POST_ID,
+				   t1.POST_TITLE TITLE,
+			       t1.BEGIN_DATE BEGIN_DATE,
+			       t1.USER_ID,
+			       COALESCE(t2.USER_NAME, '<未知>') USER_NAME
+			   from E_post t1 left join E_user t2
+				   on t1.user_id = t2.user_id
+			   where
+			       #date()# between begin_date and end_date 
+			       and t1.post_state='1' 
+			       and t1.post_id in (select a1.post_id from E_post_role a1, E_user_role a2 where a1.role_code = a2.role_code and a2.user_id = #session.UserInfo.USER_ID#)
+			 order by t1.issue_date desc
+		]]>	
+	</sql>
+	<sql name="homepost">
+		<![CDATA[
+				  select t1.post_title TITLE,
+				       to_char(to_date(t1.begin_date,'yyyymmdd'),'yyyy-mm-dd') as "BEGIN_DATE",
+				       t1.post_content CC,
+				       t1.USER_ID,
+				       t2.USER_NAME
+				  from E_post t1 left join e_user t2 on(t1.user_id=t2.user_id)
+				  where t1.post_state='1'
+				  and t1.post_id = #post_id#
+		]]>	
+	</sql>
+	<sql name="shownotice">
+		<![CDATA[
+				 select t1.post_title TITLE,
+				     to_char(to_date(t1.begin_date,'yyyymmdd'),'yyyy-mm-dd') as "BEGIN_DATE",
+				     t1.post_content CC,
+				     t1.USER_ID,
+				     t2.USER_NAME
+				 from E_post t1 left join e_user t2 on(t1.user_id=t2.user_id)
+				 where t1.post_id = #post_id#
+		]]>	
+	</sql>
+	
+</mapping>
+
+
+

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.subsystem">
+	<sql name="list">
+		<![CDATA[
+			SELECT T.SUBSYSTEM_ID "SUBSYSTEM_ID",
+			       T.SUBSYSTEM_NAME "SUBSYSTEM_NAME",
+			       T.SUBSYSTEM_ADDRESS "SUBSYSTEM_ADDRESS",
+			       T.SUBSYSTEM_IP "SUBSYSTEM_IP",
+			       T.SIMULATION_ADDRESS "SIMULATION_ADDRESS",
+			       (CASE T.STATE WHEN '1' THEN '有效' WHEN '0' THEN '无效' ELSE T.STATE END) "STATE",
+			       T.ORD "ORD",
+			       T.CONTACTS "CONTACTS",
+			       T.PHONE "PHONE",
+			       T.E_MAIL "E_MAIL",
+			       T.SUBSYSTEM_ADDRESS2 "SUBSYSTEM_ADDRESS2",
+			       T.SUBSYSTEM_IP2 "SUBSYSTEM_IP2",
+			       T.REMARK "REMARK"
+			  FROM D_SUBSYSTEM T
+			 WHERE 1=1
+			 	{AND T.SUBSYSTEM_ID LIKE '%'||#subsystemId# ||'%'}
+				{AND T.SUBSYSTEM_NAME LIKE '%'||#subsystemName#||'%'}
+				{AND to_number(T.STATE,'99G999D9S') = to_number(#state#,'99G999D9S')}
+			 ORDER BY T.ORD
+		]]>
+	</sql>
+	
+	<sql name="edit">
+		<![CDATA[
+			UPDATE D_SUBSYSTEM
+			   SET SUBSYSTEM_NAME     = #subsystemName#,
+			       SUBSYSTEM_ADDRESS  = #subsystemAddress#,
+			       SUBSYSTEM_IP       = #subsystemIp#,
+			       SIMULATION_ADDRESS = #simulationAddress#,
+			       STATE              = #state#,
+			       ORD                = to_number(#ord#,'99G999D9S'),
+			       CONTACTS           = #contacts#,
+			       PHONE              = #phone#,
+			       E_MAIL             = #eMail#,
+			       SUBSYSTEM_ADDRESS2 = #subsystemAddress2#,
+			       SUBSYSTEM_IP2      = #subsystemIp2#,
+			       REMARK             = #remark#,
+			       MODIFY_USER        = #UserInfo.USER_ID#,
+			       MODIFY_TIME        = #time()#
+			 WHERE SUBSYSTEM_ID = #subsystemId#
+		]]>
+	</sql>		
+	
+	<sql name="add">
+		<![CDATA[
+			INSERT INTO D_SUBSYSTEM
+					  (SUBSYSTEM_ID,
+					   SUBSYSTEM_NAME,
+					   SUBSYSTEM_ADDRESS,
+					   SUBSYSTEM_IP,
+					   SIMULATION_ADDRESS,
+					   STATE,
+					   ORD,
+					   CONTACTS,
+					   PHONE,
+					   E_MAIL,
+					   SUBSYSTEM_ADDRESS2,
+					   SUBSYSTEM_IP2,
+					   REMARK,
+					   CREATE_USER,
+					   CREATE_TIME)
+					VALUES
+					  (#subsystemId#,
+					   #subsystemName#,
+					   #subsystemAddress#,
+					   #subsystemIp#,
+					   #simulationAddress#,
+					   #state#,
+					   to_number(#ord#,'99G999D9S'),
+					   #contacts#,
+					   #phone#,
+					   #eMail#,
+					   #subsystemAddress2#,
+					   #subsystemIp2#,
+					   #remark#,
+					   #UserInfo.USER_ID#,
+					   #time()#
+					   )
+		]]>
+	</sql>
+	
+	
+</mapping>

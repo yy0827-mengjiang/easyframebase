@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.reportSql">
+	<sql name="CURDIMDATA">
+		<![CDATA[
+			select d1.dim_id      "dim_id",
+		       d1.dim_var_name    "dim_var_name",
+		       d1.dim_table       "dim_table",
+		       d1.dim_var_type    "dim_var_type",
+		       d1.dim_var_desc    "dim_var_desc",
+		       d1.dim_col_code    "dim_col_code",
+		       d1.dim_col_desc    "dim_col_desc",
+		       d1.dim_col_ord     "dim_col_ord",
+			   d1.dim_parent_col "dim_parent_col",  
+			   d1.caslvl "caslvl", 
+			   d1.defaule_value "defaule_value",
+			   d1.defaule_desc "defaule_desc",
+			   case when d1.dim_table is null then '2' else '1' end "createType",
+			   d1.dim_sql "dimSql",
+			   d1.DATABASE_NAME "database_name",
+			   d1.select_double "select_double"
+		  from x_dimension d1,x_dimension d2
+		  where  d1.dim_id=#id#
+		  and
+		  	d1.parent_dim_id=d2.dim_id(+)
+		]]>
+	</sql>
+	<sql name="OTHERDATA">
+		<![CDATA[
+			select s1.report_sql_id,
+		       s1.report_sql_name,
+		       s1.report_id,
+		       s1.report_sql,
+		       i.NAME,
+		       s1.report_sql_type extds
+		  from x_report_sql s1, x_report_info i
+		 where s1.report_id = i.ID and i.CREATE_USER=#USER_ID#
+		   and s1.report_sql_id in (select distinct s.report_sql_id
+		                              from x_report_sql s,x_report_info info
+		                             where   s.report_id=info.ID
+		                             and s.report_id !=  #reportId#)
+			  				{
+			  						and i.name like '%'||#report_name#||'%'
+			  				}
+			  				{
+			  						and s1.report_sql_name like '%'||#report_sql_name#||'%'
+			  				}
+			  order by i.CREATE_TIME desc
+		]]>
+	</sql>
+	<sql name="GLOBALDATA">
+		<![CDATA[
+			select g.id GLBDATASET_ID,
+		       nvl(g.NAME,'--') GLBDATASET_NAME,
+		       nvl(g.TYPE,'--') GLBDATASET_TYPE,
+		       g.TYPE,
+			   nvl(g.SQL,'--') GLBDATASET_SQL,
+		       nvl(g.CREATE_USER,'--') CREATE_USER,
+		       nvl(e.USER_NAME,'--') CREATE_USER_NAME,
+		       nvl(g.CREATE_TIME,'--') CREATE_TIME,
+		       nvl(g.MODIFY_USER,'--') MODIFY_USER,
+		       nvl(k.USER_NAME,'--') MODIFY_USER_NAME,
+		       nvl(g.MODIFY_TIME,'--') MODIFY_TIME,
+		       nvl(s.db_name,'--') DB_NAME 
+		  	   from 
+		  	   (X_DATASET_GLOBAL g
+				  left join X_EXT_DB_SOURCE s
+				    on (g.TYPE = s.DB_SOURCE)
+				  left join e_user e
+				    on (g.CREATE_USER = e.user_id)
+				  join (select f.id, f.modify_user, h.user_name
+				          from X_DATASET_GLOBAL f
+				          left join e_user h
+				            on (f.modify_user = h.user_id)) k
+				    on (k.id = g.id))
+				where 1=1 and #USER_ID# in (select user_id from E_USER_ACCOUNT where account_code in (select account_code from E_USER_ACCOUNT where user_id=g.CREATE_USER) )
+			{
+				and g.name like '%'||#glbdataset_name#||'%'
+			}
+			{
+				and e.USER_NAME like '%'||#create_user_name#||'%'
+			}
+			{
+				and g.create_time >= #start_time#||'000000'
+			}
+			{
+				and g.create_time <= #end_time#||'235959'
+			}
+			order by g.CREATE_TIME desc
+		]]>
+	</sql>
+</mapping>
+
+
+

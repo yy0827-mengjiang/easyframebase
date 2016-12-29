@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.view">
+	<sql name="cubeDetail">
+		<![CDATA[
+			SELECT T.CUBE_CODE AS "CUBE_CODE",
+				   T.CUBE_NAME AS "CUBE_NAME",
+			       T.ACCOUNT_TYPE AS "ACCOUNT_TYPE",
+			       T.CUBE_DATASOURCE AS "CUBE_DATASOURCE" 
+			  FROM X_KPI_CUBE T 
+			 WHERE T.CUBE_STATUS = '1'
+			{AND T.CUBE_CODE=#cube_code#}
+			{AND T.ACCOUNT_TYPE=#account_type#}
+			ORDER BY T.CUBE_CODE
+		]]>
+	</sql>
+
+	<sql name="formulaType">
+		<![CDATA[
+			SELECT ATTR_CODE AS "ATTR_CODE",ATTR_NAME AS "ATTR_NAME" FROM X_KPI_ATTRIBUTE WHERE ATTR_TYPE=#cubeDetail.ACCOUNT_TYPE# ORDER BY ORD
+		]]>
+	</sql>
+	 
+	<sql name="classNum">
+		<![CDATA[
+			SELECT T.ID AS "ID",
+				   T.NAME AS "NAME",
+				   T.FLAG AS "FLAG",
+				   T.CLASS_NAME AS "CLASS_NAME",
+				   T.ORD AS "ORD" 
+		      FROM X_KPI_CODE_CLASS T 
+		     WHERE T.FLAG='1' 
+		  ORDER BY T.ORD
+		]]>
+	</sql>	 
+ 	
+ 	<sql name="classCount">
+		<![CDATA[
+			SELECT COUNT(1) AS "C" FROM X_KPI_CODE_CLASS T WHERE T.FLAG='1'
+		]]>
+	</sql>
+
+ 	<sql name="typeInfo">
+		<![CDATA[
+			SELECT T.TYPE_CODE AS "TYPE_CODE",
+			       T.TYPE_NAME AS "TYPE_NAME", 
+			       T.USED_TYPE AS "USED_TYPE",
+			       T.VIEW_RULE AS "VIEW_RULE",
+			       T.EXT_VIEW AS "EXT_VIEW",
+			       T.SERVER_VIEW AS "SERVER_VIEW",
+			       T.SERVER_CLASS,T.URL,T.ICON
+			  FROM X_KPI_TYPE T 
+			 WHERE T.TYPE_STATUS='1'
+			 {AND T.TYPE_CODE =#kpi_type#}
+		 	 {AND T.TYPE_CODE =#baseType#}
+			 {AND T.TYPE_CODE IN(#type_code#)}
+			 ORDER BY TYPE_ORD
+		]]>
+	</sql>
+	<sql name="unit">
+		<![CDATA[
+			SELECT CODE AS "CODE",
+				   NAME AS "NAME" 
+			  FROM X_KPI_CODE 
+			 WHERE TYPE='0' 
+		  ORDER BY ORD
+		]]>
+	</sql>
+	<sql name="kpiType">
+		<![CDATA[
+			SELECT CODE AS "CODE",
+			       NAME AS "NAME" 
+			  FROM X_KPI_CODE_TYPE 
+			 WHERE TYPE='1' 
+		  ORDER BY ORD
+		]]>
+	</sql>
+	<sql name="serviceType">
+		<![CDATA[
+			SELECT CODE AS "CODE",
+			       NAME AS "NAME" 
+			  FROM X_KPI_CODE_TYPE 
+			 WHERE TYPE='2' 
+		  ORDER BY ORD
+		]]>
+	</sql>
+	<sql name="classification">
+		<![CDATA[
+			SELECT CODE AS "CODE",
+			       NAME AS "NAME" 
+			  FROM X_KPI_CODE_TYPE 
+			 WHERE TYPE='3' 
+		  ORDER BY ORD
+		]]>
+	</sql>
+	<sql name="cycle">
+		<![CDATA[
+			SELECT CODE AS "CODE",NAME AS "NAME" FROM X_KPI_CODE_TYPE WHERE TYPE='4' 
+				{AND ACCOUNTYPE=#cubeDetail.ACCOUNT_TYPE#}
+			ORDER BY ORD
+		]]>
+	</sql>
+	<sql name="reservedAttr">
+		<![CDATA[
+			SELECT CODE AS "CODE",NAME AS "NAME" FROM X_KPI_CODE_TYPE WHERE TYPE='5' ORDER BY ORD
+		]]>
+	</sql>
+	<sql name="kpitree">
+		<![CDATA[
+				sELECT T.CATEGORY_ID AS "ID",
+				       T.CATEGORY_PARENT_ID "PARENT_ID",
+				       T.CATEGORY_NAME AS "NAME",
+				       NULL AS "KPI_CODE",
+				       NULL AS "KPI_VERSION",
+				       T.CATEGORY_TYPE AS "KPI_TYPE",
+				       T.ACCOUNT_TYPE AS "ACCOUNT_TYPE",
+				       'compositeKpiCategory' AS "TYPE",
+				       '0' AS "DIM_ATTR", 
+				       '1' AS "DATA_TYPE"
+				  from x_kpi_category t
+				 where t.category_parent_id = #id#
+				   and t.cube_code=#cube_code#
+				   and t.category_flag is null
+				order by cast(t.ord as integer)
+		
+		]]>
+	</sql>
+	<sql name="kpiCategory">
+	<![CDATA[
+		%{
+	    if(keywords ne null && keywords ne '') {
+			echo(" WITH N(CATEGORY_ID,CATEGORY_PARENT_ID ) AS ( ");
+			echo(" SELECT CATEGORY_ID,");
+			echo(" CATEGORY_PARENT_ID ");
+			echo(" FROM X_KPI_CATEGORY ");
+			echo(" WHERE CATEGORY_ID IN ( ");
+			echo(" SELECT PARENT_ID FROM VIEW_ALL_KPI  T WHERE 1=1 ");
+			}
+		}
+		{ AND (UPPER(T.NAME) like CONCAT(CONCAT('%',UPPER(#keywords#)),'%')}
+		{ OR  UPPER(T.BUSIKEY) LIKE CONCAT(CONCAT('%',UPPER(#keywords#)),'%')))}
+		%{
+		 if(keywords ne null && keywords ne '') {
+			echo(" UNION ALL ");
+			echo(" SELECT X.CATEGORY_ID,X.CATEGORY_PARENT_ID FROM X_KPI_CATEGORY X, N");
+			echo(" WHERE X.CATEGORY_ID=N.CATEGORY_PARENT_ID )");
+		}
+	}
+	SELECT ID AS "ID",
+	       PARENT_ID AS "PARENT_ID",
+	       NAME AS "NAME" ,
+	       KPI_CODE AS "KPI_CODE",
+	       KPI_VERSION AS "KPI_VERSION" ,
+	       KPI_TYPE AS "KPI_TYPE" ,
+	       ACCOUNT_TYPE AS "ACCOUNT_TYPE",
+	       TYPE  AS "TYPE",
+	       DIM_ATTR AS "DIM_ATTR",
+	       DATA_TYPE AS "DATA_TYPE",
+	       ORD AS "ORD" 
+	  FROM (SELECT T.CATEGORY_ID AS ID,
+			       T.CATEGORY_PARENT_ID PARENT_ID,
+			       T.CATEGORY_NAME AS NAME,
+			       NULL AS KPI_CODE,
+			       NULL AS KPI_VERSION,
+			       T.CATEGORY_TYPE AS KPI_TYPE,
+			       T.ACCOUNT_TYPE AS ACCOUNT_TYPE,
+			       'compositeKpiCategory' AS TYPE,
+			       '0' AS DIM_ATTR, 
+			       '1' AS DATA_TYPE,
+			        T.ORD AS ORD 
+			  FROM X_KPI_CATEGORY T
+			 WHERE 1=1
+			   %{
+			      if(keywords ne null && keywords ne '') {
+			        echo(" AND T.CATEGORY_ID IN(SELECT CATEGORY_ID FROM N)");
+			      }
+			   }
+			   {AND T.CATEGORY_PARENT_ID = #id#}
+			   {AND T.CUBE_CODE=#cube_code#}
+			   AND T.CATEGORY_FLAG IS NULL
+	    UNION
+			SELECT T.ID,
+				   T.PARENT_ID,
+				   T.NAME,
+				   T.KPI_CODE,
+				   T.KPI_VERSION,
+				   T.KPI_TYPE,
+				   T.ACCOUNT_TYPE,
+				   T.TYPE,						
+				   T.DIM_ATTR,
+				   T.DATA_TYPE,
+				   T.KPI_ORD AS ORD 
+			FROM  VIEW_ALL_KPI T WHERE 1=1
+			{AND (UPPER(T.NAME) like CONCAT(CONCAT('%',UPPER(#keywords#)),'%')}
+			{OR UPPER(T.BUSIKEY) LIKE CONCAT(CONCAT('%',UPPER(#keywords#)),'%') )}
+		     {AND T.PARENT_ID=#id#} 
+		     {AND T.CUBE_CODE=#cube_code#} 
+		    ) T ORDER BY T.ORD
+		   ]]>
+	</sql>
+	<sql name="dimCategory">
+		<![CDATA[
+			SELECT   ID AS "ID",
+			         DIM_CODE AS "DIM_CODE",
+			         PARENT_ID AS "PARENT_ID",
+			         NAME AS "NAME",
+			         DIM_TYPE AS "DIM_TYPE",
+			         ACCOUNT_TYPE AS "ACCOUNT_TYPE",
+			         DIM_ATTR AS "DIM_ATTR",
+			         DIM_ORD AS "DIM_ORD",
+			         DATA_TYPE AS "DATA_TYPE" 
+			 FROM (
+			  SELECT ID,
+			         DIM_CODE,
+			         PARENT_ID,
+			         NAME,
+			         DIM_TYPE,
+			         ACCOUNT_TYPE,
+			         DIM_ATTR,
+			         DIM_ORD,
+			         DATA_TYPE 
+			         FROM (
+						  SELECT  C.CATEGORY_ID AS ID, 
+						          '' AS DIM_CODE,
+						          0 AS PARENT_ID,
+						          C.CATEGORY_NAME  AS NAME,
+						          '6' AS DIM_TYPE,
+						          '' AS ACCOUNT_TYPE,
+						          'T' AS DIM_ATTR,
+						           '' AS DIM_ORD,
+						           '1' AS DATA_TYPE,
+						           (SELECT COUNT(1) 
+						               FROM X_KPI_DIM_CODE 
+						              WHERE DIM_CATEGORY = C.CATEGORY_ID 
+						                AND DIM_CODE IN (SELECT DIM_CODE FROM X_KPI_RAL_DIM  WHERE CUBE_CODE=#cube_code#) 
+ 									   {AND UPPER(CODE_TABLE_DESC) LIKE CONCAT(CONCAT('%',UPPER(#keywords#)),'%')}
+									) AS CNT
+			  				FROM X_KPI_DIM_CATEGORY C ) T WHERE CNT > 0
+			  				%{
+			  					if(id == '0') 
+			  						echo(" AND 1=1 ");
+			  					else
+			  						echo(" AND 1=2 ");
+			  				}
+			    UNION ALL
+				SELECT A.ID,
+					   B.DIM_CODE,
+				       B.DIM_CATEGORY AS PARENT_ID,
+				       A.COLUMN_DESC AS NAME,
+				       '6' AS DIM_TYPE,
+				       C.ACCOUNT_TYPE,
+				       'T' AS DIM_ATTR,
+				       A.DIM_ORD||'' AS DIM_ORD,
+				       '2' AS DATA_TYPE
+				  FROM X_KPI_RAL_DIM A, X_KPI_DIM_CODE B, X_KPI_CUBE C
+				 WHERE A.DIM_CODE = B.DIM_CODE
+				   AND A.CUBE_CODE = C.CUBE_CODE
+				   AND A.CUBE_CODE=#cube_code#
+				   AND C.CUBE_CODE=#cube_code#
+				   AND B.DIM_CATEGORY = #id#
+				   {AND UPPER(CODE_TABLE_DESC) LIKE CONCAT(CONCAT('%',UPPER(#keywords#)),'%')}
+				   ) ORDER BY DIM_ORD
+			 ]]>
+	</sql>
+	<sql name="attrCategory">
+	<![CDATA[
+				SELECT A.ID AS "ID",
+					   A.ID AS "DIM_CODE",
+				       0 AS "PARENT_ID",
+				       A.COLUMN_DESC AS "NAME",
+				       '7' AS "DIM_TYPE",
+				       C.ACCOUNT_TYPE AS "ACCOUNT_TYPE",
+				       A.ATTR_TYPE AS "DIM_ATTR"
+				  FROM X_KPI_RAL_ATTR A 
+		    INNER JOIN X_KPI_CUBE C
+				    ON A.CUBE_CODE = C.CUBE_CODE
+				   AND A.CUBE_CODE=#cube_code#
+				   AND C.CUBE_CODE=#cube_code#
+   				   {AND UPPER(A.COLUMN_DESC) LIKE CONCAT(CONCAT('%',UPPER(#keywords#)),'%')}
+				   ORDER BY A.ID
+		]]>
+	</sql>
+	<sql name="newOneWeek">
+		<![CDATA[
+				%{
+					if(kpi_category ne null && kpi_category ne ''  && kpi_category ne '0') {
+						echo(" WITH N(CATEGORY_ID,CATEGORY_PARENT_ID ) AS (");
+						echo(" SELECT CATEGORY_ID,");
+						echo(" CATEGORY_PARENT_ID ");
+						echo(" FROM X_KPI_CATEGORY");
+						echo(" WHERE CATEGORY_ID=#kpi_category#");
+						echo(" UNION ALL");
+						echo(" SELECT X.CATEGORY_ID,X.CATEGORY_PARENT_ID FROM X_KPI_CATEGORY X, N");
+						echo(" WHERE N.CATEGORY_ID=X.CATEGORY_PARENT_ID )");
+					}
+				}
+				SELECT COUNT(1) AS "WEEKCNT"
+			      FROM VIEW_ALL_KPI T
+			     WHERE SUBSTR(T.CREATE_TIME, 1,8) >= #startWeekDay# 
+			         AND SUBSTR(T.CREATE_TIME, 1,8)<= #endWeekDay# 
+			   		 AND T.KPI_VERSION = '1'
+			   		{AND T.CUBE_CODE=#cube_code#}
+			   		 %{
+					   	  	if(kpi_category ne null && kpi_category ne ''  && kpi_category ne '0') {
+					   	  		echo(" AND T.KPI_CATEGORY IN (SELECT CATEGORY_ID FROM N)");
+					   	  	}
+				   	  }
+			]]>
+	</sql>
+	<sql name="newOneMonth">
+		<![CDATA[
+			%{
+					if(kpi_category ne null && kpi_category ne ''  && kpi_category ne '0') {
+						echo(" WITH N(CATEGORY_ID,CATEGORY_PARENT_ID ) AS (");
+						echo(" SELECT CATEGORY_ID,");
+						echo(" CATEGORY_PARENT_ID ");
+						echo(" FROM X_KPI_CATEGORY");
+						echo(" WHERE CATEGORY_ID=#kpi_category#");
+						echo(" UNION ALL");
+						echo(" SELECT X.CATEGORY_ID,X.CATEGORY_PARENT_ID FROM X_KPI_CATEGORY X, N");
+						echo(" WHERE N.CATEGORY_ID=X.CATEGORY_PARENT_ID )");
+					}
+				}
+		 SELECT COUNT(1) AS "MONTHCNT"
+	      FROM VIEW_ALL_KPI T
+	     WHERE SUBSTR(T.CREATE_TIME, 1,7) = #date()#
+	      AND  T.KPI_VERSION = '1'
+	   	  {AND T.CUBE_CODE=#cube_code#}
+	   	  %{
+		   	  	if(kpi_category ne null && kpi_category ne ''  && kpi_category ne '0') {
+		   	  		echo(" AND T.KPI_CATEGORY IN (SELECT CATEGORY_ID FROM N)");
+		   	  	}
+	   	  }
+	   ]]>
+	</sql>
+	<sql name="uptOneWeek">
+	<![CDATA[
+	%{
+					if(kpi_category ne null && kpi_category ne ''  && kpi_category ne '0') {
+						echo(" WITH N(CATEGORY_ID,CATEGORY_PARENT_ID ) AS (");
+						echo(" SELECT CATEGORY_ID,");
+						echo(" CATEGORY_PARENT_ID ");
+						echo(" FROM X_KPI_CATEGORY");
+						echo(" WHERE CATEGORY_ID=#kpi_category#");
+						echo(" UNION ALL");
+						echo(" SELECT X.CATEGORY_ID,X.CATEGORY_PARENT_ID FROM X_KPI_CATEGORY X, N");
+						echo(" WHERE N.CATEGORY_ID=X.CATEGORY_PARENT_ID )");
+					}
+				}		SELECT COUNT(1) AS "WEEKCNT"
+		      FROM VIEW_ALL_KPI T		           
+		       WHERE SUBSTR(T.CREATE_TIME, 1,8) >= #startWeekDay# 
+			         AND SUBSTR(T.CREATE_TIME, 1,8)<= #endWeekDay#
+		   		 AND CAST(T.KPI_VERSION AS INTEGER) >  1
+		   	    	{AND T.CUBE_CODE=#cube_code#}
+				 %{
+			   	  	if(kpi_category ne null && kpi_category ne ''  && kpi_category ne '0') {
+			   	  		echo(" AND T.KPI_CATEGORY IN (SELECT CATEGORY_ID FROM N)");
+			   	  	}
+	   	  		}
+	   	  	]]>
+	</sql>
+	<sql name="uptOneMonth">
+			<![CDATA[
+				%{
+					if(kpi_category ne null && kpi_category ne ''  && kpi_category ne '0') {
+						echo(" WITH N(CATEGORY_ID,CATEGORY_PARENT_ID ) AS (");
+						echo(" SELECT CATEGORY_ID,");
+						echo(" CATEGORY_PARENT_ID ");
+						echo(" FROM X_KPI_CATEGORY");
+						echo(" WHERE CATEGORY_ID=#kpi_category#");
+						echo(" UNION ALL");
+						echo(" SELECT X.CATEGORY_ID,X.CATEGORY_PARENT_ID FROM X_KPI_CATEGORY X, N");
+						echo(" WHERE N.CATEGORY_ID=X.CATEGORY_PARENT_ID )");
+					}
+				}
+				SELECT COUNT(1) AS MONTHCNT
+			      FROM VIEW_ALL_KPI T
+			     WHERE SUBSTR(T.CREATE_TIME, 1,7) = #date()#
+			       AND CAST(T.KPI_VERSION AS INTEGER) >  1
+			   	   {AND T.CUBE_CODE=#cube_code#}
+			   	    %{
+					   	  	if(kpi_category ne null && kpi_category ne ''  && kpi_category ne '0') {
+					   	  		echo(" AND T.KPI_CATEGORY IN (SELECT CATEGORY_ID FROM N)");
+					   	  	}
+				   	  }
+		 			]]>
+	</sql>
+	<sql name="insertCategory">
+		<![CDATA[
+			INSERT INTO X_KPI_CATEGORY (CATEGORY_ID,CATEGORY_PARENT_ID,CATEGORY_ISLEAF,CATEGORY_NAME,CATEGORY_DESC,CATEGORY_CREATETIME,CATEGORY_CREATEUSER,CATEGORY_TYPE,ACCOUNT_TYPE,CUBE_CODE,ORD) VALUES(
+					X_KPI_INFO_SEQ.NEXTVAL,#category_id#,#c_leaf#,#c_name#,#c_desc#,sysdate,#UserInfo.USER_ID#,#category_type#,#account_type#,#cube_code_s#,#c_ord#)
+		]]>
+	</sql>
+	<sql name="countCategory">
+		<![CDATA[
+			SELECT COUNT(0) AS "NUM" 
+			  FROM X_KPI_CATEGORY T 
+			 WHERE T.CATEGORY_PARENT_ID=#category_id# 
+			   AND T.CATEGORY_NAME=#category_name# 
+			   AND T.CATEGORY_FLAG !='D'
+		]]>
+	</sql>
+	<sql name="becCategory">
+		<![CDATA[
+			SELECT CATEGORY_NAME AS "E_NAME",
+			       CATEGORY_DESC AS "E_DESC",
+			       ACCOUNT_TYPE AS "ACCOUNT_TYPE",
+			       ORD AS "E_ORD" 
+			  FROM X_KPI_CATEGORY 
+			 WHERE CATEGORY_ID=#category_id#
+		]]>
+	</sql>
+	<sql name="editCategory">
+		<![CDATA[
+			 UPDATE X_KPI_CATEGORY SET CATEGORY_NAME=#E_NAME#,CATEGORY_DESC=#E_DESC#,ORD=#E_ORD# WHERE CATEGORY_ID=#edit_category_id#
+		]]>
+	</sql>
+	<sql name="beforeDeleteCategory">
+		<![CDATA[
+			SELECT COUNT(0) AS "NUM" FROM VIEW_KPI WHERE PARENT_ID=#category_id#
+		]]>
+	</sql>
+	<sql name="deleteCategory">
+		<![CDATA[
+			UPDATE X_KPI_CATEGORY SET CATEGORY_FLAG='D' WHERE CATEGORY_ID=#category_id#
+		]]>
+	</sql>
+	<sql name="vaildDelKpi">
+		<![CDATA[
+			SELECT DISTINCT X.KPI_NAME
+					  FROM X_KPI_INFO X
+					 WHERE EXISTS (
+						SELECT *
+						  FROM X_KPI_SOURCE T INNER JOIN X_KPI_INFO T1
+						    ON T.KPI_CODE = T1.KPI_CODE
+						   AND T.KPI_VERSION = T1.KPI_VERSION
+						   AND T.SOURCE_CODE = #kpi_code#
+						   AND X.KPI_CODE = T.KPI_CODE)
+				   AND X.KPI_STATUS != '8'
+				   AND X.KPI_FLAG != 'D'			
+	   ]]>
+	</sql>
+	<sql name="deleteKpi">
+		<![CDATA[
+			UPDATE X_KPI_INFO SET KPI_FLAG ='D',KPI_STATUS='8',EXAMINE_USER=#UserInfo.USER_ID#,EXAMINE_DATETIME=SYSDATE WHERE KPI_KEY=#kpi_key#;
+			UPDATE X_KPI_INFO_TMP SET KPI_FLAG='D',KPI_STATUS='8',EXAMINE_USER=#UserInfo.USER_ID# ,EXAMINE_DATETIME=SYSDATE WHERE KPI_KEY=#kpi_key#;
+			INSERT INTO X_KPI_LOG (LOG_KEY,KPI_KEY,KPI_CODE,KPI_VERSION,LOG_ACTION,LOG_DETAIL_BEFORE,LOG_DETAIL_AFTER,LOG_DATETIME,LOG_USER,LOG_USERID,LOG_IP) SELECT X_KPI_LOG_SEQ.NEXTVAL,T.KPI_KEY,T.KPI_CODE,T.KPI_VERSION,'D',null,null,SYSDATE,#UserInfo.USER_NAME#,#UserInfo.USER_ID#,#ip# FROM X_KPI_INFO T WHERE T.KPI_KEY=#kpi_key#;
+			DELETE FROM X_REPORT_MYKPI WHERE KPI_ID = #kpi_key#;	
+		]]>
+	</sql>
+	<sql name="editKpiOrder">
+		%{
+			if(kpi_source_datatype == '3') 
+				echo(" UPDATE X_BASE_KPI SET KPI_ORD = #kpi_ord# WHERE ID=#kpi_source_id#");
+			else 
+				echo(" UPDATE X_KPI_INFO SET KPI_ORD = #kpi_ord# WHERE KPI_KEY=#kpi_source_id# ");
+		}
+	</sql>
+	<sql name="uptKpiCategory">
+		%{
+			if(kpi_datatype == '3') {
+				echo(" UPDATE X_BASE_KPI SET KPI_CATEGORY=#kpi_category# WHERE ID=#kpi_key#; ");
+			} else {
+				echo(" UPDATE X_KPI_INFO SET KPI_CATEGORY=#kpi_category# WHERE KPI_KEY=#kpi_key#;");
+				echo(" UPDATE X_KPI_INFO_TMP SET KPI_CATEGORY=#kpi_category# WHERE KPI_KEY=#kpi_key#;");
+			}
+		}
+	</sql>
+</mapping>

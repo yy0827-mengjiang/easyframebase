@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.authorize">
+	<sql name="FirstDBSource">
+		<![CDATA[
+			 select DB_ID, DB_NAME, DB_SOURCE from (
+				SELECT DB_ID, DB_NAME, DB_SOURCE, ORD,ROW_NUMBER() OVER() as rownum FROM X_EXT_DB_SOURCE ORDER BY ORD
+			 ) t1 where rownum=1
+		]]>
+	</sql>
+</mapping>
+
+
+

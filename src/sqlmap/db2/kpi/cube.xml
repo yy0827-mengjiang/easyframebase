@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.cube">
+	<sql name="updateCubeInfo">
+		<![CDATA[
+				   update x_kpi_cube
+				    set CUBE_CODE       = #CUBE_CODE#,
+				        CUBE_NAME       = #CUBE_NAME#,
+				        CUBE_DESC       = #CUBE_DESC#,
+				        CUBE_DATASOURCE = #CUBE_DATASOURCE#,
+				        CUBE_ATTR       = #CUBE_ATTR#,
+				        ACCOUNT_TYPE    = #ACCOUNT_TYPE#,
+				        CUBE_UPDATEUSER = #CUBE_UPDATEUSER#,
+				        CUBE_UPDATETIME = SYSTIMESTAMP,
+				        CUBE_FLAG       = #CUBE_FLAG#
+				  where CUBE_CODE = #CUBE_CODE#
+		]]>
+	</sql>
+	<sql name="cube_list">
+		<![CDATA[
+			select c.CUBE_CODE AS "CUBE_CODE",
+		       c.CUBE_DESC AS "CUBE_DESC",
+		       c.CUBE_NAME AS "CUBE_NAME",
+		       CASE c.CUBE_FLAG
+		       WHEN '1' THEN '是'
+		       ELSE '否'
+		       END AS "CUBE_FLAG",
+		       c.CUBE_DATASOURCE AS "CUBE_DATASOURCE",
+		       s.DB_NAME AS "DB_NAME",
+		       c.CUBE_ATTR AS "ATTR",
+		       CASE c.CUBE_ATTR
+					WHEN '1' THEN '主键'
+					WHEN '2' THEN '维度'
+					WHEN '3' THEN '属性' 
+					ELSE '--' 
+					END AS "CUBE_ATTR",
+		       CASE c.CUBE_STATUS
+					WHEN '0' THEN '无效'
+					WHEN '1' THEN '有效' 
+					ELSE '--' 
+					END AS "CUBE_STATUS",
+		       CASE c.ACCOUNT_TYPE
+					WHEN '1' THEN '日账期'
+					WHEN '2' THEN '月账期' 
+					ELSE '--' 
+					END AS "ACCOUNT_TYPE",
+				CASE WHEN e.user_name IS NULL THEN '--'
+				ELSE e.user_name
+				END AS "CUBE_CREATEUSER",
+				CASE WHEN CAST(c.CUBE_CREATETIME AS VARCHAR) IS NULL THEN '--'
+				ELSE CONCAT(CONCAT(CAST(c.CUBE_CREATETIME AS DATE),' '),CAST(c.CUBE_CREATETIME AS TIME))
+				END AS "CUBE_CREATETIME",
+				CASE WHEN k.user_name IS NULL THEN '--'
+				ELSE k.user_name
+				END AS "CUBE_UPDATEUSER",
+				CASE WHEN CAST(c.CUBE_UPDATETIME AS VARCHAR) IS NULL THEN '--'
+				ELSE CAST(c.CUBE_UPDATETIME AS VARCHAR)
+				END AS "CUBE_UPDATETIME"
+		  from X_KPI_CUBE c
+			  left join x_ext_db_source s
+			    on (c.CUBE_DATASOURCE = s.db_source)
+			            left join e_user e
+						on (c.CUBE_CREATEUSER = e.user_id)
+			    join (select f.cube_code,x.user_id,x.user_name from X_KPI_CUBE f left join e_user x on(f.cube_updateuser=x.user_id)) k
+			    on (c.cube_code = k.cube_code)
+			 where 1 = 1 and c.CUBE_STATUS='1' 
+				{and c.CUBE_CODE like CONCAT(CONCAT('%',#CUBE_CODE#),'%')}
+				{and c.CUBE_NAME like CONCAT(CONCAT('%',#CUBE_NAME#),'%')}
+			order by c.CUBE_CREATETIME desc
+		]]>
+	</sql>
+	
+	<sql name="rs_del">
+		update X_KPI_CUBE set CUBE_STATUS='0' where cube_code=#cube_code#
+	</sql>
+	
+	<sql name="dimlist">
+		<![CDATA[
+				SELECT T.DIM_CODE AS "DIM_CODE",
+				   T.CUBE_CODE AS "CUBE_CODE",
+				   T.TABLE_NAME AS "TABLE_NAME",
+				   T.COLUMN_CODE AS "COLUMN_CODE",
+				   T.COLUMN_DESC AS "COLUMN_DESC",
+				   T.DIM_ORD AS "DIM_ORD"
+			 FROM X_KPI_RAL_DIM  T  INNER JOIN X_KPI_DIM_CODE DIM
+			      ON  T.DIM_CODE = DIM.DIM_CODE
+			 {AND T.CUBE_CODE=#cube_code#}
+			 {and T.dim_code like concat(concat('%',#dim_code#),'%')} 
+			 {and T.TABLE_NAME like concat(concat('%',#table_name#),'%')} 
+			 {and T.COLUMN_CODE like concat(concat('%',#table_column#),'%')} 
+		  	ORDER BY T.DIM_ORD
+		]]>
+	</sql>
+	<sql name="dimNotlist">
+			<![CDATA[
+				SELECT T.DIM_CODE AS "DIM_CODE",
+					   T.CODE_TABLE AS "CODE_TABLE",
+					   T.CODE_TABLE_DESC AS "CODE_TABLE_DESC",
+					   T.COLUMN_CODE AS  "COLUMN_CODE" 
+		  			FROM X_KPI_DIM_CODE T 
+		  			WHERE 1=1 
+					 {and T.dim_code like concat(concat('%',#dim_code#),'%')}
+				     {and T.CODE_TABLE like concat(concat('%',#table_name#),'%')}
+			  			AND NOT EXISTS (
+						SELECT Z.DIM_CODE,
+							   Z.CUBE_CODE,
+							   Z.TABLE_NAME,
+							   Z.COLUMN_CODE,
+							   Z.COLUMN_DESC
+						 FROM X_KPI_RAL_DIM Z
+						 WHERE 1=1
+						 AND T.DIM_CODE = Z.DIM_CODE
+						   {and cube_code=#cube_code# }
+						   {and dim_code like concat(concat('%',#dim_code#),'%')}
+						   {and TABLE_NAME like concat(concat('%',#table_name#),'%')}
+						   {and COLUMN_CODE like  concat(concat('%',#table_column#),'%')}
+				)
+				order by CREATE_DATETIME desc
+			]]>
+	</sql>
+	
+	<sql name="attrlist">
+		<![CDATA[
+			SELECT ID AS "ID",
+	   		  CUBE_CODE AS "CUBE_CODE",
+			  TABLE_NAME AS "TABLE_NAME",
+			  COLUMN_NAME AS "COLUMN_NAME",
+			  COLUMN_DESC AS "COLUMN_DESC",
+			  COLUMN_IDX AS "COLUMN_IDX"
+ 			FROM X_KPI_RAL_ATTR 
+		   WHERE 1=1
+			{and cube_code=#cube_code#}
+			{and ID like concat(concat('%',#attr_code#),'%')}
+			{and TABLE_NAME like concat(concat('%',#table_name#),'%'}
+			{and COLUMN_NAME like concat(concat('%',#table_column#),'%'}
+		]]>
+	</sql>
+	<sql name="keylist">
+			<![CDATA[
+				SELECT ID AS "ID",
+					  CUBE_CODE AS "CUBE_CODE",
+					  TABLE_NAME AS "TABLE_NAME",
+					  COLUMN_CODE AS "COLUMN_CODE",
+					  COLUMN_DESC AS "COLUMN_DESC",
+					  COLUMN_IDX AS "COLUMN_IDX" 
+					FROM X_KPI_RAL_KEY
+				 where 1=1
+				{AND CUBE_CODE=#cube_code#}
+			    {AND ID lIKE CONCAT(CONCAT('%',#key_code#),'%')}
+			    {AND TABLE_NAME LIKE CONCAT(CONCAT('%',#table_name#),'%')}
+			    {AND COLUMN_CODE LIKE CONCAT(CONCAT('%',#table_column#),'%')}
+		    ]]>
+	</sql>
+	<sql name="insertDimRal">
+			<![CDATA[
+				INSERT INTO X_KPI_RAL_DIM(DIM_CODE,CUBE_CODE,TABLE_NAME,COLUMN_CODE,COLUMN_DESC,ID,DIM_ORD)(SELECT DIM_CODE,#cube_code#,#dim_table#,#dim_colmun#,CODE_TABLE_DESC,X_KPI_RAL_DIM_SEQ.NEXTVAL,#dim_ord# FROM X_KPI_DIM_CODE WHERE DIM_CODE=#dim_code#)
+			]]>
+	</sql>
+	<sql name="updateDimRal">
+			<![CDATA[
+				UPDATE X_KPI_RAL_DIM SET TABLE_NAME=#table_name#,COLUMN_CODE=#column_code#,DIM_ORD=#dim_ord# WHERE DIM_CODE=#dim_code# AND CUBE_CODE=#cube_code#
+			]]>
+	</sql>
+	<sql name="deleteDimRal">
+			<![CDATA[
+				DELETE FROM X_KPI_RAL_DIM  WHERE DIM_CODE=#dim_code# AND CUBE_CODE=#cube_code#
+			]]>
+	</sql>
+	<sql name="insertAttrRal">
+		<![CDATA[
+				INSERT INTO X_KPI_RAL_ATTR
+				  (ID,
+				   CUBE_CODE,
+				   TABLE_NAME,
+				   COLUMN_NAME,
+				   COLUMN_DESC,
+				   COLUMN_IDX,
+				   ATTR_TYPE)
+				VALUES
+				   (X_KPI_RAL_ATTR_SEQ.NEXTVAL,
+				   #CUBE_CODE#,
+				   #TABLE_NAME#,
+				   #COLUMN_NAME#,
+				   #COLUMN_DESC#,
+				   #COLUMN_IDX#,
+				   #ATTR_TYPE#)
+		]]>
+	</sql>
+	
+	<sql name="attDetail">
+		<![CDATA[
+			SELECT ID AS "ID",
+				   CUBE_CODE AS "CUBE_CODE",
+				   TABLE_NAME AS "TABLE_NAME",
+				   COLUMN_NAME AS "COLUMN_NAME",
+				   COLUMN_DESC AS "COLUMN_DESC",
+				   COLUMN_IDX AS "COLUMN_IDX",
+				   ATTR_TYPE AS "ATTR_TYPE" 
+	          FROM X_KPI_RAL_ATTR
+	         WHERE ID=#id#
+		]]>
+	</sql>
+	
+	<sql name="updateAttrRal">
+		<![CDATA[
+			UPDATE X_KPI_RAL_ATTR T
+			   SET T.TABLE_NAME  = #TABLE_NAME#,
+			       T.COLUMN_NAME = #COLUMN_NAME#,
+			       T.COLUMN_DESC = #COLUMN_DESC#,
+			       T.COLUMN_IDX  = #COLUMN_IDX#,
+			       T.ATTR_TYPE = #ATTR_TYPE#
+			 WHERE T.ID = #ID#
+		]]>
+	</sql>
+	<sql name="deleteAttrRal">
+		<![CDATA[
+			DELETE FROM X_KPI_RAL_ATTR WHERE ID = #ID#
+		]]>
+	</sql>
+	<sql name="insertKeyRal">
+		<![CDATA[
+			INSERT INTO X_KPI_RAL_KEY
+			  (ID,
+			   CUBE_CODE,
+			   TABLE_NAME,
+			   COLUMN_CODE,
+			   COLUMN_DESC,
+			   COLUMN_IDX)
+			VALUES
+			  (X_KPI_RAL_KEY_SEQ.NEXTVAL,
+			   #CUBE_CODE#,
+			   #TABLE_NAME#,
+			   #COLUMN_NAME#,
+			   #COLUMN_DESC#,
+			   #COLUMN_IDX#)		
+			  ]]>
+	</sql>
+	<sql name="keyDetail">
+		<![CDATA[
+		     SELECT ID AS "ID",
+		            CUBE_CODE AS "CUBE_CODE",
+		            TABLE_NAME AS "TABLE_NAME",
+		            COLUMN_CODE AS "COLUMN_CODE",
+		            COLUMN_DESC AS "COLUMN_DESC",
+		            COLUMN_IDX AS "COLUMN_IDX" 
+		     FROM X_KPI_RAL_KEY T
+		    WHERE T.ID=#id#
+		 ]]>
+	</sql>
+	<sql name="updateKeyRal">
+		<![CDATA[
+			 UPDATE X_KPI_RAL_KEY T
+			   SET T.TABLE_NAME  = #TABLE_NAME#,
+			       T.COLUMN_CODE = #COLUMN_NAME#,
+			       T.COLUMN_DESC = #COLUMN_DESC#,
+			       T.COLUMN_IDX  = #COLUMN_IDX#
+			 WHERE T.ID = #ID#
+			  ]]>
+	</sql>
+	<sql name="deleteKeyRal">
+		<![CDATA[
+			DELETE FROM X_KPI_RAL_KEY WHERE ID = #ID#
+		 ]]>
+	</sql>
+	
+</mapping>

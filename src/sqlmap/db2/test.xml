@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="cmp.test">
+	
+	<sql name="tableQuery">
+		<![CDATA[
+			select login_id from e_user where 1=1 
+			{ and login_id like '%'||#loginId#||'%' }
+		]]>
+	</sql>
+	
+	
+</mapping>

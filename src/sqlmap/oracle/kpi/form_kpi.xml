@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.form">
+	<sql name="view_dim_code">
+		<![CDATA[
+			SELECT DIM_CODE AS "DIM_CODE",
+			 	   TABLENAME AS "TABLENAME",
+			 	   CODE AS "CODE",
+				   NAME AS "NAME",
+				   CONDITION AS "CONDITION",
+			 	   CONF_TYPE AS "CONF_TYPE",
+			 	   SQL_CODE AS "SQL_CODE",
+			 	   CUBE_DATASOURCE AS "CUBE_DATASOURCE"
+			 FROM (
+				SELECT T.DIM_CODE AS DIM_CODE,
+				       (CASE WHEN T.CONF_TYPE='2' THEN NULL ELSE T.CODE_TABLE END) AS TABLENAME,
+				       T.COLUMN_CODE AS CODE,
+				       T.COLUMN_DESC AS NAME,
+				       T.CONDITION AS CONDITION,
+				       T.CONF_TYPE AS CONF_TYPE,
+				       (CASE WHEN T.CONF_TYPE='1' THEN NULL ELSE T.CODE_TABLE END) AS SQL_CODE,
+				       C.CUBE_DATASOURCE AS CUBE_DATASOURCE
+				  FROM X_KPI_RAL_DIM D
+				  INNER JOIN  X_KPI_DIM_CODE T
+				        ON D.DIM_CODE = T.DIM_CODE
+				  INNER JOIN  X_KPI_CUBE C
+				        ON D.CUBE_CODE = C.CUBE_CODE
+				UNION
+				SELECT DIM_CODE AS DIM_CODE,
+				       TABLENAME AS TABLENAME,
+				       CODE,
+				       NAME,
+				       CONDITION AS CONDITION,
+				       CONF_TYPE AS CONF_TYPE,
+				       SQL_CODE AS SQL_CODE,
+				       CUBE_DATASOURCE AS CUBE_DATASOURCE
+				  FROM (SELECT T.DIM_CODE,
+				               (CASE WHEN T.CONF_TYPE='0' THEN
+				                      CONCAT(CONCAT(T.SRC_ONWER,'.'), T.SRC_TABLE)
+				                      ELSE NULL END) AS TABLENAME,
+				               (SELECT CODE
+				                  FROM X_SUB_BASEDIM_INFO
+				                 WHERE DIM_ID = T.ID
+				                   AND NAME = 'code') AS CODE,
+				               (SELECT CODE
+				                  FROM X_SUB_BASEDIM_INFO
+				                 WHERE DIM_ID = T.ID
+				                   AND NAME = 'name') AS NAME,
+				               T.CONDITION AS CONDITION,
+				               (CASE WHEN T.CONF_TYPE='0' THEN '1' ELSE '2' END) AS CONF_TYPE,
+				               (CASE WHEN T.CONF_TYPE='1' THEN SQL_CODE ELSE NULL END) AS SQL_CODE,
+				               T.DATASOURCE AS CUBE_DATASOURCE
+				          FROM X_BASEDIM_INFO T
+				         WHERE T.DIM_TYPE = '1') T
+				 WHERE CODE IS NOT NULL ) T  
+ 		 ]]>
+	</sql>
+</mapping>

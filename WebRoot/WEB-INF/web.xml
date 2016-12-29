@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+	
+	<filter>
+		<filter-name>CharacterEncoding</filter-name>
+		<filter-class>cn.com.easy.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharacterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<listener>
+		<listener-class>cn.com.easy.down.server.TransferServerListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>cn.com.easy.ext.OnlineUserListener</listener-class>
+	</listener>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext*.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>easyDataSource</param-name>
+		<param-value>spring,dataSource,postgreSql</param-value>
+	</context-param>
+	<context-param>
+		<param-name>easyExtDataSource</param-name>
+		<param-value>jndi,java:/comp/env/jndi/datasource3,oracle;jndi,java:/comp/env/jndi/initdb,oracle;jndi,java:/comp/env/jndi/mysqldb,mysql;jndi,java:/comp/env/dataSource3,xcloud;jndi,java:/comp/env/sqlserver1,sqlserver;jndi,java:/comp/env/dataSource2,oracle;jndi,java:/comp/env/jndi/mysql,mysql;jndi,java:/comp/env/dataSourceXC,xcloud;jndi,java:/comp/env/jndi/datasource_mysql,mysql</param-value>
+	</context-param>
+	<context-param>
+		<param-name>easyTableUsers</param-name>
+		<param-value>dss,xbuilder;U_DSS,xbuilder;dmcode,xbuilder;</param-value>
+	</context-param>
+	<context-param>
+		<param-name>easyProperties</param-name>
+		<param-value>META-INF/default,framework</param-value>
+	</context-param>
+
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>cn.com.easy.web.filter.LoginFilter</filter-class>
+		<init-param>
+			<param-name>homePage</param-name>
+			<param-value>index.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>session</param-name>
+			<param-value>UserInfo</param-value>
+		</init-param>
+		<init-param>
+			<param-name>excludes</param-name>
+			<param-value>index.jsp,login.e,logout.e,onlineuser.e,ssLogin.e,ssoAuth.e,ssoVisit.e,authServlet.do,Login.jsp,regedit.e,yxforward.e,syncReceiv.e,validNum.jsp,downFileServerAction.e,api.e</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>*.e</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>LogFilter</filter-name>
+		<filter-class>cn.com.easy.ext.LogFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>LogFilter</filter-name>
+		<url-pattern>*.e</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>LogFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>PageAuthFilter</filter-name>
+		<filter-class>cn.com.easy.filter.PageAuthFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PageAuthFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>ActionServlet</servlet-name>
+		<servlet-class>cn.com.easy.web.action.ActionServlet</servlet-class>
+		<init-param>
+			<param-name>componentScan</param-name>
+			<param-value>cn.com.easy.ebuilder.action;
+	             cn.com.easy.action;
+	             cn.com.easy.down.client.action;
+			     cn.com.easy.down.server;
+			     cn.com.easy.frame.action;
+			     cn.com.easy.xbuilder.action;
+			     cn.com.easy.xbuilder.service;
+			     cn.com.easy.xbuilder.rmi;
+			     cn.com.easy.terminal.action;
+	  </param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActionServlet</servlet-name>
+		<url-pattern>*.e</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page> 
+
+</web-app>

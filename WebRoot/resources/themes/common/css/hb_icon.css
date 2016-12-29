@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+/* 全局菜单图标 */
+.announcement {background:url("hb_icons/announcement.png") left center no-repeat;}
+.indexInterpretation {background:url("hb_icons/interpretation.png") left center no-repeat;}
+.threeIcon  {background:url("hb_icons/modification.png") left center no-repeat;}
+.fourIcon {background:url("hb_icons/exit.png") left center no-repeat;}
+.switchingSkin a {  background:url("hb_icons/peel.png") left center no-repeat;}
+.switchingFull a { background:url("hb_icons/arrow_out.png") left center no-repeat;}
+.switchingFull a.fullBtn_k { background:url("hb_icons/arrow_in.png") left center no-repeat;}
+.changePassword a { background:url("hb_icons/modification.png") left center no-repeat;}
+.cancellation a { background:url("hb_icons/exit.png") left top no-repeat;}
+.jumpY_ { background:url("hb_icons/jumpBottom1.png") left center no-repeat;}
+.jumpY { background:url("hb_icons/jumpTop1.png") left center no-repeat;}
+#favoritesWindow ul li .close { background:url("hb_icons/x.png") no-repeat;}
+
+.ico1_delete { background:url("hb_icons/drive_delete.png") left center no-repeat;}
+.ico1_edit { background:url("hb_icons/drive_edit.png") left center no-repeat;}
+.ico1_add { background:url("hb_icons/drive_add.png") left center no-repeat;}
+.ico1_exit { background:url("hb_icons/exit.png") left center no-repeat;}
+.favoritesWindowBtn01 { padding-left:20px; background:url("hb_icons/add_favorite.png") left center no-repeat;}
+.favoritesWindowBtn02 { background:url("hb_icons/star.png") left center no-repeat;}
+.favoritesWindowBtn03 { padding-left:20px; background:url("hb_icons/043.png") left center no-repeat;}
+
+/* 主菜单左右移动控制*/
+.scroller-left { background:url("hb_icons/jumpLeft.png") no-repeat;}
+.scroller-right { background:url("hb_icons/jumpRight.png") no-repeat;}
+
+/*菜单栏*/
+#mBombWindowBtn { background:url("hb_icons/tool1.png") left center no-repeat;}
+.menu-snb { background:url("hb_icons/tool1.png") left center no-repeat;}
+
+/* 系统时间*/
+.localTimeOuter em { background:url("hb_icons/user.png") left center no-repeat;}
+#localTime { background:url("hb_icons/time.png") left center no-repeat;}
+
+/* 指标解释 */
+.indexInterpretationList dt { padding-left:15px; background:url("hb_icons/bullet_yellow.png") left center no-repeat;}
+
+#retrunL_btn, #retrunR_btn { display:block;}
+#retrunL_btn { width:12px; height:52px; background:url("hb_icons/retrunL_btn.png") left center no-repeat;}
+#retrunR_btn { width:12px; height:52px; background:url("hb_icons/retrunR_btn.png") left center no-repeat;}

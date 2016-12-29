@@ -1,0 +1,287 @@
+
+/* ---------- 默认表格样式 ----------*/
+table.default {
+	border: 1px solid #EFEFEF;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.default td,table.default th {
+	border: 1px solid #EFEFEF;
+}
+
+table.default thead tr {
+	background-color: #F9F9F9;
+}
+
+table.default tbody tr {
+	background-color: expression((                 this .                 sectionRowIndex %  
+		              2 ==   
+		
+		            0) ?                 "#FFF" :                 "#F9F9F9" );
+}
+
+table.default tbody tr:hover {
+	background-color: #EBEBEB;
+}
+
+table.default th {
+	font-size: 12px;
+	color: #333;
+	cursor: pointer;
+	text-align: center;
+	vertical-align: middle;
+	height: 25px;
+}
+
+table.default td {
+	font-size: 12px;
+	color: #333;
+	text-align: center;
+	vertical-align: middle;
+	height: 25px;
+}
+
+/* ---------- 翻页控件样式 ----------*/
+div.pageController {
+	font-size: 12px;
+	color: #333;
+	margin: 10px 0 0 0;
+	float: right;
+}
+
+div.pageController a:link {
+	color: #333;
+	text-decoration: none;
+}
+
+div.pageController a:visited {
+	color: #333;
+	text-decoration: none;
+}
+
+div.pageController a:hover {
+	color: #F00;
+	text-decoration: underline;
+}
+
+div.pageController a:active {
+	color: #F00;
+	text-decoration: underline;
+}
+
+/* -------------------- 显示表格样式 --------------------*/
+.easy-table {
+	border: 1px solid #DBDBDB;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.easy-table .easy-table-head-row {
+	font-size: 12px;
+	color: #333;
+	cursor: pointer;
+	background-color: #F9F9F9;
+	background-image: url("images/tabs_head.gif");
+	cursor: pointer;
+}
+
+.easy-table .easy-table-th {
+	border: 1px solid #DBDBDB;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+	height: 25px;
+}
+
+.easy-table .easy-table-body-row1 {
+	font-size: 12px;
+	font-weight: normal;
+	color: #333;
+	background-color: #F9F9F9;
+}
+
+.easy-table .easy-table-body-row2 {
+	font-size: 12px;
+	font-weight: normal;
+	color: #333;
+	background-color: #FFF;
+}
+
+.easy-table .easy-table-body-row3 {
+	font-size: 12px;
+	font-weight: normal;
+	color: #333;
+	background-color: #BFD9FF;
+}
+
+.easy-table .easy-table-td {
+	border: 1px solid #DBDBDB;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+	height: 25px;
+}
+
+/* -------------------- 图标样式 --------------------*/
+.icon-server {
+	background: url('images/icons/server.png') no-repeat;
+}
+
+.icon-database {
+	background: url('images/icons/database.png') no-repeat;
+}
+
+.icon-user {
+	background: url('images/icons/user.png') no-repeat;
+}
+
+.icon-ppt {
+	background: url('images/icons/iframe.png') no-repeat;
+}
+
+.icon-preview {
+	background: url('images/icons/preview.png') no-repeat;
+}
+
+.icon-table-head {
+	background: url('images/icons/table_head.png') no-repeat;
+}
+
+.icon-table-body {
+	background: url('images/icons/table_body.png') no-repeat;
+}
+
+.icon-table-delete {
+	background: url('images/icons/table_delete.png') no-repeat;
+}
+
+.icon-set {
+	background: url('images/icons/set.png') no-repeat;
+}
+
+.icon-set-dim {
+	background: url('images/icons/set_dim.png') no-repeat;
+}
+
+.icon-add-dim {
+	background: url('images/icons/add_dim.png') no-repeat;
+}
+
+.icon-table-refresh {
+	background: url('images/icons/table_refresh.png') no-repeat;
+}
+
+.icon-one-dim-tab {
+	background: url('images/icons/one_dim_tab.png') no-repeat;
+}
+
+.icon-two-dim-tab {
+	background: url('images/icons/two_dim_tab.png') no-repeat;
+}
+
+.icon-pie {
+	background: url('images/icons/pie.png') no-repeat;
+}
+
+.icon-bar {
+	background: url('images/icons/bar.png') no-repeat;
+}
+
+.icon-line {
+	background: url('images/icons/line.png') no-repeat;
+}
+
+.icon-label {
+	background: url('images/icons/label.gif') no-repeat;
+}
+
+.icon-iframe {
+	background: url('images/icons/iframe.png') no-repeat;
+}
+
+.icon-cube1 {
+	background: url('images/icons/cube1.gif') no-repeat;
+}
+
+.icon-cube2 {
+	background: url('images/icons/cube2.gif') no-repeat;
+}
+
+.icon-cube3 {
+	background: url('images/icons/cube3.gif') no-repeat;
+}
+
+.icon-fn {
+	background: url('images/icons/fn.png') no-repeat;
+}
+
+.icon-cog {
+	background: url('images/icons/cog.png') no-repeat;
+}
+
+.icon-house {
+	background: url('images/icons/house.png') no-repeat;
+}
+
+.icon-cube-red {
+	background: url('images/icons/cube_red.png') no-repeat;
+}
+
+.icon-cube-green {
+	background: url('images/icons/cube_green.png') no-repeat;
+}
+
+.icon-cube-blue {
+	background: url('images/icons/cube_blue.png') no-repeat;
+}
+
+.icon-indicator {
+	background: url('images/icons/indicator.gif') no-repeat;
+}
+
+.icon-indicator-ext {
+	background: url('images/icons/indicator_ext.gif') no-repeat;
+}
+
+.icon-dimension {
+	background: url('images/icons/dimension.gif') no-repeat;
+}
+
+.icon-chart {
+	background: url('images/icons/bar.png') no-repeat;
+}
+
+.icon-table {
+	background: url('images/icons/table.gif') no-repeat;
+}
+
+.icon-ppt {
+	background: url('images/icons/ppt.gif') no-repeat;
+}
+
+.icon-download-excel {
+	background: url('images/icons/excel.png') 50% 50% no-repeat;
+}
+.icon-download-excel-1 {
+	background: url('images/icons/xlsx1.png') 50% 50% no-repeat!important;
+}
+.icon-download-pdf {
+	background: url('images/icons/pdf.png') 50% 50% no-repeat;
+}
+.icon-download-ing {
+	background: url('images/icons/downing.png') 50% 50% no-repeat;
+}
+.icon-download-down {
+	background: url('images/icons/down.png') 50% 50% no-repeat;
+}
+.ui-icon-send-msg {
+	background: url('images/icons/ppt.gif') 50% 50% no-repeat 0 0;
+}
+.icon-dir1 {
+	background: url('images/icons/dir1.gif') 50% 50% no-repeat;
+}
+
+.icon-dir2 {
+	background: url('images/icons/dir2.gif') 50% 50% no-repeat;
+}

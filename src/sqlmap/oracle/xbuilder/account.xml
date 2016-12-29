@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.account">
+	<sql name="accountList">
+		<![CDATA[
+			SELECT o.ACCOUNT_CODE,
+				   ACCOUNT_NAME,
+				   ACCOUNT_DESC,
+				   CREATED_USER,
+				   CREATED_DATE,
+				   MODIFIED_USER,
+				   MODIFIED_DATE
+			  FROM OCT_ACCOUNT o,
+				   X_DB_ACCOUNT b
+			where o.ACCOUNT_CODE=b.ACCOUNT_CODE
+			{
+				and b.DB_ID=#db_id#
+			}
+			{
+			and o.account_code like '%'||#account_code#||'%'
+			}
+			{
+			and o.account_name like '%'||#account_name#||'%'
+			}
+		]]>
+	</sql>
+	<sql name="updSource">
+		<![CDATA[
+			 update X_EXT_DB_SOURCE SET DB_NAME=#db_name_upd#,
+					   DB_SOURCE=#db_source_upd#,
+					   ORD=#db_ord_upd#
+	        WHERE DB_ID=#db_id_old#
+		]]>
+	</sql>
+	<sql name="delSource">
+		<![CDATA[
+			delete from X_DB_ACCOUNT where db_id=#DB_ID#;
+			delete from X_EXT_DB_SOURCE WHERE DB_ID=#DB_ID#;
+		]]>
+	</sql>
+	<sql name="add_account">
+		<![CDATA[
+			%{
+				for( item : accountId) {
+					echo("delete from X_DB_ACCOUNT where db_id='"+DB_ID+"' and ACCOUNT_CODE='"+item+"';");
+					echo("insert into X_DB_ACCOUNT (ACCOUNT_CODE, DB_ID) values ('"+item+"','"+DB_ID+"');");
+				}
+			}
+		]]>
+	</sql>
+	<sql name="XBDELETE">
+		<![CDATA[
+			delete from X_DB_ACCOUNT where db_id=#db_id# and ACCOUNT_CODE=#account_code#
+		]]>
+	</sql>
+	<sql name="SOURCERELOAD">
+		<![CDATA[
+			SELECT DB_ID "db_id_old",DB_ID "db_id_upd",DB_NAME "db_name_upd",DB_SOURCE "db_source_upd",ORD "db_ord_upd"
+			   FROM X_EXT_DB_SOURCE
+		WHERE DB_ID=#DB_ID#
+		]]>
+	</sql>
+	<sql name="accountListForChoice">
+		<![CDATA[
+			SELECT ACCOUNT_CODE,
+			   ACCOUNT_NAME,
+			   ACCOUNT_DESC
+		   FROM OCT_ACCOUNT
+			where 1=1
+			   and ACCOUNT_CODE not in(
+			   		select ACCOUNT_CODE from X_DB_ACCOUNT where DB_ID=#db_id#
+			   )
+			{
+				and account_code like '%'||#account_code_add#||'%'
+			}
+			{
+				and account_name like '%'||#account_name_add#||'%'
+			}
+		]]>
+	</sql>
+</mapping>
+
+
+

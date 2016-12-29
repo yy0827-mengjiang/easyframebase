@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+/* 全局菜单图标 */
+.announcement {background:url("icons/announcement.png") left center no-repeat;}
+.indexInterpretation {background:url("icons/interpretation.png") left center no-repeat;}
+.threeIcon  {background:url("icons/modification.png") left center no-repeat;}
+.fourIcon {background:url("icons/exit.png") left center no-repeat;}
+.switchingSkin a {  background:url("icons/peel.png") left center no-repeat;}
+.switchingFull a { background:url("icons/arrow_out.png") left center no-repeat;}
+.switchingFull a.fullBtn_k { background:url("icons/arrow_in.png") left center no-repeat;}
+.changePassword a { background:url("icons/modification.png") left center no-repeat;}
+.cancellation a { background:url("icons/exit.png") left top no-repeat;}
+.jumpY_ { background:url("icons/jumpBottom.png") left center no-repeat;}
+.jumpY { background:url("icons/jumpTop.png") left center no-repeat;}
+#favoritesWindow ul li .close { background:url("icons/x.png") no-repeat;}
+
+.ico1_delete { background:url("icons/drive_delete.png") left center no-repeat;}
+.ico1_edit { background:url("icons/drive_edit.png") left center no-repeat;}
+.ico1_add { background:url("icons/drive_add.png") left center no-repeat;}
+.ico1_exit { background:url("icons/exit.png") left center no-repeat;}
+
+.downloadBtn { background:url("icons/download.png") left center no-repeat;}
+
+.favoritesWindowBtn01 { padding-left:20px; background:url("icons/add_favorite.png") left center no-repeat;}
+.favoritesWindowBtn02 { background:url("icons/star.png") left center no-repeat;}
+.favoritesWindowBtn03 { padding-left:20px; background:url("icons/043.png") left center no-repeat;}
+
+/* 主菜单左右移动控制*/
+.scroller-left { background:url("icons/jumpLeft.png") no-repeat;}
+.scroller-right { background:url("icons/jumpRight.png") no-repeat;}
+
+.scroller-left-dropdown { background:url("icons/jumpLeft.png") no-repeat;}
+.scroller-right-dropdown { background:url("icons/jumpRight.png") no-repeat;}
+
+/*菜单栏*/
+#mBombWindowBtn { background:url("icons/tool1.png") left center no-repeat;}
+.menu-snb { background:url("icons/tool1.png") left center no-repeat;}
+
+/* 系统时间*/
+.localTimeOuter em { background:url("icons/user.png") left center no-repeat;}
+#localTime { background:url("icons/time.png") left center no-repeat;}
+
+/* 指标解释 */
+.indexInterpretationList dt { padding-left:15px; background:url("icons/bullet_yellow.png") left center no-repeat;}
+
+
+#retrunL_btn, #retrunR_btn { display:block;}
+#retrunL_btn { width:12px; height:52px; background:url("icons/retrunL_btn.png") left center no-repeat;}
+#retrunR_btn { width:12px; height:52px; background:url("icons/retrunR_btn.png") left center no-repeat;}

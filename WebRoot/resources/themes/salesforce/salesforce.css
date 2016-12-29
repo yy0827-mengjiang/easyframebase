@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+/* =============================== 东方国信 / 基础蓝色风格 / 唯一样式表 / 20160101 =============================== */
+
+/* 按组件类型注释说明 */
+
+/*  ---------------------------------- 基础登录 ---------------------------------- */
+
+
+/* 头部容器样式 */
+#header-content, #header, #header-menu { background-color:#2b579a}
+#header-content.header-content_Change { background:url("images/bg/bgHeader_.png") repeat-x!important;}
+
+/* 主菜单样式 */
+#navMenu, #nav { }
+#navMenu a:link, #navMenu a:visited { color:#fff;}
+
+/* 当前位置样式 */
+#contentMap{ background:#e4e4e4; }
+#contentMap a { color:#2b579a;}
+#contentMap span { color:#999;}
+#contentMap strong {color:#666; font-weight:normal;}
+
+/* 按钮样式 */
+
+/* 全局菜单样式*/
+#globalMenu li span,
+#globalMenu li em,
+#globalMenu li a { color:#f2f3fc}
+#globalMenu li a:hover {color:#fff;}
+
+/* 主体容器样式*/
+#container { background:#fff;}
+
+/* */
+.systemTimeArea em {color:#fff;}
+

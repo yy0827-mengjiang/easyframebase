@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.component">
+
+	<sql name="component_list">
+			select 'D'||component_id "id", component_name "text", component_demo_url "curl",
+			'1' "_parentId",COMPONENT_ICON "iconCls",COMPONENT_NAME  "title",
+			COMPONENT_KIND "type",(case #dataType# when '1' then COMPONENT_PROPERTIES_SQL when '2' then COMPONENT_PROPERTIES_KPI end) "propertyUrl"
+			from  x_report_component order by cast(ord as integer)
+	</sql>
+	
+	<sql name="cubeList">
+			SELECT '-1' "ID",'--请选择魔方--' "TEXT",'-1' "TYPE",'-1' "DES" FROM dual 
+			UNION 
+			select * from (
+			              SELECT cube_code id,cube_name,account_type,cube_desc text 
+			                     FROM x_kpi_cube t 
+			                     WHERE t.cube_status = '1' and t.cube_flag='1' order by t.cube_name
+			              ) order by id
+	</sql>
+	
+	<sql name="clusterList">
+			select IP ||':'|| PORT||'/'||APP_NAME as "LOCATION" from X_CLUSTER_INFO
+	</sql>
+	
+	<sql name="datagrid.DataReportList">
+			SELECT ID "ID", NAME "NAME", URL "URL" FROM X_REPORT_INFO
+      		WHERE  ID!=#tableDataEventLinkCurrentReportId#
+      		AND STATE NOT IN('0','4')
+			{ and ID LIKE '%'||#tableDataEventLinkReportId#||'%' }
+			{ and NAME LIKE '%'||#tableDataEventLinkReportName#||'%' }
+			AND (CREATE_USER = #session.UserInfo.USER_ID#
+		    	OR CREATE_USER IN (SELECT USER_ID FROM E_USER_ACCOUNT
+								 WHERE ACCOUNT_CODE IN(SELECT ACCOUNT_CODE FROM E_USER_ACCOUNT WHERE USER_ID = #session.UserInfo.USER_ID#)))
+			ORDER BY CREATE_TIME DESC
+	</sql>
+	
+	<sql name="datagrid.updateFormulateUseTimes.add">
+		update x_formulate set usetimes=usetimes+1 where formulaid=#formulaId#
+	</sql>
+	
+	<sql name="datagrid.updateFormulateUseTimes.minus">
+		update x_formulate set usetimes=usetimes-1 where formulaid=#formulaId#
+	</sql>
+	
+	<sql name="treegrid.DataReportList">
+			SELECT ID "ID", NAME "NAME", URL "URL" FROM X_REPORT_INFO
+      		WHERE  ID!=#treeTableDataEventLinkCurrentReportId#
+      		AND STATE NOT IN('0','4')
+			{ and ID LIKE '%'||#treeTableDataEventLinkReportId#||'%' }
+			{ and NAME LIKE '%'||#treeTableDataEventLinkReportName#||'%' }
+			AND (CREATE_USER = #session.UserInfo.USER_ID#
+		    	OR CREATE_USER IN (SELECT USER_ID FROM E_USER_ACCOUNT
+								 WHERE ACCOUNT_CODE IN(SELECT ACCOUNT_CODE FROM E_USER_ACCOUNT WHERE USER_ID = #session.UserInfo.USER_ID#)))
+			ORDER BY CREATE_TIME DESC
+	</sql>
+	
+	<sql name="treegrid.updateFormulateUseTimes.add">
+		update x_formulate set usetimes=usetimes+1 where formulaid=#formulaId#
+	</sql>
+	
+	<sql name="treegrid.updateFormulateUseTimes.minus">
+		update x_formulate set usetimes=usetimes-1 where formulaid=#formulaId#
+	</sql>
+	<sql name="crossTable.DataReportList">
+			SELECT ID "ID", NAME "NAME", URL "URL" FROM X_REPORT_INFO
+      		WHERE  ID!=#crossTableDataEventLinkCurrentReportId#
+      		AND STATE NOT IN('0','4')
+			{ and ID LIKE '%'||#crossTableDataEventLinkReportId#||'%' }
+			{ and NAME LIKE '%'||#crossTableDataEventLinkReportName#||'%' }
+			AND (CREATE_USER = #session.UserInfo.USER_ID#
+		    	OR CREATE_USER IN (SELECT USER_ID FROM E_USER_ACCOUNT
+								 WHERE ACCOUNT_CODE IN(SELECT ACCOUNT_CODE FROM E_USER_ACCOUNT WHERE USER_ID = #session.UserInfo.USER_ID#)))
+			ORDER BY CREATE_TIME DESC
+	</sql>
+	<sql name="crossTable.updateFormulateUseTimes.add">
+		update x_formulate set usetimes=usetimes+1 where formulaid=#formulaId#
+	</sql>
+	
+	<sql name="crossTable.updateFormulateUseTimes.minus">
+		update x_formulate set usetimes=usetimes-1 where formulaid=#formulaId#
+	</sql>
+</mapping>
+
+
+

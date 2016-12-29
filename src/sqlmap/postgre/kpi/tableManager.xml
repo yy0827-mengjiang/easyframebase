@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.tableManager">
+
+	<sql name="queryList">
+		<![CDATA[
+			SELECT T.ID,
+			       T.TABLE_NAME AS "TABLENAME",
+			       T.TABLE_DES AS "TABLEDES",
+			       T.ACCTTYPE AS "ACCTTYPE",
+			       CASE T.ACCTTYPE WHEN '1' THEN '日账表' WHEN '2' THEN '月账表' END AS "ACCTTYPEDES",
+			       T.KPI_TYPE,
+			       CASE T.KPI_TYPE WHEN '1' THEN '基础指标' WHEN '2' THEN '复合指标' WHEN '3' THEN '衍生指标' ELSE '' END AS "KPITYPEDES"
+			  FROM X_KPI_RES_TABLE T
+			 WHERE T.ISVALID = '1'
+			   AND T.ACCTTYPE IS NOT NULL
+			   AND T.KPI_TYPE IS NOT NULL
+			   {AND (T.TABLE_NAME LIKE CONCAT(CONCAT('%',#tableName#),'%') or T.TABLE_DES LIKE CONCAT(CONCAT('%',#tableName#),'%'))}
+			   {AND T.ACCTTYPE = #acctType#}
+			   {AND T.KPI_TYPE = #kpiType#}
+		]]>
+	</sql>
+
+	<sql name="tableINSERT">
+		<![CDATA[
+			INSERT INTO X_KPI_RES_TABLE
+			  (ID,
+			   TABLE_NAME,
+			   TABLE_DES,
+			   ACCTTYPE,
+			   KPI_TYPE,
+			   ISVALID,
+			   CREATEDATE,
+			   CREATEUSER)
+			VALUES
+			  (X_RES_TABLE_SEQ.NEXTVAL, 
+			   #tableName#, 
+			   #tableDes#, 
+			   #acctType#, 
+			   #kpiType#, 
+			   '1', now(), #UserInfo.USER_ID#)
+		]]>
+	</sql>
+	<sql name="tableUPDATE">
+		UPDATE X_KPI_RES_TABLE T
+		   SET T.TABLE_NAME = #tableName#,
+		       T.TABLE_DES  = #tableDes#,
+		       T.ACCTTYPE   = #acctType#,
+		       T.KPI_TYPE   = #kpiType#,
+		       T.UPDATEDATE = now(),
+		       T.UPDATEUSER = #UserInfo.USER_ID#
+		 WHERE T.ID = #id#
+	</sql>
+	
+	<sql name="tableDELETE">
+		UPDATE X_KPI_RES_TABLE T SET T.ISVALID='0' WHERE T.ID=#id#
+	</sql>
+</mapping>

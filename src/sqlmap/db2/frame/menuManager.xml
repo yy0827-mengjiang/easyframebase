@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.menuManager">
+	<!--菜单管理 start  -->
+	<sql name="resourceTypeList">
+		<![CDATA[
+			SELECT RESOURCES_TYPE_ID,RESOURCES_TYPE_NAME  FROM E_RESOURCES_TYPE T ORDER BY ORD 
+		]]>
+	</sql>
+	<sql name="subsystemList">
+		<![CDATA[
+			SELECT SUBSYSTEM_ID, SUBSYSTEM_NAME FROM D_SUBSYSTEM T ORDER BY ORD
+		]]>
+	</sql>
+
+	<sql name="rootFlagObj">
+		<![CDATA[
+			SELECT COUNT(1) IS_ROOT FROM E_USER_ROLE TTT WHERE TTT.USER_ID=#session.UserInfo.USER_ID# AND TTT.ROLE_CODE='0'
+		]]>
+	</sql>
+	<sql name="areaNoExt">
+		<![CDATA[
+			select COLUMN_NAME AREA_CONTROL_FRAME_COLUMN  from E_USER_EXT_COLUMN_ATTR t where ATTR_CODE='AREA_CONTROL_FRAME'
+		]]>
+	</sql>
+
+	<sql name="menuPathObjByMenuIdForLog">
+		<![CDATA[
+			SELECT RESOURCES_NAME PATH_SHOW
+			  FROM E_MENU T
+			 WHERE T.RESOURCES_ID = '%{menuId}'
+		]]>
+	</sql>
+	<sql name="insertRootNode">
+		<![CDATA[
+			insert into e_menu(resources_id,resources_name,resources_type,ord) values('0','菜单管理','1',0)
+		 ]]>
+	</sql>
+	<sql name="rootNode">
+		<![CDATA[
+			SELECT RESOURCES_ID,RESOURCES_NAME FROM E_MENU T WHERE T.RESOURCES_ID='0'
+		 ]]>
+	</sql>
+	<sql name="menuList">
+		<![CDATA[
+			SELECT RESOURCES_ID,
+			       RESOURCES_NAME,
+			       PARENT_ID,
+			       URL,
+			       NVL(RESOURCE_STATE, '3') RESOURCE_STATE,
+			       RESOURCES_TYPE,
+			       TO_CHAR(NVL(Y.AUTH_CREATE, 0)) AUTH_CREATE,
+			       TO_CHAR(NVL(Y.AUTH_READ, 0)) AUTH_READ,
+			       TO_CHAR(NVL(Y.AUTH_UPDATE, 0)) AUTH_UPDATE,
+			       TO_CHAR(NVL(Y.AUTH_DELETE, 0)) AUTH_DELETE
+			  FROM E_MENU X,
+			       (SELECT MENU_ID,
+			               SUM(NVL(AUTH_CREATE, 0)) AUTH_CREATE,
+			               SUM(NVL(AUTH_READ, 0)) AUTH_READ,
+			               SUM(NVL(AUTH_UPDATE, 0)) AUTH_UPDATE,
+			               SUM(NVL(AUTH_DELETE, 0)) AUTH_DELETE
+			          FROM (SELECT MENU_ID,
+			                       AUTH_CREATE,
+			                       AUTH_READ,
+			                       AUTH_UPDATE,
+			                       AUTH_DELETE
+			                  FROM E_USER_PERMISSION
+			                 WHERE USER_ID = #userId#
+			                UNION ALL
+			                SELECT A.MENU_ID,
+			                       A.AUTH_CREATE,
+			                       A.AUTH_READ,
+			                       A.AUTH_UPDATE,
+			                       A.AUTH_DELETE
+			                  FROM E_ROLE_PERMISSION A, E_USER_ROLE B
+			                 WHERE A.ROLE_CODE(+) = B.ROLE_CODE
+			                   AND B.USER_ID = #userId#)
+			         GROUP BY MENU_ID) Y
+			 WHERE X.RESOURCES_ID = Y.MENU_ID
+			   AND Y.AUTH_READ > 0
+			 ORDER BY ORD
+		 ]]>
+
+	</sql>
+	<sql name="menuList.admin">
+		<![CDATA[
+			SELECT RESOURCES_ID,
+		       RESOURCES_NAME,
+		       PARENT_ID,
+		       '1' AUTH_CREATE,
+		       '1' AUTH_READ,
+		       '1' AUTH_UPDATE,
+		       '1' AUTH_DELETE
+		  FROM (SELECT RESOURCES_ID, RESOURCES_NAME, PARENT_ID, ORD FROM E_MENU T) X
+		 ]]>
+	</sql>
+	<sql name="resourceCountWithName">
+		<![CDATA[
+			SELECT COUNT(1) RESOURCE_NUM FROM E_MENU T WHERE T.RESOURCES_NAME=#param.resourceName# AND T.PARENT_ID=#parentId#
+		]]>
+	</sql>
+	<sql name="menuAuthInfoByMenuId">
+		<![CDATA[
+			SELECT MENU_ID,
+	               SUM(NVL(AUTH_CREATE, 0)) AUTH_CREATE,
+	               SUM(NVL(AUTH_READ, 0)) AUTH_READ,
+	               SUM(NVL(AUTH_UPDATE, 0)) AUTH_UPDATE,
+	               SUM(NVL(AUTH_DELETE, 0)) AUTH_DELETE
+	          FROM (SELECT MENU_ID,
+	                       AUTH_CREATE,
+	                       AUTH_READ,
+	                       AUTH_UPDATE,
+	                       AUTH_DELETE
+	                  FROM E_USER_PERMISSION
+	                 WHERE USER_ID = #session.UserInfo.USER_ID#
+	                   AND MENU_ID ='%{menuId}'
+	                UNION ALL
+	                SELECT A.MENU_ID,
+	                       A.AUTH_CREATE,
+	                       A.AUTH_READ,
+	                       A.AUTH_UPDATE,
+	                       A.AUTH_DELETE
+	                  FROM E_ROLE_PERMISSION A, E_USER_ROLE B
+	                 WHERE A.ROLE_CODE(+) = B.ROLE_CODE
+	                   AND B.USER_ID = #session.UserInfo.USER_ID#
+	                   AND A.MENU_ID ='%{menuId}')
+	         GROUP BY MENU_ID
+		]]>
+	</sql>
+	<sql name="treeNodeIdObj">
+		<![CDATA[
+			SELECT E_M_SEQ.Nextval SEQ_ID FROM DUAL
+		]]>
+	</sql>
+	<sql name="insertTreeNode">
+		<![CDATA[
+			INSERT INTO E_MENU(RESOURCES_ID,RESOURCES_NAME,RESOURCES_TYPE,PARENT_ID,URL,EXT1,EXT2,EXT3,EXT4,MEMO,ORD,ATTACHMENT,RESOURCE_STATE) VALUES('%{treeNodeIdObj.SEQ_ID}',#resourceNameForAdd#,#resourceTypeForAdd#,#parentIdForAdd#,#urlForAdd#,#ext1ForAdd#,#ext2ForAdd#,#ext3ForAdd#,#ext4ForAdd#,#memoForAdd#,#ordForAdd#,'%{filePath }',#resourceStateForAdd#)
+		]]>
+	</sql>
+	<sql name="insertTreeNodeUserPermission">
+		<![CDATA[
+			INSERT INTO E_USER_PERMISSION(USER_ID,MENU_ID,AUTH_CREATE,AUTH_READ,AUTH_UPDATE,AUTH_DELETE,AUTH_EXPORT) VALUES(#session.UserInfo.USER_ID#,'%{treeNodeIdObj.SEQ_ID}',1,1,1,1,1)
+		]]>
+	</sql>
+	<sql name="insertTreeNodeRolePermission">
+		<![CDATA[
+			INSERT INTO E_ROLE_PERMISSION(ROLE_CODE,MENU_ID,AUTH_CREATE,AUTH_READ,AUTH_UPDATE,AUTH_DELETE,AUTH_EXPORT,AUTH_ISSUED) VALUES('0','%{treeNodeIdObj.SEQ_ID}','1','1','1','1','1','1')
+		]]>
+	</sql>
+	<sql name="oneResourceObj">
+		<![CDATA[
+			SELECT RESOURCES_ID,RESOURCES_NAME,RESOURCES_TYPE,PARENT_ID,URL,EXT1,EXT2,EXT3,EXT4,MEMO,ORD,ATTACHMENT,NVL(RESOURCE_STATE,'3') RESOURCE_STATE FROM E_MENU T WHERE T.RESOURCES_ID=#currentIdForEdite#
+		]]>
+	</sql>
+	<sql name="updateTreeNodeWithFilePath">
+		<![CDATA[
+			UPDATE E_MENU SET RESOURCES_NAME=#resourceNameForEdite#,
+									  RESOURCES_TYPE=#resourceTypeForEdite#,
+									  URL=#urlForEdite#,
+									  EXT1=#ext1ForEdite#,
+									  EXT2=#ext2ForEdite#,
+									  EXT3=#ext3ForEdite#,
+									  EXT4=#ext4ForEdite#,
+									  MEMO=#memoForEdite#,
+									  ORD=#ordForEdite#,
+									  ATTACHMENT='%{filePath }',
+									  RESOURCE_STATE=#resourceStateForEdite#
+					WHERE RESOURCES_ID=#currentIdForEdite#
+		]]>
+	</sql>
+	<sql name="updateTreeNodeWithoutFilePath">
+		<![CDATA[
+			UPDATE E_MENU SET RESOURCES_NAME=#resourceNameForEdite#,
+									  RESOURCES_TYPE=#resourceTypeForEdite#,
+									  URL=#urlForEdite#,
+									  EXT1=#ext1ForEdite#,
+									  EXT2=#ext2ForEdite#,
+									  EXT3=#ext3ForEdite#,
+									  EXT4=#ext4ForEdite#,
+									  MEMO=#memoForEdite#,
+									  ORD=#ordForEdite#,
+									  RESOURCE_STATE=#resourceStateForEdite#
+					WHERE RESOURCES_ID=#currentIdForEdite#
+		]]>
+	</sql>
+	<sql name="deleteUserPermissionByMenuId">
+		<![CDATA[
+			DELETE FROM E_USER_PERMISSION WHERE MENU_ID=#menuId#
+		]]>
+	</sql>
+	<sql name="deleteRolePermissionByMenuId">
+		<![CDATA[
+			DELETE FROM E_ROLE_PERMISSION WHERE MENU_ID=#menuId#
+		]]>
+	</sql>
+	
+	<sql name="deleteUserCollectByMenuId">
+		<![CDATA[
+			DELETE FROM e_user_collect WHERE MENU_ID=#menuId#
+		]]>
+	</sql>
+	<sql name="deleteTreeNodeByMenuId">
+		<![CDATA[
+			DELETE FROM E_MENU WHERE RESOURCES_ID=#menuId#
+		]]>
+	</sql>
+	
+	
+	<sql name="updateCutToOthers">
+		<![CDATA[
+			UPDATE E_MENU SET PARENT_ID=#targetId# WHERE RESOURCES_ID=#sourceId#
+		]]>
+	</sql>
+	<sql name="menuHasSelectRoles">
+		<![CDATA[
+			SELECT T2.ROLE_CODE, T2.ROLE_NAME, T2.MEMO,
+			        REPLACE(REPLACE(
+		             DECODE(T1.AUTH_READ,1,'读取','')||','||
+		             DECODE(T1.AUTH_CREATE,1,'创建','')||','||
+		             DECODE(T1.AUTH_UPDATE,1,'更新','')||','||
+		             DECODE(T1.AUTH_DELETE,1,'删除','')||','||
+		             DECODE(T1.AUTH_EXPORT ,1,'导出',''),',,',',')
+		             ,',,',',') QX
+			  FROM E_ROLE_PERMISSION T1, E_ROLE T2
+			WHERE T1.ROLE_CODE = T2.ROLE_CODE
+			   	AND T1.MENU_ID = #currentNodeId#
+		   		{
+			   		and T2.ROLE_CODE=#roleId#
+			   		and T2.ROLE_NAME LIKE CONCAT(CONCAT('%',#roleName#),'%')
+		   		}
+			 ORDER BY T2.ORD
+		]]>
+	</sql>
+	<sql name="menuNeedSelectRoles">
+		<![CDATA[
+			SELECT T2.ROLE_CODE, T2.ROLE_NAME, T2.MEMO
+			  FROM E_ROLE T2
+			 WHERE NOT EXISTS(SELECT 1 FROM E_ROLE_PERMISSION T1 WHERE T1.ROLE_CODE=T2.ROLE_CODE 
+			 	AND T1.MENU_ID = #currentNodeId#)
+			  	{
+			   		and T2.ROLE_CODE=#roleId#
+			   		and T2.ROLE_NAME LIKE CONCAT(CONCAT('%',#roleName#),'%')
+		   		}
+			 ORDER BY T2.ORD
+		]]>
+	</sql>
+	<sql name="deleteRolePermissionByMenuIdAndRoleId">
+		<![CDATA[
+			DELETE FROM E_ROLE_PERMISSION WHERE MENU_ID=#menuId# AND ROLE_CODE=#roleCode#
+		]]>
+	</sql>
+	<sql name="insertRolePermissionForMenu">
+		<![CDATA[
+			INSERT INTO E_ROLE_PERMISSION(ROLE_CODE,MENU_ID,AUTH_CREATE,AUTH_READ,AUTH_UPDATE,AUTH_DELETE,AUTH_EXPORT) VALUES(#roleCode#,#menuId#,#createQX#,#readQX#,#updateQX#,#deleteQX#,#exportQX#)
+		]]>
+	</sql>
+	<!--菜单管理 end  -->
+	
+	<!--菜单下用户与角色查看 start  -->
+	<sql name="userListByMenuId">
+		<![CDATA[
+			select distinct Y.LOGIN_ID,
+					   Y.USER_NAME
+				  from (select USER_ID
+				          from (select b.USER_ID USER_ID
+				                  from E_USER_PERMISSION b
+				                 where b.MENU_ID = #menu_id#
+				                   and AUTH_READ = '1'
+				                union all
+				                select distinct c.USER_ID USER_ID
+				                  from E_USER_ROLE c
+				                 where c.ROLE_CODE in
+				                       (select ROLE_CODE
+				                          from E_ROLE_PERMISSION
+				                         where MENU_ID = #menu_id#
+				                           and AUTH_READ = '1'))) x,
+				       e_user y
+				 where x.USER_ID = y.user_id 
+				 AND X.USER_ID IN(
+				  	SELECT USER_ID FROM E_USER_ACCOUNT WHERE ACCOUNT_CODE IN(select ACCOUNT_CODE from E_USER_ACCOUNT where user_id = #session.UserInfo.USER_ID#)
+				 )
+		]]>
+	</sql>
+	<sql name="roleListByMenuId">
+		<![CDATA[
+			select ROLE_CODE,ROLE_NAME
+			  from e_Role c
+			 where c.ROLE_CODE in
+			       (select ROLE_CODE from E_ROLE_PERMISSION 
+			       	   where MENU_ID = #menu_id#
+			       	     and AUTH_READ = '1') 
+			 AND C.ROLE_CODE IN (
+			 	SELECT ROLE_CODE
+				  FROM E_USER_ROLE
+				 WHERE USER_ID in
+				       (select USER_ID
+				          from E_USER_ACCOUNT
+				         WHERE ACCOUNT_CODE IN
+				               (select ACCOUNT_CODE
+				                  from E_USER_ACCOUNT
+				                 where user_id = #session.UserInfo.USER_ID#))
+							 	
+			 
+			 
+			 )
+		]]>
+	</sql>
+	<!--菜单下用户与角色查看 end  -->
+	
+	<!--全局菜单 start  resourceCount-->
+	<sql name="menuResourceCount">
+		<![CDATA[
+			SELECT COUNT(1) RESOURCE_NUM FROM 
+		     (
+		        SELECT * FROM E_MENU X WHERE X.RESOURCES_ID in(
+		            SELECT Y.MENU_ID FROM (
+		              SELECT T1.MENU_ID FROM E_USER_PERMISSION T1 WHERE T1.USER_ID=#session.UserInfo.USER_ID# AND T1.AUTH_READ='1'
+		              UNION
+		              SELECT T2.MENU_ID FROM E_ROLE_PERMISSION T2 WHERE EXISTS(SELECT 1 FROM E_USER_ROLE A WHERE A.USER_ID=#session.UserInfo.USER_ID# AND A.ROLE_CODE=T2.ROLE_CODE) AND T2.AUTH_READ='1'
+		            ) Y 
+		
+		        )
+		      ) T 
+		  WHERE T.RESOURCES_NAME=#menuName#
+		        AND T.url=#url#
+		]]>
+	</sql>
+	<!--全局菜单 end  -->
+	
+	<!--框架菜单 start  -->
+	<sql name="frameLeftMenuList">
+		<![CDATA[
+			select RESOURCES_ID, RESOURCES_NAME RESOURCES_NAME, URL,NVL(RESOURCE_STATE,'3') RESOURCE_STATE,
+			case when (
+				select count(1)
+						  FROM e_menu t2
+						 where t2.parent_id = t.RESOURCES_ID
+						   and RESOURCES_ID in
+						       (select id
+						          from (select b.MENU_ID ID
+						                  from E_USER_PERMISSION b
+						                 where 1 = 1
+						                   and b.USER_ID = #session.UserInfo.USER_ID#
+						                   and b.AUTH_READ = 1
+						                union all
+						                select c.MENU_ID
+						                  from E_ROLE_PERMISSION c
+						                 where 1 = 1
+						                   and c.ROLE_CODE in
+						                       (select ROLE_CODE
+						                          from E_USER_ROLE
+						                         where USER_ID = #session.UserInfo.USER_ID#)
+						                   and c.AUTH_READ = 1))
+			)>0 then 'closed' else 'leaf' end STATE,RESOURCES_TYPE
+			  FROM e_menu t
+	        where t.parent_id = #id#
+			   and RESOURCES_ID in
+			       (select id
+			          from (select b.MENU_ID ID
+			                  from E_USER_PERMISSION b
+			                 where 1 = 1
+			                   and b.USER_ID = #session.UserInfo.USER_ID#
+			                   and b.AUTH_READ = 1
+			                union all
+			                select c.MENU_ID
+			                  from E_ROLE_PERMISSION c
+			                 where 1 = 1
+			                   and c.ROLE_CODE in
+			                       (select ROLE_CODE
+			                          from E_USER_ROLE
+			                         where USER_ID = #session.UserInfo.USER_ID#)
+			                   and c.AUTH_READ = 1))
+			 order by ord
+		]]>
+	</sql>
+	<sql name="frameLeftTreeSubList">
+		<![CDATA[
+			select RESOURCES_ID, RESOURCES_NAME, URL,NVL(RESOURCE_STATE,'3') RESOURCE_STATE 
+			  FROM e_menu t
+	           where t.parent_id = #id#
+			   and RESOURCES_ID in
+			       (select id
+			          from (select b.MENU_ID ID
+			                  from E_USER_PERMISSION b
+			                 where 1 = 1
+			                   and b.USER_ID = #session.UserInfo.USER_ID#
+			                   and b.AUTH_READ = 1
+			                union all
+			                select c.MENU_ID
+			                  from E_ROLE_PERMISSION c
+			                 where 1 = 1
+			                   and c.ROLE_CODE in
+			                       (select ROLE_CODE
+			                          from E_USER_ROLE
+			                         where USER_ID = #session.UserInfo.USER_ID#)
+			                   and c.AUTH_READ>0))
+			 order by ord
+		]]>
+	</sql>
+	<!--框架菜单 end  -->
+	
+</mapping>
+
+
+

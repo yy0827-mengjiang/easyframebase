@@ -1,0 +1,60 @@
+﻿@charset "utf-8";
+
+html #xDesignerLayout h1 { background:url(images/icons/xLogo.png) #fafafa 50% 50% no-repeat;}
+
+
+/* 导航背景 */
+
+
+html #tabTools{background-color:#fafafa;}
+
+html #tools_panel h3 {color:#777;}
+
+/* 搜索框样式 */
+html .serchIndex h3{color:#777; }
+
+/* 操作区线框 */
+html .component-area .component-head h3{color: #777; border-bottom:1px solid #e2e2e2;}
+
+/* 属性面板标题 */
+html #tools_panel h3{color: #777;}
+
+/* 头部选项卡 */
+
+html #tabTools .tabTiele li a{ color: #777; }
+html #tabTools .tabTiele li a:hover{color: #777; background: #fff; }
+html #tabTools .tabTiele li.cur a,
+html #tabTools .tabTiele li.cur a:hover{ background: #efefef; color: #777;}
+html #tabTools .tabTiele li em {background:#777; color:#fafafa;}
+html #tabTools .tabTiele li.cur em {background:#fafafa; color:#777; }
+
+html .toggleShow li a {color:#999;}
+html .toggleShow li a:hover  {color:#999;background-color:#fff;}
+
+
+html .toggleShow li.nth1 a,
+html .toggleShow li.nth1 a:hover {background-image: url("images/icons/xico01.png"); }
+html .toggleShow li.nth2 a,
+html .toggleShow li.nth2 a:hover {background-image: url("images/icons/xico04.png"); }
+html .toggleShow li.nth3 a,
+html .toggleShow li.nth3 a:hover {background-image: url("images/icons/xico02.png"); }
+html .toggleShow li.nth4 a,
+html .toggleShow li.nth4 a:hover {background-image: url("images/icons/xico03.png"); }
+html .toggleShow li.nth5.cur a {color:#777; background-image: url("images/icons/xico05.png");}
+
+/* 内容选项卡切换 【metro皮肤】 选项卡切换更换组件皮肤时需切换此处 */
+/* html .tab-item-r {background:#fff; border:1px solid #777; }
+html .tab-item-r li a {color:#777;}
+html .tab-item-r li a.active { background:#777; color:#fff;}
+html .tab-item-r li a:hover { background:#f2f2f2; color:#777;}
+html .tab-item-l { border-bottom:1px solid #777;}
+html .selected-tab-l{color:#fff!important; background:#777!important; border:1px solid #777!important;}*/
+
+/* 内容选项卡切换 【salesforce皮肤】 选项卡切换组件更换皮肤时需切换此处  */
+html .tab-item-r li a:hover { color:#777;}
+html .tab-item-l { border-bottom:1px solid #777;}
+html .tab-item-l li a { color:#777; }
+html .tab-item-l li a:hover { color:#888;}
+html .selected-tab-r { color:#777!important; border-bottom: 2px solid #777!important;}
+html .selected-tab-r a.active {color:#777!important;}
+html .selected-tab-l{color:#777!important; border-bottom: 2px solid #777!important; }

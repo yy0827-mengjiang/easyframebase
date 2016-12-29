@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.formulate">
+
+	<sql name="formulaList">
+	   select t.FORMULAID "FORMULAID",t.FNAME "FNAME",t.FORMULA "FORMULA",t.FDATE "FDATE" from x_formulate t where 1=1 
+				{and t.FNAME like #fname#}
+			order by t.FDATE
+	</sql>
+	
+	<sql name="del_res">
+	  	delete from x_formulate t where t.formulaid=#formulaid#
+	</sql>
+	
+
+	
+	<sql name="ins_res">
+	  	insert into x_formulate
+			(FORMULAID,FNAME,FORMULA,FDATE)
+			values
+			(#uuid#,#afname#,upper(#aformula#),#time()#)
+	</sql>
+	
+	<sql name="countObj">
+	  	select count(1) as "CON" from x_formulate where formula=#aformula#
+	</sql>
+	
+	<sql name="usetimes">
+	  	select USETIMES as "USETIMES" from x_formulate where formulaid=#formulaid#
+	</sql>
+	
+	<sql name="formulateList">
+			select '-1' "ID",'----请选择公式----' "VALUE" from dual     union            
+			select "ID","VALUE" from (select formulaid "ID", 
+			(case fname when '' then formula else '【'||fname||'】'||formula end ) "VALUE" from x_formulate order by FDATE)   a
+			     order by "ID"
+	</sql>
+	
+</mapping>
+
+
+

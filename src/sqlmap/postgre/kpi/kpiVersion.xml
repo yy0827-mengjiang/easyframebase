@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.kpiVersion">
+	
+	<sql name="histimes">
+		<![CDATA[
+			SELECT DISTINCT
+		       SUBSTRING (CAST (T.create_datetime AS VARCHAR), 1, 4) AS CREATEYEAR
+		  FROM VIEW_ALL_KPI_HIS T
+			WHERE T.KPI_CODE = #kpi_code#
+		]]>
+	</sql>
+	
+	<sql name="hisInfos">
+		
+		<![CDATA[
+			SELECT SUBSTR(T.create_datetime, 6,11) AS "CREATETIME",
+			       T.kpi_name AS "KPI_NAME",
+			       CAST(T.KPI_VERSION AS INTEGER) AS "KPI_VERSION",
+			       T.kpi_caliber AS "KPI_CALIBER",
+			       T.kpi_explain AS "KPI_EXPLAIN"
+			  FROM VIEW_ALL_KPI_HIS T
+			 WHERE T.KPI_CODE = #kpi_code#
+			   AND T.CREATE_DATETIME LIKE CONCAT(CAST(#histime.CREATEYEAR# AS VARCHAR),'%')
+			 ORDER BY CAST(T.KPI_VERSION AS INTEGER) DESC
+		]]>
+		
+	</sql>
+	
+</mapping>

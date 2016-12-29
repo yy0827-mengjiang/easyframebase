@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.log">
+	<sql name="loginLog">
+		<![CDATA[
+			SELECT T.SESSION_ID,
+			   CASE WHEN T.STATE = 0 THEN
+			   '活动'
+			   ELSE
+			   '非活动'
+			   END STATE, 
+		       A.LOGIN_ID,
+		       A.USER_NAME,
+		       T.CLIENT_IP,
+		       T.LOGIN_DATE,
+		       T.LOGOUT_DATE,
+		       T.CLIENT_BROWSOR
+		  FROM E_LOGIN_LOG T left join E_USER A
+		  on T.USER_ID=A.USER_ID
+		  where 1 = 1
+		  {AND A.LOGIN_ID LIKE '%'||#loginId#||'%' }
+		  {AND T.CLIENT_IP LIKE '%'||#clientIp#||'%' }
+		  {AND substr(T.LOGIN_DATE,1,8)>=#loginDate#}
+		  {AND substr(T.LOGIN_DATE,1,8)<=#loginDate1#}
+		  ORDER BY LOGIN_DATE DESC
+		]]>
+	</sql>
+	
+	<sql name="visitLog">
+		<![CDATA[
+			SELECT C.login_id as "LOGIN_ID",
+				 b.resources_name as "MENU_ID" ,
+				C.user_name as "USER_NAME", 
+				COALESCE(e.area_desc, '全省') AS "AREA_DESC",
+				d.operate_type_desc as "OPERATE_TYPE_CODE",
+			 CASE WHEN A.OPERATE_RESULT ='1' THEN '成功' ELSE '失败' END as "OPERATE_RESULT",
+			 A.CONTENT as "CONTENT",
+			 A.CLIENT_IP as "CLIENT_IP",
+			 A.CREATE_DATE as "CREATE_DATE"
+			FROM E_OPERATION_LOG A LEFT JOIN (
+				SELECT X.USER_ID, X.ATTR_VALUE, cm.area_desc FROM E_USER_ATTRIBUTE X
+				LEFT JOIN ( SELECT '-1' area_no, '全省' area_desc, '0' ord from dual UNION ALL
+				SELECT area_no, area_desc, ord FROM cmcode_area ) cm ON x.attr_value = cm.area_no
+				WHERE X.ATTR_CODE = 'AREA_NO' ) E ON A .user_id = e.user_id,
+			 E_OPERATE_TYPE d,
+			 E_USER C,
+			 (
+				SELECT ct.resources_id,ct.resources_name FROM e_menu ct 
+			 ) B 
+			WHERE A.OPERATE_TYPE_CODE = '1'
+			AND A.operate_type_code = d.operate_type_code
+			AND A.user_id = C .user_id
+			and a.menu_id = b.resources_id
+			AND A.USER_ID IN
+		       (SELECT USER_ID
+		          FROM E_USER_ACCOUNT
+		         WHERE ACCOUNT_CODE IN
+               (select ACCOUNT_CODE from E_USER_ACCOUNT where user_id = #session.USER_ID#)) 
+               {AND a.OPERATE_TYPE_CODE=#operateTypeCode#}
+               {AND substr(A.CREATE_DATE,1,8)>=#loginDate#}
+               {AND substr(A.CREATE_DATE,1,8)<=#loginDate1#}
+               {AND e.attr_value = #area_no#}
+               {AND C.LOGIN_ID LIKE '%'||#loginId#||'%'}
+               {AND B.resources_name LIKE '%'||#menuName#||'%'}
+               {AND C.USER_NAME LIKE '%'||#userName#||'%'}
+			ORDER BY A.CREATE_DATE DESC
+		]]>
+	</sql>
+	
+	<sql name="operationLog">
+		<![CDATA[
+			SELECT C.login_id as "LOGIN_ID",
+				 b.resources_name as "MENU_ID" ,
+				C.user_name as "USER_NAME", 
+				COALESCE(e.area_desc, '全省') AS "AREA_DESC",
+				d.operate_type_desc as "OPERATE_TYPE_CODE",
+			 CASE WHEN A.OPERATE_RESULT ='1' THEN '成功' ELSE '失败' END as "OPERATE_RESULT",
+			 A.CONTENT as "CONTENT",
+			 A.CLIENT_IP as "CLIENT_IP",
+			 A.CREATE_DATE as "CREATE_DATE"
+			FROM E_OPERATION_LOG A LEFT JOIN (
+				SELECT X.USER_ID, X.ATTR_VALUE, cm.area_desc FROM E_USER_ATTRIBUTE X
+				LEFT JOIN ( SELECT '-1' area_no, '全省' area_desc, '0' ord from dual UNION ALL
+				SELECT area_no, area_desc, ord FROM cmcode_area ) cm ON x.attr_value = cm.area_no
+				WHERE X.ATTR_CODE = 'AREA_NO' ) E ON A .user_id = e.user_id,
+			 E_OPERATE_TYPE d,
+			 E_USER C,
+			 (
+				SELECT ct.resources_id,ct.resources_name FROM e_menu ct 
+			 ) B 
+			WHERE A.OPERATE_TYPE_CODE = '1'
+			AND A.operate_type_code = d.operate_type_code
+			AND A.user_id = C .user_id
+			and a.menu_id = b.resources_id
+			AND A.USER_ID IN
+		       (SELECT USER_ID
+		          FROM E_USER_ACCOUNT
+		         WHERE ACCOUNT_CODE IN
+               (select ACCOUNT_CODE from E_USER_ACCOUNT where user_id = #session.USER_ID#)) 
+               {AND a.OPERATE_TYPE_CODE=#operateTypeCode#}
+               {AND substr(a.CREATE_DATE,1,8)>=#loginDate# }
+               {AND substr(a.CREATE_DATE,1,8)<=#loginDate1#}
+               {AND e.attr_value = #area_no#}
+               {AND C.LOGIN_ID LIKE '%'||#loginId#||'%' }
+               {AND B.resources_name LIKE '%'||#menuName#||'%' }
+               {AND C.USER_NAME LIKE '%'||#userName#||'%' }
+			ORDER BY A.CREATE_DATE DESC
+		]]>
+	</sql>
+	
+	<sql name="visitMenuLog">
+		<![CDATA[
+			SELECT b.resources_name as "MENU_ID",
+				count(*) as "VISIT_NUM"
+		  FROM (SELECT * FROM E_OPERATION_LOG TT WHERE TT.OPERATE_TYPE_CODE='1'
+		  		{AND substr(TT.CREATE_DATE,1,8)>=#loginDate#}
+		  		{AND substr(TT.CREATE_DATE,1,8)<=#loginDate1#}
+		  		) A,
+		      (
+			 	SELECT ct.resources_id,ct.resources_name FROM e_menu ct 
+			   ) B
+		  WHERE a.menu_id = b.resources_id
+		  AND A.USER_ID IN(
+		  	 SELECT USER_ID FROM E_USER_ACCOUNT WHERE ACCOUNT_CODE 
+		  	 IN
+		  	 (select ACCOUNT_CODE from E_USER_ACCOUNT where user_id = #session.USER_ID#)
+		  )
+		  group by B.resources_name 
+		  order by count(*) desc
+		]]>
+	</sql>
+	
+	<sql name="userLoginRank">
+		<![CDATA[
+			SELECT T.USER_ID, RTA.USER_NAME, RTA.AREA_DESC, COUNT(1) LOGIN_COU
+			  FROM (SELECT *
+			          FROM E_LOGIN_LOG T
+			         WHERE 1=1
+			         {AND substr(T.LOGIN_DATE,1,8) >= #loginDate#}
+					 {AND substr(T.LOGIN_DATE,1,8) <= #endDate#}
+			         
+			         ) T,
+			       
+			       (SELECT R.USER_ID, R.USER_NAME, TA.AREA_NO, TA.AREA_DESC
+			          FROM E_USER R,
+			               (SELECT T.USER_ID, T.AREA_NO, A.AREA_DESC
+			                  FROM (SELECT T.USER_ID,
+			                               CASE
+			                                 WHEN T.ATTR_CODE = 'AREA_NO' THEN
+			                                  T.ATTR_VALUE
+			                               END AREA_NO,
+			                               CASE
+			                                 WHEN T.ATTR_CODE = 'CITY_NO' THEN
+			                                  T.ATTR_VALUE
+			                               END CITY_NO
+			                          FROM E_USER_ATTRIBUTE T
+			                         WHERE T.ATTR_CODE IN ('AREA_NO', 'CITY_NO')) T,
+			                       CMCODE_AREA A
+			                 WHERE T.AREA_NO = A.AREA_NO) TA
+			         WHERE R.USER_ID = TA.USER_ID(+)) RTA
+			
+			 WHERE T.USER_ID = RTA.USER_ID(+)
+			 AND T.USER_ID IN(
+			   	SELECT USER_ID FROM E_USER_ACCOUNT WHERE ACCOUNT_CODE IN(select ACCOUNT_CODE from E_USER_ACCOUNT where user_id = #session.USER_ID#)
+			 )
+			 GROUP BY T.USER_ID, RTA.USER_NAME, RTA.AREA_DESC
+			 ORDER BY COUNT(1) DESC
+		]]>
+	</sql>
+	
+	<sql name="insLoginLog">
+	   <![CDATA[
+	   		INSERT INTO E_LOGIN_LOG(SESSION_ID,STATE,USER_ID,CLIENT_IP,LOGIN_DATE,LOGOUT_DATE,CLIENT_BROWSOR)
+	   		values(#sessionId#,#state#,#user_id#,#ip#,#time()#,#logout_date#,#useragent#)
+	   ]]>		
+	</sql>
+	
+	<sql name="updLoginLog">
+	   <![CDATA[
+	   		UPDATE E_LOGIN_LOG T SET T.LOGOUT_DATE=#time()#,T.STATE=#state# 
+	   		WHERE T.SESSION_ID=#sessionId# AND T.USER_ID=#user_id# 
+	   ]]>		
+	</sql>
+	
+	<sql name="insOperationLog">
+	   <![CDATA[
+	   		insert into E_OPERATION_LOG(USER_ID,MENU_ID,OPERATE_TYPE_CODE,OPERATE_RESULT,CONTENT,CLIENT_IP,CREATE_DATE)
+	   		values(#uid#,#menuid#,#operate_type_code#,#operate_result#,#content#,#client_ip#,#time()#)
+	   ]]>		
+	</sql>
+	
+</mapping>

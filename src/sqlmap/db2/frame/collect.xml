@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.collect">
+	<sql name="col_id">
+		<![CDATA[
+			select id from E_USER_COLLECT where user_id=#userId# and menu_id=#menuId# 
+		]]>
+	</sql>
+	<sql name="insertCollect">
+		<![CDATA[
+			insert into E_USER_COLLECT (ID, 
+										USER_ID,
+										MENU_ID,
+										COLLECT_DATE,
+										IDX) 
+							            values 
+							            (
+							            E_USER_COL_SEQ.NEXTVAL,
+							            #userId#,
+							            #menuId#,
+							            sysdate,
+							            #ord#
+							            )
+		]]>
+	</sql>
+	<sql name="updateCollect">
+		<![CDATA[
+			update E_USER_COLLECT set   USER_ID=#userId#,
+													MENU_ID=#menuId#,
+													COLLECT_DATE=sysdate,
+													IDX=#ord#
+													where id=#col_id.id#
+		]]>
+	</sql>
+	<sql name="deleteCollect">
+		<![CDATA[
+			delete from e_user_collect where ID=#id#
+		]]>
+	</sql>
+	<sql name="lengthSql">
+		<![CDATA[
+			select instr(#userReqIp#,'.')-1 as i from dual
+		]]>
+	</sql>
+	
+	<sql name="col_list">
+		<![CDATA[
+		%{
+			if(isPortal=='0')
+			
+				echo ("select  ID, MENU_ID, URL, RESOURCES_NAME  from E_USER_COLLECT U,E_MENU M where U.MENU_ID=M.RESOURCES_ID and U.ID in (select ID from E_USER_COLLECT U where U.user_id = #USER_ID#) order by ID");
+			
+			else 
+				echo ("SELECT ID,MENU_ID,decode(a.URL,'','',a.ip||a.URL) URL,RESOURCES_NAME  FROM(select  ID, MENU_ID,URL,(case when substr(#userReqIp#,1,#lengthSql#) = substr(d.subsystem_ip,1,#lengthSql#)  then subsystem_address   when substr(#userReqIp#,1,#lengthSql#) = substr(d.subsystem_ip2,1,#lengthSql#)  then subsystem_address2 end ) IP,RESOURCES_NAME  from E_USER_COLLECT U,E_MENU M,d_subsystem d where U.MENU_ID=M.RESOURCES_ID  and M.ext1=d.subsystem_id(+) and U.ID in( select ID from E_USER_COLLECT U where U.user_id = #USER_ID#)) A order by ID");
+			
+			
+		}
+		
+		]]>
+	</sql>
+</mapping>

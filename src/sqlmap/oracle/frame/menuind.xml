@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.menuind">
+	<sql name="MENUSELECT">
+		<![CDATA[
+		%{
+			echo("select * from (");
+			echo("select concat(t.resources_id,'') \"id\",");
+			echo("t.resources_name \"name\", t.url \"url\",#id# \"_parentId\",");
+			echo("case when (select count(resources_id) from E_MENU where PARENT_ID=t.resources_id) =0 then ");
+			echo("'leaf' else 'closed' end \"state\", '指标操作' \"oper\" from E_MENU t  ");
+			echo("where t.resources_type ='1' ");
+			if(id==null || id==""){
+				echo(" and t.parent_id ='0' ");
+			}else{
+				echo(" and t.parent_id =#id# ");
+			}
+			echo("order by ord )a");
+		}
+		]]>
+	</sql>
+	
+	<sql name="MENUINDSELECT">
+		<![CDATA[
+		select m.ID,
+				   e.IND_ID,
+				   IND_CODE,
+			       e.IND_NAME,
+			       t.ind_type_desc,
+			       nvl(BUS_EXP,'—') BUS_EXP,
+			       nvl(SKILL_EXP,'—') SKILL_EXP,
+			       nvl(OTHER_EXP,'—') OTHER_EXP,
+			       ORD
+			  from  E_IND_EXP_DETAILS s , E_IND_TYPE t ,E_IND_EXP e,E_MENU_IND m
+			  where e.ind_id = s.ind_id
+			  		and e.ind_id = m.ind_id
+			  		and s.ind_type_code = t.ind_type_code
+			  		and UPDATE_TIME in (select max(UPDATE_TIME) from E_IND_EXP_DETAILS group by ind_id)
+			  		and m.resources_id = #page_id#
+			  	{and e.ind_name like '%'||#ind_name#||'%'}
+			  	{and s.ind_type_code = #ind_type_code#}
+			  	order by m.ID desc
+		]]>
+	</sql>
+	
+	<sql name="INDSELECT">
+		<![CDATA[
+		select e.IND_ID,
+			   IND_CODE,
+		       e.IND_NAME,
+		       t.ind_type_desc,
+		       nvl(BUS_EXP,'—') BUS_EXP,
+		       nvl(SKILL_EXP,'—') SKILL_EXP,
+		       nvl(OTHER_EXP,'—') OTHER_EXP,
+		       ORD
+		  from  E_IND_EXP_DETAILS s , E_IND_TYPE t ,E_IND_EXP e
+		  where e.ind_id = s.ind_id
+		  		and s.ind_type_code = t.ind_type_code
+		  		and UPDATE_TIME in (select max(UPDATE_TIME) from E_IND_EXP_DETAILS group by ind_id)
+		  		and e.ind_id not in (select ind_id from E_MENU_IND where RESOURCES_ID=#page_id#)
+		  		
+		  		{and e.ind_name like '%'||#ind_name#||'%' }
+		  		{and s.ind_type_code = #ind_type_code#}
+		  	order by ord desc
+		  ]]>
+	</sql>
+	
+	<sql name="INSERT">
+		<![CDATA[
+			%{
+				for(item:ids){
+					echo("insert into E_MENU_IND (ID,RESOURCES_ID,IND_ID) ");
+					echo("values");
+					echo("(E_MENU_IND_SEQ.nextval,#page_id#,"+item+"); ");
+				}			
+			}
+		 ]]>
+	</sql>
+	
+	<sql name="MENUDELETE">
+		<![CDATA[
+			
+			%{
+			 	for(item:ids){
+			 		echo("delete from E_MENU_IND where IND_ID="+item+" and RESOURCES_ID=#page_id#;");
+			 	}
+			}
+		 ]]>
+	</sql>
+	
+	<sql name="INDEXPSELECT">
+		<![CDATA[
+			select i.IND_ID,
+			       IND_NAME,
+			       t.ind_type_desc,
+			       BUS_EXP,
+			       SKILL_EXP,
+			       OTHER_EXP,
+			       ORD,
+			       DEPARTMENT_CODE,
+			       FACTORY_CON,
+			       MAINTE_MAN
+			  from E_IND_EXP i, E_IND_EXP_DETAILS s , E_IND_TYPE t , E_MENU_IND m
+			  where i.IND_ID = s.IND_ID
+			  		and i.IND_ID = m.IND_ID
+			  		and s.ind_type_code = t.ind_type_code
+			  		and m.RESOURCES_ID = #menuId#
+			  		and UPDATE_TIME in (select max(UPDATE_TIME) from E_IND_EXP_DETAILS group by ind_id)
+			  	order by ord
+		 ]]>
+	</sql>
+	
+	<sql name="INDEXP">
+		<![CDATA[
+			select '1、业务解释：' || BUS_EXP || '<br>' || '2、技术解释：' || SKILL_EXP || '<br>' || '3、其他解释：' || OTHER_EXP EXP
+			  from E_IND_EXP_DETAILS s 
+			  where s.IND_ID = #indId#
+			  		and UPDATE_TIME in (select max(UPDATE_TIME) from E_IND_EXP_DETAILS group by ind_id)
+		 ]]>
+	</sql>
+	
+	<sql name="INDEXLIST">
+		<![CDATA[
+			select i.IND_ID,
+			       IND_NAME,
+			       t.ind_type_desc,
+			       BUS_EXP,
+			       SKILL_EXP,
+			       OTHER_EXP,
+			       ORD,
+			       s.DEPARTMENT_CODE,
+			       m.depart_desc,
+			       FACTORY_CON,
+			       MAINTE_MAN,
+			       (select LOGIN_ID from E_USER where user_id=CREATE_MAN) create_man,
+			       to_char(CREATE_TIME,'yyyy-MM-dd hh24:mm:ss') CREATE_TIME,
+			       (select LOGIN_ID from E_USER where user_id=UPDATE_MAN) UPDATE_MAN,
+			       to_char(UPDATE_TIME,'yyyy-MM-dd hh24:mm:ss') UPDATE_TIME
+			  from E_IND_EXP i, E_IND_EXP_DETAILS s , E_IND_TYPE t , E_department m
+			  where i.IND_ID = s.IND_ID
+			  		and s.department_code = m.depart_code
+			  		and s.ind_type_code = t.ind_type_code
+			  		and s.ind_id = #ind_id#
+			  	order by update_time desc
+		 ]]>
+	</sql>
+</mapping>

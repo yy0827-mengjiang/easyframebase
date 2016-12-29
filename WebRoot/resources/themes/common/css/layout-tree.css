@@ -1,0 +1,13 @@
+
+/* 20131223 组建修改 tabs-Style */
+.tabs-Style .tabs-header-plain .tabs-scroller-left, .tabs-Style .tabs-header-plain .tabs-scroller-right{ height:18px;}
+.tabs-Style .tabs { height:20px; padding-top:4px; position:relative; bottom:0;z-index:9999999999999;}
+.tabs-Style li a.tabs-inner {height:20px; line-height:20px; padding-left:10px; padding-right:10px; border-radius:2px 2px 0 0!important;}
+
+
+.layout-split-west {border-right:0 solid #fff!important;}
+.panel.layout-panel.layout-panel-west.layout-split-west .panel-body.layout-body{ background:#fff!important;}
+.tree-icon.tree-folder.icon-tree01 { display:none;}
+#LeftMenu.tree {padding-top:5px;}
+.panel.layout-panel.layout-panel-west.layout-split-west .layout-button-left{display:none;}
+.move-btn{position:absolute; width:12px; height:52px;left:0;top:280px;cursor:pointer;}

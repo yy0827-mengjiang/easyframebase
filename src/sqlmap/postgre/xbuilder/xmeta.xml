@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.xmeta">
+	<sql name="LIST">
+		<![CDATA[
+		  select NAME,URL,
+		  case REPORT_TYPE when '1' then '自定义sql' when '2' then '指标库' when '3' then '立方体' else '未知' end  REPORT_TYPE,
+		  case REPORT_LTYPE when '1' then '电脑' when '2' then '手机' else '未知' end REPORT_LTYPE,
+		  case KPI_TYPE when 'kpi' then '指标' when 'dim' then '维度' else '未知' end KPI_TYPE,
+		  SCREEN,KPI_ID,KPI_COLUMN,KPI_DESC 
+		  from x_report_info a,X_META_INFO b,x_meta_kpi c 
+		  where a.id=b.report_id 
+		  and b.report_id=c.report_id 
+		  {AND a.name like '%'||#name#||'%'}
+		  ORDER BY NAME
+		]]>
+	</sql>
+</mapping>

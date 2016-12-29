@@ -1,0 +1,155 @@
+﻿@charset "utf-8";
+
+/* 导航背景 */
+html #tabTools{background-color:#d34737;}
+html #tools_panel h3 {color:#d34737;}
+
+/* 搜索框样式 */
+html .serchIndex h3{color:#d34737; }
+
+/* 操作区线框 */
+html .component-area .component-head h3{ color: #d34737; border-bottom:1px solid #d34737;}
+
+/* 属性面板标题 */
+html #tools_panel h3{color: #d34737;}
+
+/* 头部选项卡 */
+html #tabTools .tabTiele li a{ color: #f8e7e5; }
+html #tabTools .tabTiele li a:hover{color: #d34737; background: #f8e7e5; }
+html #tabTools .tabTiele li.cur a,
+html #tabTools .tabTiele li.cur a:hover{ background: #f1f1f1; color: #d34737;}
+html #tabTools .tabTiele li em {background:#f8e7e5; color:#d34737;}
+html #tabTools .tabTiele li.cur em {background:#d34737; color:#f8e7e5; }
+
+html .toggleShow li a {color:#f8e7e5;}
+
+html a:link,
+html a:visited{color:#d34737;}
+
+/* 内容选项卡切换 【metro皮肤】 选项卡切换更换组件皮肤时需切换此处 */
+/*html .tab-item-r {background:#fff; border:1px solid #d34737; }
+html .tab-item-r li a {color:#d34737;}
+html .tab-item-r li a.active { background:#d34737; color:#fff;}
+html .tab-item-r li a:hover { background:#f2f2f2; color:#d34737;}
+html .tab-item-l { border-bottom:1px solid #d34737;}
+html .selected-tab-l{color:#fff!important; background:#d34737!important; border:1px solid #d34737!important;}*/
+
+/* 内容选项卡切换 【salesforce皮肤】 选项卡切换组件更换皮肤时需切换此处  */
+html .tab-item-r li a:hover { color:#d34737;}
+html .tab-item-l { border-bottom:1px solid #d34737;}
+html .tab-item-l li a { color:#d34737; }
+html .tab-item-l li a:hover { color:#c44535;}
+html .selected-tab-r { color:#d34737!important; border-bottom: 2px solid #d34737!important;}
+html .selected-tab-r a.active {color:#d34737!important;}
+html .selected-tab-l{color:#c44535!important; border-bottom: 2px solid #c44535!important; }
+
+/* 指标库按钮 */
+html .openKpi {border:1px solid #d34737; background-color:#d34737; color:#fff!important; }
+html .openKpi:hover {border:1px solid #c44535; background:#c44535; color:#fff;}
+html .openKpi:active {background-color:#c44535;}
+
+html .newTabIco04 li a.hover, 
+html .newTabIco04 li a:hover{ background-color: #d34737;}
+html .newTabIco04.guideIcon li a:hover strong,
+html .newTabIco04.guideIcon li a.hover strong {color: #d34737;}
+html .newTabIco04 li.dateSearch a {background-color: #d34737;}
+
+/* 系统头部-设置面板-按钮 */
+html .delBtn:hover{ background: #d34737;}
+
+/* 系统头部-LOGO */
+html #xDesignerLayout h1 { background:url(images/icons/xLogo.png) #d34737 50% 50% no-repeat;}
+html .tabIco01 li a {background-image:url("images/icons/bIco01.png");}
+
+/* 系统头部-设置面板-小关闭按钮 */
+html .kpiSearchArea a.foldBtn,
+html .kpiSearchArea a.foldBtn.foldBtn_default {background:url(images/icons/ico02_kpi.png) 50% 50% no-repeat #d34737;}
+html .kpiSearchArea a.foldBtn.foldBtn_active {background:url(images/icons/ico01_kpi.png) 50% 50% no-repeat #d34737;}
+html .kpiSearchArea a.foldBtn.foldBtn_default:hover {background:url(images/icons/ico02_kpi.png) 50% 50% no-repeat #d34737;}
+html .kpiSearchArea a.foldBtn.foldBtn_active:hover {background:url(images/icons/ico01_kpi.png) 50% 50% no-repeat #d34737;}
+
+html .toggleShow li.nth1 a {background-image: url("images/icons/xico01.png"); }
+html .toggleShow li.nth2 a {background-image: url("images/icons/xico04.png"); }
+html .toggleShow li.nth3 a {background-image: url("images/icons/xico02.png"); }
+html .toggleShow li.nth4 a {background-image: url("images/icons/xico03.png"); }
+html .toggleShow li.nth5.cur a {color:#f8e7e5; background-image: url("images/icons/xico05.png");}
+
+/* 指标库弹出指标窗体 ICON */
+html .icon-reload{ background:url('images/icons/reload.png') no-repeat center center;}
+html .category_body ul li .weiLink_default{background:url(images/icons/ico12_kpi.png) 50% 50% no-repeat;}
+html .category_body ul li .weiLink_active{background:url(images/icons/ico12_kpi_.png) 50% 50% no-repeat;}
+
+/* 系统头部 - PC端ICON */
+html .toggleShow li.nth5 a {background-image: url("images/icons/xico05.png"); }
+html .toggleShow li.nth5 a:hover {background-image: url("images/icons/xico05.png"); color:#fff; }
+
+/* 悬浮按钮 */
+html .popbtn a{background:url(images/icons/pageDescribe.png) 50% 50% no-repeat #f9f9f9!important; }
+html .popbtn a:hover{background:url(images/icons/pageDescribe.png) 50% 50% no-repeat #ddd!important; }
+
+/* 新窗体弹出方式ICON */
+html .pop-links {background:url("images/icons/icoWindows.png") 0 0 no-repeat; }
+html .pop-links:hover {background:url("images/icons/icoWindows.png") 0 -60px no-repeat;}
+
+/* 系统头部-设置面板-排列方式 */
+html .positionIcon{ background-image:url(images/icons/positionLorRIcon.png); background-repeat: no-repeat }
+
+html .switch-num1-item a {background-image:url("images/icons/ico12_cusview_default1.png");}
+html .switch-num2-item a {background-image:url("images/icons/ico15_cusview_default1.png");}
+html .switch-num3-item a {background-image:url("images/icons/ico13_cusview_default1.png");}
+html .switch-num4-item a {background-image:url("images/icons/ico14_cusview_default1.png");}
+
+/* 非组件tip提示 */
+html .tip-bubble{background-color:#f8e7e5; color: #d34737;}
+html .tip-bubble-top:after{border-bottom-color:#f8e7e5;}
+
+/* 创建编辑时 选中单元格 */
+html .reportTable .ui-selected.ui-selectee {background-color:#f8e7e5!important;}
+
+/* */
+html .icoTableData:hover,
+html .icoTableData:focus,
+html .icoTableData:focus:active,
+html .icoTableData02:hover,
+html .icoTableData02:focus,
+html .icoTableData02:focus:active, 
+html .icoTableData03:hover,
+html .icoTableData03:focus, .icoTableData03:focus:active { background-color:#d34737; border:2px solid #d34737;}
+
+html #containerPropertyExtInfoUl li a {background-color:#d34737;}
+
+html .margerSplit { background-image:url(images/icons/setGetIcon_1.png);}
+html .switch-mode-window a.close:hover {background-color:#d34737;}
+html .switch-mode-group li a:hover {background-color:#d34737; border:1px solid #d34737;}
+
+/* !icheck组件 */
+html .icheckbox_square-blue,
+html .iradio_square-blue {background-image:url(images/bg/red.png); background-repeat: no-repeat;}
+
+@media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+html .icheckbox_square-blue,
+html .iradio_square-blue { background-image:url(images/bg/red@2x.png); background-repeat: no-repeat;}}
+
+/* !easyui组件 */
+html .window .window-header { background:#d34737;}
+
+html .l-btn{background-color: #d34737; border-color:#d34737;}
+html .l-btn:hover{background-color: #c44535; border-color:#c44535;}
+html .l-btn-disabled,
+html .l-btn-disabled:hover{opacity: 0.5; cursor: default; background: #d34737; color: #fff; background: -webkit-linear-gradient(top,#d34737 0,#d34737 100%); background: -moz-linear-gradient(top,#d34737 0,#d34737 100%); background: -o-linear-gradient(top,#d34737 0,#d34737 100%); background: linear-gradient(to bottom,#d34737 0,#d34737 100%); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#d34737,endColorstr=#d34737,GradientType=0);}
+
+html .easyui-linkbutton-red.l-btn{background: #fff; border-color:#c44535;}
+html .easyui-linkbutton-red.l-btn .l-btn-text {color:#c44535; }
+html .easyui-linkbutton-red.l-btn:hover{background: #c44535; border-color:#c44535; }
+html .easyui-linkbutton-red.l-btn:hover .l-btn-text {color:#fff;}
+
+html .tabs {border-color:#d34737!important;}
+html .tabs li.tabs-selected a.tabs-inner {background-color:#d34737; border-color:#d34737;}
+html .kpiSelectorCon .tabs-tool { border-bottom-color:#d34737!important;}
+
+html .combo-arrow { background:#fff url('images/icons/combo_arrow.png') no-repeat center center; }
+
+html .datagrid-toolbar .search-area,
+html .contents-head .search-area,
+html .datagrid-toolbar .search-area p,
+html .contents-head .search-area p{ color:#c44535!important;}

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.user">
+
+	<sql name="seqObj">
+		<![CDATA[
+			SELECT E_UR_seq.NEXTVAL v_user_id FROM DUAL
+		]]>
+	</sql>
+	
+	<sql name="userMaxExt">
+		<![CDATA[
+			select max(t.ext15)+1 as v_max_manager_id from e_user t
+		]]>
+	</sql>
+
+	<sql name="userAttrDim">
+		<![CDATA[
+			SELECT ATTR_CODE,'EXT'||ROWNUM COLUMN_NAME 
+			FROM E_USER_ATTR_DIM T 
+			where NOT EXISTS (SELECT 1 FROM e_user_ext_column_attr WHERE ATTR_CODE=T.ATTR_CODE)
+		]]>
+	</sql>
+	
+	<sql name="userMenuId">
+		<![CDATA[
+			select resources_id from e_menu t,D_SUBSYSTEM t1 where t.ext1=t1.subsystem_id(+) and nvl(t1.subsystem_id,'-1')='-1' and t.url='pages/frame/portal/user/UserManager.jsp' and rownum<2 
+		]]>
+	</sql>
+	
+	<sql name="userInfo">
+		<![CDATA[
+			select user_name, login_id from e_user where user_id=#userId#
+		]]>
+	</sql>
+	
+	<sql name="rolesOfUserObj">
+		<![CDATA[
+		SELECT NVL(TO_CHAR(WM_CONCAT(ROLE_CODE)),'') ROLES FROM E_USER_ROLE WHERE USER_ID=#user_id#
+		]]>
+	</sql>
+	
+	<sql name="menuResource">
+	   <![CDATA[
+	   		SELECT RESOURCES_ID CURRENT_MENU_ID FROM E_MENU t WHERE  T.URL='pages/frame/user/UserManager.jsp' and Rownum = 1 
+	   ]]>		
+	</sql>
+	
+	<sql name="editUserRole">
+		<![CDATA[
+
+			%{
+			 	for(item1:deleteRoles.list){
+			 		echo("delete e_user_role where role_code=#item1.ROLE_CODE# and user_id=#userId#;");
+					echo("insert into E_OPERATION_LOG(USER_ID,MENU_ID,OPERATE_TYPE_CODE,OPERATE_RESULT,CONTENT,CLIENT_IP,CREATE_DATE) VALUES(#UserInfo.USER_ID#,#userMenuId.resources_id#,'4','1','用户　'||#userInfo.user_name# || '('||#userInfo.login_id#||')'||' 删除角色　'||#item1.ROLE_CODE#||'('||#item1.ROLE_NAME#||')',#UserInfo.IP#,#time()#);");
+			 	}
+			 }
+			 
+			 %{
+			 	for(item1:addRoles.list){
+					echo("insert into e_user_role(role_code,user_id) values(#item1.ROLE_CODE#,#userId#);");
+			 		echo("insert into E_OPERATION_LOG(USER_ID,MENU_ID,OPERATE_TYPE_CODE,OPERATE_RESULT,CONTENT,CLIENT_IP,CREATE_DATE) VALUES(#UserInfo.USER_ID#,#userMenuId.resources_id#,'4','1','用户　'||#userInfo.user_name# || '('||#userInfo.login_id#||')'||' 添加角色　'||#item1.ROLE_CODE#||'('||#item1.ROLE_NAME#||')',#UserInfo.IP#,#time()#);");
+			 			  
+			 	}
+			}
+
+		 ]]>
+	</sql>
+	
+	
+</mapping>

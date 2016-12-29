@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.formulaKpi">
+
+	<sql name="formulaObj">
+		<![CDATA[
+			SELECT T.ID AS "ID",T.NAME AS "NAME",T.FORMULA AS "FORMULA",T.FORMULA_EXPLAIN AS "FORMULA_EXPLAIN" FROM X_KPI_FORMULA T ORDER BY ID
+		]]>
+	</sql>
+
+	<sql name="userType">
+		<![CDATA[
+			SELECT TYPE_NAME AS "TYPE_NAME" FROM X_KPI_TYPE T WHERE T.TYPE_CODE IN (#typeInfo.USED_TYPE#)
+		]]>
+	</sql>
+
+	<sql name="formulaName">
+		<![CDATA[
+			SELECT TYPE_NAME AS "TYPE_NAME"  FROM X_KPI_TYPE T WHERE T.TYPE_CODE IN (#typeInfo.FORMULA#)
+		]]>
+	</sql>
+
+	<sql name="opter">
+		<![CDATA[
+			SELECT CODE AS "CODE",NAME AS "NAME" FROM X_KPI_CODE WHERE TYPE='1' ORDER BY ORD
+		]]>
+	</sql>
+
+	<sql name="logical">
+		<![CDATA[
+			SELECT CODE AS "CODE",NAME AS "NAME" FROM X_KPI_CODE WHERE TYPE='2' ORDER BY ORD
+		]]>
+	</sql>
+	
+	<sql name="kpiType">
+		<![CDATA[
+			SELECT CODE AS "CODE",NAME AS "NAME" FROM X_KPI_CODE_TYPE WHERE TYPE=#class.ID#
+		]]>
+	</sql>
+	
+	<sql name="kpi">
+		<![CDATA[
+			SELECT T.ACCTTYPE AS "ACCTTYPE",
+		       T.CUBE_CODE AS "CUBE_CODE",
+		       T.KPI_TYPE AS "KPI_TYPE",
+		       T.KPI_CATEGORY AS "KPI_CATEGORY",
+		       T.KPI_NUIT AS "KPI_NUIT",
+		       T.KPI_CODE AS "KPI_CODE",
+		       T.KPI_CALIBER AS "KPI_CALIBER",
+		       T.KPI_EXPLAIN AS "KPI_EXPLAIN",
+		       T.KPI_USER AS "KPI_USER",
+		       T.KPI_DEPT AS "KPI_DEPT",
+		       T.EXPLAIN AS "EXPLAIN",
+		       T.KPI_NAME AS "KPI_NAME",
+		       T.KPI_VERSION AS "KPI_VERSION",
+		       T.CREATE_USER AS "CREATE_USER",
+		       (SELECT USER_NAME FROM E_USER WHERE USER_ID = T.CREATE_USER) AS "CREATE_USER_NAME"
+		  FROM X_KPI_INFO T
+		 WHERE T.KPI_KEY = CAST(#id# AS INTEGER)
+		]]>
+	</sql>
+	
+	<sql name="formulaSub">
+		<![CDATA[
+			SELECT T1.ATTR_CODE AS "ATTR_CODE"
+			  FROM X_KPI_INFO T
+			  join X_KPI_ATTR_RELATION T1
+			    on T.KPI_CODE = T1.KPI_CODE
+			 WHERE 1 = 1
+			   AND T.KPI_VERSION = CAST(T1.KPI_VERSION AS INTEGER)
+			   and t.kpi_key = CAST(#id# AS INTEGER)
+		 ]]>
+	</sql>
+	
+	<sql name="addFormul">
+		<![CDATA[
+			INSERT INTO X_KPI_FORMULA
+			  (ID, NAME, FORMULA, FORMULA_EXPLAIN)
+			VALUES
+			  (NEXTVAL('X_FORMULA_SEQ'),
+			   #forName#,
+			   #formula#,
+			   #forExplain#)
+		]]>
+	</sql>
+	
+	<sql name="delFile">
+		<![CDATA[
+			DELETE FROM X_BASE_FILE_INFO WHERE CODE=#code#
+		]]>
+	</sql>
+	
+	<sql name="delFormul">
+		<![CDATA[
+			delete from X_KPI_FORMULA where id=CAST(#id# AS INTEGER)
+		]]>
+	</sql>
+</mapping>

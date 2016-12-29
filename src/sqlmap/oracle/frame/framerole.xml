@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.role">
+	<sql name="list">
+		<![CDATA[
+			select ROLE_CODE, parent_code, ROLE_NAME, MEMO, ord from e_role 
+			where 1=1
+				{and role_code like '%'||#role_code#||'%'}
+				{and role_name like '%'||#role_name#||'%'}
+				{and role_code not in (select role_code from e_user_role where user_id=#userId#)}
+			order by ord
+		]]>
+	</sql>
+</mapping>
+
+
+

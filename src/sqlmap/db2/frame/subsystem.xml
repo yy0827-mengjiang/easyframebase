@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.subsystem">
+	<sql name="list">
+		<![CDATA[
+			SELECT T.SUBSYSTEM_ID,
+			       T.SUBSYSTEM_NAME,
+			       T.SUBSYSTEM_ADDRESS,
+			       T.SUBSYSTEM_IP,
+			       T.SIMULATION_ADDRESS,
+			       DECODE(T.STATE, '1', '有效', '0', '无效', T.STATE) STATE,
+			       T.ORD,
+			       T.CONTACTS,
+			       T.PHONE,
+			       T.E_MAIL,
+			       T.SUBSYSTEM_ADDRESS2,
+			       T.SUBSYSTEM_IP2,
+			       T.REMARK
+			  FROM D_SUBSYSTEM T
+			 WHERE 1=1
+			 {AND T.SUBSYSTEM_ID LIKE '%'||#subsystemId# ||'%'}
+			 {AND T.SUBSYSTEM_NAME LIKE '%'||#subsystemName#||'%'}
+			 {AND T.STATE = #state#}
+			 ORDER BY T.ORD
+		]]>
+	</sql>
+	
+	<sql name="edit">
+		<![CDATA[
+			UPDATE D_SUBSYSTEM
+			   SET SUBSYSTEM_NAME     = #subsystemName#,
+			       SUBSYSTEM_ADDRESS  = #subsystemAddress#,
+			       SUBSYSTEM_IP       = #subsystemIp#,
+			       SIMULATION_ADDRESS = #simulationAddress#,
+			       STATE              = #state#,
+			       ORD                = #ord#,
+			       CONTACTS           = #contacts#,
+			       PHONE              = #phone#,
+			       E_MAIL             = #eMail#,
+			       SUBSYSTEM_ADDRESS2 = #subsystemAddress2#,
+			       SUBSYSTEM_IP2      = #subsystemIp2#,
+			       REMARK             = #remark#,
+			       MODIFY_USER        = #UserInfo.USER_ID#,
+			       MODIFY_TIME        = CURRENT DATE
+			 WHERE SUBSYSTEM_ID = #subsystemId#
+		]]>
+	</sql>		
+	
+	<sql name="add">
+		<![CDATA[
+			INSERT INTO D_SUBSYSTEM
+			  (SUBSYSTEM_ID,
+			   SUBSYSTEM_NAME,
+			   SUBSYSTEM_ADDRESS,
+			   SUBSYSTEM_IP,
+			   SIMULATION_ADDRESS,
+			   STATE,
+			   ORD,
+			   CONTACTS,
+			   PHONE,
+			   E_MAIL,
+			   SUBSYSTEM_ADDRESS2,
+			   SUBSYSTEM_IP2,
+			   REMARK,
+			   CREATE_USER,
+			   CREATE_TIME)
+			VALUES
+			  (#subsystemId#,
+			   #subsystemName#,
+			   #subsystemAddress#,
+			   #subsystemIp#,
+			   #simulationAddress#,
+			   #state#,
+			   #ord#,
+			   #contacts#,
+			   #phone#,
+			   #eMail#,
+			   #subsystemAddress2#,
+			   #subsystemIp2#,
+			   #remark#,
+			   #UserInfo.USER_ID#,
+			   CURRENT DATE
+			   ) 
+		]]>
+	</sql>
+	
+	
+</mapping>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="eframe_oracle"
+  id="myeclipse.1417149679046"
+  context-root="/eframe_oracle"
+  j2ee-spec="5.0"
+  archive="eframe_oracle.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

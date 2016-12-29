@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.download">
+	<sql name="list">
+		<![CDATA[
+			 select t12.ID as "ID",coalesce(FILE_TYPE,'未知') as "FILE_TYPE",t12.FILE_NAME as "FILE_NAME",
+			 t12.OPT_TIME as "OPT_TIME",t12.STATUS_ID as "STATUS_ID",t12.status_name as "status_name",t13.user_name as "user_name",FILE_PATH as "FILE_PATH",
+			 case when LOWER(coalesce(DOWN_PARAM_STR,'null')) = 'null' then '无'
+			 	  when LOWER(coalesce(DOWN_PARAM_STR,'null')) = '' then '无'
+			 	  else SUBSTR(coalesce(DOWN_PARAM_STR,',无'),2) end "DOWN_PARAM_STR"
+			 from (select t1.system_flag,t1.opt_user,t1.ID,FILE_TYPE,t1.FILE_NAME,t1.OPT_TIME,t1.STATUS_ID,t2.status_name,FILE_PATH,DOWN_PARAM_STR from e_exporting_info t1 left join e_export_status t2 on t1.status_id=t2.status_id) t12,
+			 	  (select t1.ID,t3.user_name from e_exporting_info t1 left join e_user t3 on t1.opt_user = t3.user_id) t13
+					where t12.ID=t13.ID and t12.opt_user=#USER_ID#
+					 {and t1.file_name like '%'||#fileName#||'%'}
+					 %{
+					 	if(param.status != null && param.status!='0')
+					 	  echo("and t12.status_id = #status#");
+					 }
+					 {and t13.user_name = #optUser#}
+					 {and to_char(to_date(t12.OPT_TIME,'YYYYMMDDHH24MISS'),'YYYY-MM-DD' ) = #optTime#}
+					 {and t12.system_flag = #SysTitle#}
+					order by t12.opt_time desc,t12.STATUS_ID
+		]]>
+	</sql>
+	<sql name="status">
+		<![CDATA[
+			 select '0' code,'全部' status,0 ord from dual union all
+	    select status_id code,status_name status,ord from e_export_status order by ord 
+		]]>
+	</sql>
+</mapping>

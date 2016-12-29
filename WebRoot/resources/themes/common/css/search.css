@@ -1,0 +1,25 @@
+#search {
+	text-align: center;
+	position: relative;
+	margin-top:20px;
+}
+
+.autocomplete {
+	border: 1px solid #9ACCFB;
+	background-color: white;
+	text-align: left;
+}
+
+.autocomplete li {
+	list-style-type: none;
+	position: relative;
+}
+
+.clickable {
+	cursor: default;
+}
+
+.autocomplete li span {position: absolute; right:0; top: 0}
+.highlight {
+	background-color: #9ACCFB;
+}

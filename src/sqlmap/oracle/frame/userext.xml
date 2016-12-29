@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.userext">
+	<sql name="maxExtColumnNum">
+		<![CDATA[
+		SELECT concat('EXT',nvl(SUBSTR(max(COLUMN_NAME),4),0)+1) as "V_EXTCOLUME_NUM"  FROM E_USER_EXT_COLUMN_ATTR
+		]]>
+	</sql>
+	<sql name="list">
+		<![CDATA[
+			select attr_code,
+		       parent_code,
+		       attr_name,
+		       m.model_desc show_mode,
+		       code_table,
+		       code_key,
+		       code_parent_key,
+		       code_desc,
+		       code_ord,
+		       t.type_desc data_type,
+		       case when multi=0 then '否' else '是' end multi,
+		       attr_ord,
+		       case when is_null=0 then '否' else '是' end is_null,
+		       default_value,
+		       default_desc,
+		       ATTR_DESC,
+		       u.subsystem_id,
+		       sub.subsystem_name
+		  from e_user_attr_dim u,e_user_ext_model m,e_user_extvalue_type t,d_subsystem sub
+		  where
+		  	u.show_mode=m.model_code 
+		  	and	u.data_type = t.type_code
+		  	and u.subsystem_id = sub.subsystem_id(+)
+		  {and attr_code like '%'|| #attr_code#||'%'}
+		  {and attr_name like '%' ||#attr_name#||'%'}
+		  {and data_type = #value_type#}
+		  {and show_mode = #model_type#}
+		  order by attr_ord
+		]]>
+	</sql>
+	
+	<sql name="edit">
+		<![CDATA[
+			update e_user_attr_dim
+			   set 
+			   	parent_code=#attr_father_code#,
+			       attr_name = #attr_name#,
+			       attr_desc = #attr_desc#,
+			       code_table = upper(#code_table#),
+			       code_key = upper(#code_key#),
+			       code_parent_key = upper(#code_parent_key#),
+			       code_desc = upper(#code_desc#),
+			       code_ord = upper(#code_ord#),
+			       data_type = #ext_value_type#,
+			       multi = #muni#,
+			       attr_ord = #ext_index#,
+			       is_null = #isNull#,
+			       default_value = #default_value#,
+			       default_desc = #default_desc#,
+			       subsystem_id = #subsystem_id#
+			 where attr_code=#attr_code#
+		]]>
+	</sql>
+	
+	<sql name="add">
+		<![CDATA[
+			insert into e_user_attr_dim
+			  (attr_code, parent_code, attr_name, attr_desc, show_mode, code_table, code_key, code_parent_key, code_desc, code_ord, data_type, multi, attr_ord, is_null, default_value, default_desc, subsystem_id)
+			values
+			  (#ext_code#, #attr_father_code#, #ext_name#,#ext_desc#, #ext_model#, upper(#code_table#), upper(#code_key#), upper(#code_parent_key#), upper(#code_desc#), upper(#code_ord#), #ext_value_type#, #muni#, #ext_index#, #isNull#, #default_value#, #default_desc#, #subsystem_id#);
+		    INSERT INTO E_USER_EXT_COLUMN_ATTR(ATTR_CODE,COLUMN_NAME) VALUES(#ext_code#,#maxExtColumnNum.V_EXTCOLUME_NUM#);
+		]]>
+	</sql>
+	
+	
+</mapping>

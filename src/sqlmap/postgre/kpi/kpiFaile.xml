@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.kpiFaile">
+
+	<sql name="query">
+		<![CDATA[
+			SELECT Y.KPI_KEY       AS "V1",
+	               Y.KPI_CODE      AS "V2",
+	               Y.SERVICE_KEY   AS "V3",          
+	               Y.KPI_NAME      AS "V4",
+	               Y.KPI_VERSION   AS "V5",     
+	               X.VIEW_TYPE_NAME     AS "V6",
+	               Y.KPI_STATUS    AS "V7",
+          			   Y.CUBE_CODE     AS "V12",
+          			   (SELECT USER_NAME FROM E_USER WHERE USER_ID=Y.CREATE_USER) AS "V13",
+          			   CONCAT(CONCAT(CAST(T.CREATE_DATETIME AS DATE),' '),CAST(T.CREATE_DATETIME AS TIME)) AS "V14",
+			       (SELECT USER_NAME FROM E_USER WHERE USER_ID=Y.UPDATE_USER) AS "V15",
+			       CONCAT(CONCAT(CAST(T.UPDATE_DATETIME AS DATE),' '),CAST(T.UPDATE_DATETIME AS TIME)) AS "V16",
+			       (SELECT USER_NAME FROM E_USER WHERE USER_ID=Y.EXAMINE_USER) AS "V17",
+			       CONCAT(CONCAT(CAST(T.EXAMINE_DATETIME AS DATE),' '),CAST(T.EXAMINE_DATETIME AS TIME)) AS "V18",
+			       Y.KPI_FLAG AS "V19"
+	          FROM X_KPI_INFO_TMP Y, X_KPI_TYPE X
+	         WHERE Y.KPI_TYPE = X.TYPE_CODE
+	           AND (Y.KPI_ISCURR ='1' OR Y.KPI_STATUS != '2')
+	           %{
+	           	if(#UserInfo.ADMIN# !='1'){
+	           		AND Y.CREATE_USER = #UserInfo.USER_ID#
+	           	}
+	           }
+	           {AND UPPER(Y.SERVICE_KEY) LIKE UPPER(CONCAT(CONCAT('%',#service_key#),'%'))}
+	           {AND UPPER(Y.KPI_NAME) LIKE UPPER(CONCAT(CONCAT('%',#kpi_name#),'%'))}
+		       {AND Y.CUBE_CODE = #cube_code#}
+			   {AND Y.KPI_STATUS = #kpi_status#}
+			   %{
+			   		if(#kpi_category#!=0&&#kpi_category#!=''&&#kpi_category#!=null){
+			   			echo("AND Y.KPI_CATEGORY IN (SELECT X.CATEGORY_ID FROM X_KPI_CATEGORY X START WITH X.CATEGORY_ID=#kpi_category# CONNECT BY PRIOR X.CATEGORY_ID = X.CATEGORY_PARENT_ID)");
+			   		}
+			   }
+		 ORDER BY Y.KPI_STATUS , Y.CREATE_DATETIME DESC
+		]]>
+	</sql>
+
+	<sql name="queryAudit">
+		<![CDATA[
+			SELECT *
+			  FROM (SELECT Y.KPI_KEY       AS "V1",
+			               Y.KPI_CODE      AS "V2",
+			               Y.SERVICE_KEY   AS "V3",          
+			               Y.KPI_NAME      AS "V4",
+			               Y.KPI_VERSION   AS "V5",     
+			               X.TYPE_NAME     AS "V6",
+			               Z.CATEGORY_NAME AS "V7",
+               			   Y.CUBE_CODE     AS "V12"
+			          FROM X_KPI_INFO_TMP Y join X_KPI_CATEGORY Z on Y.KPI_CATEGORY = Z.CATEGORY_ID
+			          						join X_KPI_TYPE X on Y.KPI_TYPE = X.TYPE_CODE
+			        WHERE  Y.KPI_STATUS = 3
+			           {AND Y.KPI_KEY = #kpi_key#}
+					   ) A,
+			       (SELECT CAST(CAST(W.EXAMINE_DATETIME AS DATE) AS VARCHAR) AS "V8",
+			               W.KPI_KEY AS "V9",
+			               W.AUDIT_OPINION AS "V10",
+			               CASE W.AUDIT_FLAG
+			                 WHEN '1' THEN
+	                       	 	'指标定义审核'
+	                         WHEN '2' THEN
+	                        	'指标技术审核'
+	                         WHEN '3' THEN
+	                        	'指标数据审核'
+	                     END AS "V11",
+                     U.USER_NAME AS "V13"
+                FROM X_KPI_AUDIT W join E_USER U on W.EXAMINE_USER = U.USER_ID
+               WHERE W.AUDIT_RESULT = '3'
+               ) B
+			 WHERE A.V1 = B.V9
+			 ORDER BY B.V8
+		]]>
+	
+	</sql>
+	
+	<sql name="delAudit">
+		<![CDATA[
+		%{
+			if(kpi_status=='2'){
+				UPDATE X_KPI_INFO T
+				   SET T.KPI_STATUS     = '8',
+				       T.KPI_FLAG       = 'D',
+				       T.EXAMINE_USER   = #UserInfo.USER_ID#,
+				       EXAMINE_DATETIME = now()
+				 WHERE T.KPI_CODE = #kpi_code#;
+			 }
+		}
+		UPDATE X_KPI_INFO_TMP T SET T.KPI_STATUS='8',T.KPI_FLAG='D',T.EXAMINE_USER=#UserInfo.USER_ID#,EXAMINE_DATETIME=now() WHERE T.KPI_KEY=#kpi_key#;
+		insert into x_kpi_log
+		  (log_key, kpi_key, kpi_code, kpi_version, log_action, log_datetime, log_user, log_userid, log_ip)
+		values
+		  (X_KPI_LOG_SEQ.Nextval, #kpi_key#, #kpi_code#, #kpi_version#, 'D', now(), #UserInfo.USER_NAME#, #UserInfo.USER_ID#, #UserInfo.IP#);
+		]]>
+	</sql>
+	
+	<sql name="audit">
+		<![CDATA[
+			SELECT *
+			  FROM (SELECT Y.KPI_KEY       AS "V1",
+			               Y.KPI_CODE      AS "V2",
+			               Y.SERVICE_KEY   AS "V3",          
+			               Y.KPI_NAME      AS "V4",
+			               Y.KPI_VERSION   AS "V5",     
+			               X.TYPE_NAME     AS "V6",
+			               Z.CATEGORY_NAME AS "V7",
+               			   Y.CUBE_CODE     AS "V12"
+			          FROM X_KPI_INFO_TMP Y join X_KPI_CATEGORY Z on Y.KPI_CATEGORY = Z.CATEGORY_ID
+			          						join X_KPI_TYPE X on Y.KPI_TYPE = X.TYPE_CODE
+			        WHERE 1=1
+			           {AND Y.KPI_KEY = #kpi_key#}
+					   ) A,
+			       (SELECT cast(W.EXAMINE_DATETIME as date) AS "V8",
+			               W.KPI_KEY AS "V9",
+			               W.AUDIT_OPINION AS "V10",
+			               CASE W.AUDIT_FLAG
+			                 WHEN '1' THEN
+	                       	 	'指标定义审核'
+	                         WHEN '2' THEN
+	                        	'指标技术审核'
+	                         WHEN '3' THEN
+	                        	'指标数据审核'
+	                     END AS "V11",
+	                     CASE W.AUDIT_RESULT
+					         WHEN '2' THEN
+					          '通过'
+					         WHEN '3' THEN
+					          '拒绝'
+					       END "V20",
+                     U.USER_NAME AS "V13"
+                FROM X_KPI_AUDIT W join E_USER U on W.EXAMINE_USER = U.USER_ID
+               ) B
+			 WHERE A.V1 = B.V9
+			 ORDER BY B.V8
+		
+		]]>
+	
+	</sql>
+</mapping>

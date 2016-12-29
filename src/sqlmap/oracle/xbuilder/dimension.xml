@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.dimension">
+	<sql name="VARDIMTREE">
+		<![CDATA[
+			select dim_category_id as "id", 
+			 dim_category_name as "text", 
+			 'closed' as "state" 
+			 from (select * from x_dimension_category 
+			%{
+				if(id==null || id eq ''){
+					echo(" where parent_dim_category_id = '-1' ");		
+				}else{
+					echo(" where parent_dim_category_id = #id# ");		
+				}
+				
+			}
+			order by dim_category_order) aa
+			union all 
+			select dim_id as "id", 
+			dim_var_name || '【'|| dim_var_desc||'】' as "text", 
+			'leaf' as "state" 
+			from(select * from x_dimension  where dim_category_id = #id#  order by dim_ord)  bb
+		]]>
+	</sql>
+
+	<sql name="LIST">
+		<![CDATA[
+			select t.default_id, t.default_name, t.default_desc, t.default_val, t.default_type,
+			case default_type when '1' then '常量'  when '2' then '变量' end  as deftype
+  			from x_default_table t
+  			where 1=1 
+  			{and t.default_desc like '%'||#defaultdesc#||'%'}
+  			{and t.default_name like '%'||#defaultname#||'%'}
+			{and t.default_type = #defaulttype#}
+			order by t.default_creatdate desc
+		]]>
+	</sql>
+	
+	<sql name="UPDATE">
+		<![CDATA[
+			update x_default_table set default_name=#DEFAULT_NAME#,default_desc=#DEFAULT_DESC#,default_val=#DEFAULT_VAL#,
+			default_type=#DEFAULT_TYPE# 
+			where default_id=#DEFAULT_ID#
+		]]>
+	</sql>
+	
+	<sql name="DELETE">
+		<![CDATA[
+			delete from x_default_table where default_id=#DEFAULT_ID#		
+		]]>
+	</sql>
+	
+	<sql name="INSERT">
+		<![CDATA[
+			insert into x_default_table 
+			(default_id,default_name,default_desc,default_val,default_type)
+			values
+			(#uuid_id#,#DEFAULT_NAME#,#DEFAULT_DESC#,#DEFAULT_VAL#,#DEFAULT_TYPE#)
+		]]>
+	</sql>
+	
+	<sql name="CURDIMDATA">
+		<![CDATA[
+			select d1.dim_id      "dim_id",
+		       d1.dim_var_name    "dim_var_name",
+		       d1.dim_table       "dim_table",
+		       d1.dim_var_type    "dim_var_type",
+		       d1.dim_var_desc    "dim_var_desc",
+		       d1.dim_col_code    "dim_col_code",
+		       d1.dim_col_desc    "dim_col_desc",
+		       d1.dim_col_ord     "dim_col_ord",
+			   d1.dim_parent_col "dim_parent_col",  
+			   d1.caslvl "caslvl", 
+			   d1.defaule_value "defaule_value",
+			   d1.defaule_desc "defaule_desc",
+			   case  when d1.dim_table is null then '2' else '1' end "createType",
+			   d1.dim_sql "dimSql",
+			   d1.DATABASE_NAME "database_name",
+			   d1.select_double "select_double"
+		  from x_dimension d1 left join x_dimension d2 on d1.parent_dim_id = d2.dim_id 
+		  where  d1.dim_id=#id#
+		]]>
+	</sql>
+	
+	<sql name="savetotemplate_del_dim_id">
+		<![CDATA[
+			delete from x_dimension where dim_id in(select dim_id from x_report_dim_rel where report_id = #reportId#)
+		]]>
+	</sql>
+	
+	<sql name="savetotemplate_del_dim_rel">
+		<![CDATA[
+			delete from x_report_dim_rel where report_id = #reportId# 
+		]]>
+	</sql>
+	
+	<sql name="savetotemplate_inset">
+		<![CDATA[
+			insert into x_dimension
+					   (dim_id,
+					   dim_var_name,
+					   dim_table,
+					   dim_var_type,
+					   dim_var_desc,
+					   dim_col_code,
+					   dim_col_desc,
+					   dim_category_id,
+					   dim_col_ord,
+					   dim_state,
+					   creator,
+					   create_time,
+					   creator_name,
+					   dim_desc,
+					   dim_parent_col,
+					   caslvl,
+					   parent_dim_id,
+					   defaule_value,
+					   defaule_desc,
+					   dim_sql,
+					   database_name)
+					values
+					  (#dimId#,
+					   #varname#,
+					   #table#,
+					   #type#,
+					   #desc#,
+					   #codecolumn#,
+					   #desccolumn#,
+					   '20151118130404',
+					   #ordercolumn#,
+					   '1',
+					   #session.USER_ID#,
+					   #time()#,
+					   #session.USER_NAME#,
+					   #desc#,
+					   #parentcol#,
+					   #level#,
+					   #parentdimname#,
+					   #defaultvalue#,
+					   #defaultvalue#,
+					   #sql#,
+					   #database#);
+					 insert into x_report_dim_rel
+					   (rel_id, 
+						report_id, 
+						report_name, 
+						dim_id, 
+						dim_varname, 
+						creator, 
+						creator_name, 
+						create_time, 
+						modifier, 
+						modifier_name, 
+						modify_time)
+					  values
+					   (#rel_id#,
+						#reportId#,
+						#reportName#,
+						#dimId#,
+						#varname#,
+						#session.USER_ID#,
+						#session.USER_NAME#,
+						#time()#,
+						#session.USER_ID#,
+						#session.USER_NAME#,
+						#time()#
+						);
+		]]>
+	</sql>
+	
+	<sql name="extCascade">
+		<![CDATA[
+			%{
+				if(CODE_SQL !=null && CODE_SQL ne '' && CODE_SQL ne 'undefined'){
+					echo(" select CODE,CODEDESC from ( ");		
+					echo(" select 'qing_xuan_zhe' CODE,'-请选择-' CODEDESC from dual union all ");
+					echo(" select to_char(code) CODE,to_char(codedesc) CODEDESC from (#sql#) inits ");
+					if(DIM_LVL!=null && DIM_LVL ne '' and DIM_LVL ne '0'){
+						echo(" where PARENT_COL in(#parent_key#) ");
+					}
+					echo(") bb order by CODE desc ");
+				}else{
+					echo("select 'qing_xuan_zhe' CODE,'-请选择-' CODEDESC ");
+					if(CODE_ORD !=null && CODE_ORD!=''){
+						echo(",'-1' ord  ");
+					}
+					echo(" from dual union all ");
+					echo("select  #CODE_KEY# CODE,#CODE_DESC# CODEDESC ");
+					if(CODE_ORD!=null&&CODE_ORD!=''){
+						echo(" ,#CODE_ORD# ord ");
+					}
+					echo(" from #CODE_TABLE# ");
+					if(CODE_PARENT_KEY!=null&&CODE_PARENT_KEY ne '' &&CODE_PARENT_KEY!='0'){
+						echo("where #CODE_PARENT_KEY# in(#parent_key#)");
+					}
+					echo(" group by #CODE_KEY#,#CODE_DESC# ");
+					if(CODE_ORD!=null&&CODE_ORD!=''){
+						echo(" ,#CODE_ORD# ");
+					}
+					if(CODE_ORD!=null&&CODE_ORD!=''){
+						echo(" order by ord ");
+					}
+				}
+				
+			}
+		]]>
+	</sql>
+	
+	<sql name="">
+		<![CDATA[
+			
+		]]>
+	</sql>
+	
+	<sql name="">
+		<![CDATA[
+			
+		]]>
+	</sql>
+	
+	<sql name="">
+		<![CDATA[
+			
+		]]>
+	</sql>
+	
+	<sql name="">
+		<![CDATA[
+			
+		]]>
+	</sql>
+	
+	<sql name="">
+		<![CDATA[
+			
+		]]>
+	</sql>
+	
+	<sql name="">
+		<![CDATA[
+			
+		]]>
+	</sql>
+</mapping>
+
+
+

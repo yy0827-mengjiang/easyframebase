@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.syncJsp">
+
+	<sql name="syncLogQueryAll">
+	   	<![CDATA[
+			select t.XID "XID",t.RESULT "RESULT",t.SYS_FROM "SYS_FROM",t.SYS_TO "SYS_TO",t.VERSION "VERSION",
+			t.DEMO "DEMO",CREATE_TIME "CREATE_TIME",
+			(case t.create_user when 'system' then '系统自动' else u.user_name end) "USER_NAME"
+			from x_jsp_sync_log t left join e_user u on t.create_user = u.user_id where 1=1
+				{ and t.sys_from = #sysFrom# }
+				{ and t.sys_to = #sysTo# }
+				{ and CREATE_TIME >= #startTime+'000000'# }
+				{ and CREATE_TIME <= #endTime+'235959'# }
+			order by create_time desc
+			]]>
+	</sql>
+	
+	<sql name="syncLogQueryAllFail">
+	   	<![CDATA[
+			select t.XID "XID",t.RESULT "RESULT",t.SYS_FROM "SYS_FROM",t.SYS_TO "SYS_TO",t.VERSION "VERSION",
+			t.DEMO "DEMO",CREATE_TIME "CREATE_TIME",
+			(case t.create_user when 'system' then '系统自动' else u.user_name end) "USER_NAME"
+			from x_jsp_sync_log t left join e_user u on t.create_user = u.user_id where 1=1
+				and t.result in ('1','2','3') 
+				{ and t.sys_from = #sysFrom# }
+				{ and t.sys_to = #sysTo# }
+				{ and CREATE_TIME >= #startTime+'000000'# }
+				{ and CREATE_TIME <= #endTime+'235959'# }
+			order by create_time desc
+			]]>
+	</sql>
+	
+	<sql name="syncLogQueryFailByReason">
+		<![CDATA[
+			select t.XID "XID",t.RESULT "RESULT",t.SYS_FROM "SYS_FROM",t.SYS_TO "SYS_TO",t.VERSION "VERSION",
+			t.DEMO "DEMO",CREATE_TIME "CREATE_TIME",
+			(case t.create_user when 'system' then '系统自动' else u.user_name end) "USER_NAME"
+			from x_jsp_sync_log t left join e_user u on t.create_user = u.user_id where 1=1
+			  	and t.result = #result#
+				{ and t.sys_from = #sysFrom# }
+				{ and t.sys_to = #sysTo# }
+				{ and CREATE_TIME >= #startTime+'000000'# }
+				{ and CREATE_TIME <= #endTime+'235959'# }
+			order by create_time desc
+			]]>
+	</sql>
+	
+	<sql name="allReportForSync">
+	    SELECT a1.XID "XID",a1.FILE_NAME "FILE_NAME",a1.JSP_DATA "JSP_DATA",a1.VERSION "VERSION" FROM x_jsp_version a1 
+						 WHERE NOT EXISTS (SELECT xid FROM x_jsp_sync b1 WHERE a1.XID=b1.XID) 
+						 UNION ALL
+						 SELECT a2.XID "XID",a2.FILE_NAME "FILE_NAME",a2.JSP_DATA "JSP_DATA",a2.VERSION "VERSION" FROM x_jsp_version a2,x_jsp_sync b2 
+						 WHERE a2.xid=b2.xid AND b2.sysid=#sysId# AND a2.version>b2.version
+	</sql>
+	
+	<sql name="reportForSync">
+	    select a.XID "XID",a.FILE_NAME "FILE_NAME",a.JSP_DATA "JSP_DATA",a.VERSION "VERSION" from x_jsp_version a where a.version=#versionId# and a.xid=#reportId#
+	</sql>
+	
+	<sql name="getJspSyncInfo">
+	    select VERSION "VERSION" from x_jsp_sync t where t.xid=#xid# and sysid=#sysid#
+	</sql>
+	
+	<sql name="updateJspSyncInfo">
+	    update x_jsp_sync set version=cast(#version# as integer),sync_time=#time()# where sysid=#sysid# and xid=#xid#
+	</sql>
+	
+	<sql name="insertJspSyncInfo">
+	    insert into x_jsp_sync values(#sysid#,#xid#,1,#time()#)
+	</sql>
+	
+</mapping>
+
+
+

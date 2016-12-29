@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+/* =============================== 东方国信 / 修复浏览器适配BUG / 唯一样式表 / 20160101 =============================== */
+
+/* IE8支持 */
+#example{background-color:#ffffff\0 ;}
+
+/* IE9 */
+#example{background-color:#ffffff\9\0 ;}
+
+/* IE10 */
+#example{-ms-background-color:#ffffff;}
+
+/* Safari 5.1+, Chrome 10+ */
+#example{-webkit-background-color:#ffffff;}
+
+/* FF 3.6+ */
+#example{-moz-background-color:#ffffff;}
+
+/* Opera */
+#example{-o-background-color:#ffffff;}

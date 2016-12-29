@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="java.kpi.RelationShipClass">
+	
+	<sql name="sibship">
+		<![CDATA[
+			SELECT T.SOURCE_CODE AS "source_code",
+		       T.SOURCE_VERSION AS "source_version",
+		       T.SOURCE_TYPE AS "source_type"
+		  FROM x_kpi_source_tmp T
+		 WHERE T.KPI_CODE = #kpiCode# 
+		 AND T.KPI_VERSION = #version#
+		]]>
+	</sql>
+	
+	<sql name="subInfo">
+		<![CDATA[
+			SELECT *
+			  FROM X_KPI_INFO_TMP T JOIN X_KPI_TYPE T1 ON T.KPI_TYPE = T1.TYPE_CODE
+			 WHERE     1 = 1
+			       AND T.KPI_CODE = #kpiCode#
+			       AND T.KPI_VERSION = #version#
+		]]>
+	</sql>
+	
+	<sql name="info">
+		<![CDATA[
+			SELECT *
+			  FROM X_KPI_DIM_CODE T
+			 WHERE T.DIM_CODE =#kpiCode#
+		]]>
+	</sql>
+	
+	<sql name="dimInfo">
+		<![CDATA[
+			SELECT *
+			  FROM X_KPI_DIM_CODE T
+			 WHERE T.DIM_CODE = #kpiCode#
+		]]>
+	</sql>
+	
+	<sql name="kpiInfo">
+		<![CDATA[
+			SELECT T.ID AS "ID",
+		       T.NAME AS "NAME",
+		       T.KPI_CODE AS "KPI_CODE",
+		       T.KPI_VERSION AS "KPI_VERSION",
+		       T.KPI_CALIBER AS "KPI_CALIBER",
+		       T.KPI_EXPLAIN AS "KPI_EXPLAIN",
+		       S.ICON AS "ICON"
+		  FROM VIEW_KPI T JOIN X_KPI_TYPE S ON T.KPI_TYPE = S.TYPE_CODE
+		 WHERE     1 = 1
+		       AND T.KPI_CODE = #kpiCode#
+		       AND T.KPI_VERSION = #version#
+		]]>
+	</sql>
+	
+	<sql name="getBaseKpi">
+		<![CDATA[
+			SELECT *
+			  FROM X_BASE_KPI T
+			 WHERE T.BASE_KEY = #kpiCode# 
+			 AND T.KPI_VERSION = #version#
+		]]>
+	</sql>
+	
+	<sql name="children">
+		<![CDATA[
+			SELECT T.KPI_CODE, T.KPI_VERSION
+		  FROM X_KPI_SOURCE_TMP T
+		 WHERE T.SOURCE_CODE = #kpiCode# AND T.SOURCE_VERSION = #version#
+		]]>
+	</sql>
+	
+	<sql name="sub">
+		<![CDATA[
+			SELECT T.ID AS "ID",
+		       T.NAME AS "NAME",
+		       T.KPI_CODE AS "KPI_CODE",
+		       T.KPI_VERSION AS "KPI_VERSION",
+		       T.KPI_CALIBER AS "KPI_CALIBER",
+		       T.KPI_EXPLAIN AS "KPI_EXPLAIN",
+		       S.ICON AS "ICON",
+		       S.VIEW_TYPE_NAME AS "VIEW_TYPE_NAME",
+		       S.TYPE_CODE AS "TYPE_CODE"
+		  FROM VIEW_KPI T JOIN X_KPI_TYPE S ON T.KPI_TYPE = S.TYPE_CODE
+		 WHERE     1 = 1
+		       AND T.KPI_CODE = #kpiCode#
+		       AND T.KPI_VERSION = #version#
+		]]>
+	</sql>
+	
+	<sql name="TYPECODE4">
+		<![CDATA[
+			SELECT T.KPI_BODY AS "KPI_BODY"
+			  FROM X_KPI_INFO_TMP T
+			 WHERE T.KPI_CODE = #kpiCode# 
+			 AND T.KPI_VERSION = #version#
+		]]>
+	</sql>
+	
+	<sql name="report">
+		<![CDATA[
+			SELECT T.ID AS "ID",
+		       T.NAME AS "NAME",
+		       T.SYS_NAME AS "SYS_NAME",
+		       S.USER_NAME AS "CREATE_USER",
+		       CONCAT(CONCAT(CAST(T.CREATE_DATE AS DATE), ' '),
+		               CAST(T.CREATE_DATE AS TIME))
+		          AS " CREATE_DATE"
+		  FROM KPI_REPORT_VIEW T JOIN E_USER S ON T.CREATE_USER = S.USER_ID
+		 WHERE     1 = 1
+		       AND T.KPI_CODE = #kpiCode#
+		       AND T.KPI_VERSION = #version#
+		]]>
+	</sql>
+</mapping>

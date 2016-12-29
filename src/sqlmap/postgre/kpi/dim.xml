@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.dim">
+	<sql name="list">
+		<![CDATA[
+			SELECT DIM_CODE AS "DIM_CODE",
+				   CODE_TABLE AS "CODE_TABLE",
+				   CODE_TABLE_DESC AS "CODE_TABLE_DESC", 
+				   COLUMN_CODE AS "COLUMN_CODE",
+				   COLUMN_DESC AS "COLUMN_DESC", 
+				   COLUMN_ORD AS "COLUMN_ORD",
+				   (CASE WHEN CONF_TYPE='1' THEN '配置型' WHEN CONF_TYPE='2' THEN 'SQL型' ELSE '未知' END)  AS "CONF_TYPE"
+			  FROM X_KPI_DIM_CODE
+			  WHERE 1=1
+			  {AND DIM_CODE LIKE CONCAT(CONCAT('%',#dim_code#),'%')}
+			  {AND CODE_TABLE LIKE CONCAT(CONCAT('%',#table_name#),'%')}
+			  {AND CODE_TABLE_DESC LIKE CONCAT(CONCAT('%',#table_desc#),'%')}
+			  {AND COLUMN_CODE LIKE CONCAT(CONCAT('%',#table_column#),'%')}
+		  ]]>
+	</sql>
+	<sql name="beforeAddDim">
+		<![CDATA[
+			select DIM_CODE AS "DIM_CODE" from X_KPI_DIM_CODE where DIM_CODE=#dim_code#
+		 ]]>
+	</sql>
+	<sql name="insertDim">
+		<![CDATA[
+			 insert into X_KPI_DIM_CODE(DIM_CODE,CODE_TABLE,CODE_TABLE_DESC,COLUMN_CODE,COLUMN_DESC,COLUMN_ORD,
+	                         COLUMN_PARENT,CONF_TYPE,CONDITION,CREATE_USER,CREATE_DATETIME,DIM_PARENT_CODE,DIM_LEVEL,
+	                         DIM_DEFAULT,DIM_RIGHT,DIM_TYPE,DIM_CATEGORY) 
+	                  values(#dim_code#,#code_table#,#code_table_desc#,#column_code#,#column_desc#,#column_ord#,
+	                         #column_parent#,#conf_type#,#condition#,#UserInfo.USER_ID#,now(),#dim_parent_code#,#dim_level#,
+	                         #dim_default#,#dim_right#,#dim_type#,CAST(#dim_category# AS INTEGER))
+        ]]>
+	</sql>
+	<sql name="updateDim">
+		<![CDATA[
+				 update X_KPI_DIM_CODE set 
+						CODE_TABLE=#code_table#,
+						CODE_TABLE_DESC=#code_table_desc#,
+						COLUMN_CODE=#column_code#,
+						COLUMN_DESC=#column_desc#,
+						COLUMN_ORD=#column_ord#,
+						COLUMN_PARENT=#column_parent#,
+						CONF_TYPE=#conf_type#,
+						CONDITION=#condition#,
+						UPDATE_USER=#UserInfo.USER_ID#,
+						UPDATE_DATETIME=now(),
+						DIM_PARENT_CODE=#dim_parent_code#,
+						DIM_LEVEL=#dim_level#,
+						DIM_DEFAULT=#dim_default#,
+						DIM_RIGHT=#dim_right#,
+						DIM_TYPE=#dim_type#,
+						DIM_CATEGORY=CAST(#dim_category# AS INTEGER)
+		  		  where DIM_CODE =#dim_code#
+ 		 ]]>
+	</sql>
+	<sql name="deleteDim">
+		<![CDATA[
+			DELETE FROM X_KPI_DIM_CODE WHERE DIM_CODE =#dim_code#
+ 		 ]]>
+	</sql>
+	<sql name="dimList">
+		<![CDATA[
+			SELECT DIM_CODE AS "DIM_CODE", 
+			       CODE_TABLE AS "CODE_TABLE",
+			       CODE_TABLE_DESC AS "CODE_TABLE_DESC", 
+			       COLUMN_CODE AS "COLUMN_CODE", 
+			       COLUMN_DESC AS "COLUMN_DESC", 
+			       COLUMN_ORD AS "COLUMN_ORD",
+			       COLUMN_PARENT AS "COLUMN_PARENT"
+			  FROM X_KPI_DIM_CODE 
+			  WHERE 1=1 
+			  { AND DIM_CODE != #dim_code#}
+ 		 ]]>
+	</sql>
+	<sql name="dimCategoryList">
+		<![CDATA[
+				SELECT CATEGORY_ID AS "CATEGORY_ID", 
+					   CATEGORY_NAME AS "CATEGORY_NAME",
+					   CATEGORY_ORD AS "CATEGORY_ORD" 
+				  FROM X_KPI_DIM_CATEGORY 
+			  ORDER BY CATEGORY_ORD
+ 
+ 		 ]]>
+	</sql>
+	<sql name="selValObj">
+		<![CDATA[
+				SELECT ATTR_CODE AS "ATTR_CODE",
+				       ATTR_NAME AS "ATTR_NAME" 
+				  FROM E_USER_ATTR_DIM 
+ 		 ]]>
+	</sql>	
+	<sql name="dimObj">
+		<![CDATA[
+			   SELECT DIM_CODE,
+					  CODE_TABLE,
+					  CODE_TABLE_DESC,
+					  COLUMN_CODE,
+					  COLUMN_DESC,
+					  COLUMN_ORD,
+					  COLUMN_PARENT,
+					  CONF_TYPE,
+					  CONDITION,
+					  DIM_PARENT_CODE,
+					  DIM_LEVEL,
+					  DIM_DEFAULT,
+					  DIM_RIGHT,
+					  DIM_TYPE,
+					  DIM_CATEGORY
+				 FROM X_KPI_DIM_CODE
+				WHERE 1=1
+				{AND DIM_CODE = #dim_code# }
+ 		 ]]>
+	</sql>
+</mapping>

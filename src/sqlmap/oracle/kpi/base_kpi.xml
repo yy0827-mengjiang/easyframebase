@@ -1,0 +1,297 @@
+<mapping namespace="kpi.basekpi">
+	<sql name="formulaSub">
+		<![CDATA[
+			SELECT T1.ATTR_CODE  AS "ATTR_CODE"
+			  FROM X_BASE_KPI T 
+	    INNER JOIN X_KPI_ATTR_RELATION T1 
+	            ON T.BASE_KEY=T1.KPI_CODE 
+	           AND T.KPI_VERSION = T1.KPI_VERSION 
+	           AND T.BASE_KEY=#baseKey#
+		]]>
+	</sql>
+	
+	<sql name="baseKpiInfo">
+		<![CDATA[
+			   SELECT
+					ID AS "ID",
+					BASE_KEY  AS "BASE_KEY",
+					KPI_VERSION  AS "KPI_VERSION",
+					KPI_NAME  AS "KPI_NAME",
+					KPI_UNIT  AS "KPI_UNIT",
+					KPI_ORIGIN_SCHEMA  AS "KPI_ORIGIN_SCHEMA",
+					KPI_ORIGIN_TABLE  AS "KPI_ORIGIN_TABLE",
+					KPI_ORIGIN_COLUMN  AS "KPI_ORIGIN_COLUMN",
+					KPI_ORIGIN_REGULAR  AS "KPI_ORIGIN_REGULAR",
+					KPI_EXPLAIN  AS "KPI_EXPLAIN",
+					KPI_PROPOSER  AS "KPI_PROPOSER",
+					KPI_PROPOSER_DEPT AS "KPI_PROPOSER_DEPT", 
+					KPI_STATE  AS "KPI_STATE",
+					KPI_ORIGIN_DESC AS "KPI_ORIGIN_DESC", 
+					TYPE AS "TYPE",	 
+					CREATE_USER_ID AS "CREATE_USER_ID",	 
+					CREATE_TIME	 AS "CREATE_TIME", 
+					EDIT_USER_ID AS "EDIT_USER_ID",	 
+					EDIT_TIME AS "EDIT_TIME",	 
+					UPLOAD_FILE_NAME AS "UPLOAD_FILE_NAME",	 
+					UPLOAD_FILE_DIR AS "UPLOAD_FILE_DIR",	 
+					KPI_EDS	 AS "KPI_EDS", 
+					KPI_CATEGORY  AS "KPI_CATEGORY",
+					ACCOUNT_TYPE AS "ACCOUNT_TYPE",	 
+					KPI_CONDITION  AS "KPI_CONDITION",		
+					KPI_TYPE AS "KPI_TYPE",
+					CUBE_CODE  AS "CUBE_CODE",	
+					KPI_CODE  AS "KPI_CODE",
+					KPI_ORD	  AS "KPI_ORD"
+			  FROM X_BASE_KPI T 
+			 WHERE T.BASE_KEY=#kpiInfo.baseKpi.base_key#
+		]]>
+	</sql>
+	<sql name="saveHisBaseKpi">
+		<![CDATA[
+			INSERT INTO x_base_kpi_his (his_id,
+									id,
+									base_key, 
+									kpi_version, 
+									kpi_name, 
+									kpi_unit, 
+									kpi_origin_schema, 
+									kpi_origin_table, 
+									kpi_origin_column, 
+									kpi_origin_regular, 
+									kpi_explain, 
+									kpi_proposer, 
+									kpi_proposer_dept,
+									kpi_state, 
+									kpi_origin_desc, 
+									type, 
+									create_user_id, 
+									create_time,
+									kpi_eds,
+									kpi_category,
+									account_type,
+									cube_code,
+									kpi_code) values(
+											X_KPI_INFO_SEQ.Nextval,
+											#kpi_id#,
+											#base_key#, 
+											#kpi_version#, 
+											#kpi_name#, 
+											#kpi_unit#, 
+											#kpi_origin_schema#, 
+											#kpi_origin_table#, 
+											#kpi_origin_column#, 
+											#kpi_origin_regular#, 
+											#kpi_explain#, 
+											#kpi_proposer#, 
+											#kpi_proposer_dept#,
+											#kpi_state#, 
+											#kpi_origin_desc#, 
+											#type#, 
+											#create_user_id#, 
+											#time()#,
+											#kpi_eds#,
+											#kpi_category#,
+											#account_type#,
+											#cube_code#,
+											#kpi_code#)
+		]]>
+	</sql>
+	<sql name="saveBaseKpi">
+		<![CDATA[
+			INSERT INTO x_base_kpi (id,
+									base_key, 
+									kpi_version, 
+									kpi_name, 
+									kpi_unit, 
+									kpi_origin_schema, 
+									kpi_origin_table, 
+									kpi_origin_column, 
+									kpi_origin_regular, 
+									kpi_explain, 
+									kpi_proposer, 
+									kpi_proposer_dept,
+									kpi_state, 
+									kpi_origin_desc, 
+									type, 
+									create_user_id, 
+									create_time,
+									kpi_eds,
+									kpi_category,
+									account_type,
+									cube_code,
+									kpi_code,
+									kpi_ord) values(
+											#kpi_id#,
+											#base_key#, 
+											#kpi_version#, 
+											#kpi_name#, 
+											#kpi_unit#, 
+											#kpi_origin_schema#, 
+											#kpi_origin_table#, 
+											#kpi_origin_column#, 
+											#kpi_origin_regular#, 
+											#kpi_explain#, 
+											#kpi_proposer#, 
+											#kpi_proposer_dept#,
+											#kpi_state#, 
+											#kpi_origin_desc#, 
+											#type#, 
+											#create_user_id#, 
+											#time()#,
+											#kpi_eds#,
+											#kpi_category#,
+											#account_type#,
+											#cube_code#,
+											#kpi_code#,
+											#kpi_ord#)
+		]]>
+	</sql>
+	<sql name="updateHisBaseKpiStatus">
+		<![CDATA[
+			UPDATE X_BASE_KPI_HIS SET kpi_state = '0' WHERE base_key=#base_key#
+		]]>
+	</sql>
+	<sql name="updateBaseKpiStatus">
+		<![CDATA[
+			UPDATE X_BASE_KPI SET kpi_state = '0' WHERE base_key=#base_key#
+		]]>
+	</sql>
+	<sql name="delMykpi">
+		<![CDATA[
+				DELETE FROM X_REPORT_MYKPI WHERE KPI_COLUMN= #base_key#
+		]]>
+	</sql>
+	<sql name="updateBaseKpi">
+		<![CDATA[
+			 update x_base_kpi set 
+			 		kpi_name = #kpi_name#,
+			 		kpi_unit = #kpi_unit#,
+			 		kpi_origin_schema = #kpi_origin_schema#,
+			 		kpi_origin_table = #kpi_origin_table#,
+			 		kpi_origin_column = #kpi_origin_column#,
+			 		kpi_origin_regular = #kpi_origin_regular#,
+			 		kpi_explain = #kpi_explain#,
+			 		kpi_proposer = #kpi_proposer#,
+			 		kpi_proposer_dept = #kpi_proposer_dept#,
+			 		kpi_state=#kpi_state#,
+			 		kpi_origin_desc=#kpi_origin_desc#,
+			 		type=#type#,
+			 		edit_user_id=#edit_user_id#,
+			 		edit_time=#time()#,
+			 		kpi_eds=#kpi_eds#,
+			 		kpi_category=#kpi_category#,
+			 		account_type=#account_type#,
+			 		cube_code=#cube_code#,
+			 		kpi_code=#kpi_code#,
+			 		kpi_version=#kpi_version# 
+			  where base_key=#base_key# 
+		]]>
+	</sql>
+	<sql name="updateHisBaseKpi">
+		<![CDATA[
+			insert into x_base_kpi_his (his_id,
+									   base_key,
+									   kpi_version,
+									   kpi_name,
+									   kpi_unit,
+									   kpi_origin_schema,
+									   kpi_origin_table,
+									   kpi_origin_column,
+									   kpi_origin_regular,
+									   kpi_explain,
+									   kpi_proposer,
+									   kpi_proposer_dept,
+									   kpi_state,
+									   kpi_origin_desc,
+									   type,
+									   create_user_id,
+									   create_time,
+									   edit_user_id,
+									   edit_time,
+									   upload_file_name,
+									   upload_file_dir,
+									   kpi_eds,
+									   kpi_category,
+									   id,
+									   account_type,
+									   kpi_condition,
+									   kpi_type,
+									   cube_code,
+									   kpi_code)(select X_KPI_INFO_SEQ.NEXTVAL,
+												       base_key,
+												       kpi_version,
+												       kpi_name,
+												       kpi_unit,
+												       kpi_origin_schema,
+												       kpi_origin_table,
+												       kpi_origin_column,
+												       kpi_origin_regular,
+												       kpi_explain,
+												       kpi_proposer,
+												       kpi_proposer_dept,
+												       kpi_state,
+												       kpi_origin_desc,
+												       type,
+												       create_user_id,
+												       create_time,
+												       edit_user_id,
+												       edit_time,
+												       upload_file_name,
+												       upload_file_dir,
+												       kpi_eds,
+												       kpi_category,
+												       id,
+												       account_type,
+												       kpi_condition,
+												       kpi_type,
+												       cube_code,
+												       kpi_code
+												  from x_base_kpi
+												  where base_key=#base_key#)
+ 		]]>
+	</sql>
+	<sql name="maxVersion">
+			<![CDATA[
+				SELECT (CASE WHEN MAX(KPI_VERSION + 1) IS NULL THEN
+				          '1'
+				         ELSE
+				           MAX(KPI_VERSION + 1)
+				       	 END) AS "VERSION"
+			    FROM X_BASE_KPI
+			  WHERE BASE_KEY=?
+  			]]>
+	</sql>
+	<sql name="queryBaseKpiDetail">
+			<![CDATA[
+				 select base_key as "base_key",
+			        kpi_version as "kpi_version",
+			        kpi_name as "kpi_name",
+			        kpi_unit as "kpi_unit",
+			        (select name
+			           from x_kpi_code
+			          where type = '0'
+			            and code = t.kpi_unit) as "kpi_unit_name",
+			        kpi_origin_schema as "kpi_origin_schema",
+			        kpi_origin_table as "kpi_origin_table",
+			        kpi_origin_column as "kpi_origin_column",
+			        kpi_proposer as "kpi_proposer",
+			        kpi_proposer_dept as "kpi_proposer_dept",
+			        kpi_state as "kpi_state",
+			        kpi_origin_desc as "kpi_origin_desc",
+			        type as "baseType",
+			        create_user_id as "create_user_id",
+			        create_time as "create_time",
+			        edit_user_id as "edit_user_id",
+			        edit_time as "edit_time",
+			        upload_file_name as "upload_file_name",
+			        kpi_eds as "kpi_eds",
+			        kpi_category as "kpi_category",
+			        kpi_condition as "kpi_condition",
+			        account_type as "account_type",
+			        kpi_code as "kpi_code",
+			        cube_code as "cube_code"
+			   from x_base_kpi t
+			  where ID = #kpi_id#
+		  ]]>
+	</sql>
+</mapping>

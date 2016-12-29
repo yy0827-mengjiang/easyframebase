@@ -1,0 +1,306 @@
+
+/* =============================== 东方国信 / 基础框架(frame,login) / 唯一样式表 / 20161008 =============================== */
+
+
+/* ---------------------------------- 常用工具 ---------------------------------- */
+
+/* 显示隐藏 */
+.hide{ display: none;}
+.show{ display: block!important;}
+
+/* 浮动方式 */
+.fl{ float: left!important;}
+.fr{ float: right!important;}
+
+/* 清除浮动方式 */
+.cr{ clear: right!important;}
+.cb{ clear: both!important;}
+
+/* 对齐方式 */
+.ac{ text-align: center!important;}
+.al{ text-align: left!important;}
+.ar{ text-align: right!important;}
+
+/* 外边距为0 */
+.mt0{ margin-top: 0!important;}
+.mr0{ margin-right: 0!important;}
+.mb0{ margin-bottom: 0!important;}
+.ml0{ margin-left:0!important;}
+
+/* 内边距为0 */
+.pt0{ padding-top:0!important;}
+.pr0{ padding-right:0!important;}
+.pb0{ padding-bottom:0!important;}
+.pl0{ padding-left:0!important;}
+
+/* 自动宽高 */
+.widthAuto { width:auto!important;}
+.hightAuto { height:auto!important;}
+
+/* 自定义宽度 */
+.w0 { width:0!important;}
+.w10 {width:10%!important;}
+.w15 {width:15%!important;}
+.w20 {width:20%!important;}
+.w25 {width:25%!important;}
+.w33 {width:33.333%!important;}
+.w40 {width:40%!important;}
+.w50 {width:50%!important;}
+.w60 {width:60%!important;}
+.w70 {width:70%!important;}
+.w80 {width:80%!important;}
+.w90 {width:90%!important;}
+.w99 {width:99%!important;}
+.w100 {width:100%!important;}
+
+/* 自定义高度 */
+.h0 { height:0!important;}
+.h10 {height:10%!important;}
+.h15 {height:15%!important;}
+.h20 {height:20%!important;}
+.h25 {height:25%!important;}
+.h33 {height:33.333%!important;}
+.h40 {height:40%!important;}
+.h50 {height:50%!important;}
+.h60 {height:60%!important;}
+.h70 {height:70%!important;}
+.h80 {height:80%!important;}
+.h90 {height:90%!important;}
+.h100 {height:100%!important;}
+
+/* 溢出隐藏方式 */
+.ofXhide {overflow-x:hidden!important;}
+.ofYhide {overflow-y:hidden!important;}
+.ofHide { overflow:hidden!important;}
+.ofHide100 { overflow:hidden!important; height:100%;}
+
+.m10 {margin: 10px;}
+/* 线 */
+.rightLine {border-right:1px solid #f7f7f7;}
+
+
+/* ---------------------------------- 基础登录 ---------------------------------- */
+
+/* bonc登录 > 主容器 */
+#boncEntry {width:100%;height:100%;}
+
+/* bonc登录 > 顶部信息栏 */
+#boncEntry .EntryHead{ overflow:hidden;height:20%;width:100%;padding:45px 0 ;}
+#boncEntry .EntryHead h1{float:left;margin-left:30px;width:140px;height:40px;border-right-width:1px; border-right-style:solid; padding-right:20px;text-indent:-5000px;}
+#boncEntry .EntryHead h2{float:left;font-size:26px;margin-left:20px;line-height:40px;font-weight:normal;}
+#boncEntry .EntryCon{ position:absolute;width:100%;height:81%; background-size:100% 100%;}
+
+/* bonc登录 > 中部录入 */
+#boncEntry .EntryCon form { position:static;}
+#boncEntry .EntryCon .EntryGroup{position:absolute; top:50%; margin-top:-140px; right:14%; width:460px;}
+#boncEntry .EntryCon .EntryGroup:after{display: block; position:absolute; left:-460px; top:40px;}
+#boncEntry .EntryCon .EntryGroup .EntryBox{width:460px;}
+.boncLogin_check p{ display:none; margin-left:5px; line-height:28px;}
+#boncEntry .EntryCon .EntryGroupLine{overflow:hidden;float:left;width:340px;margin-top:15px;padding:7px;line-height:26px;border-width:1px; border-style:solid; border-radius:2px;}
+#boncEntry .EntryCon .EntryGroupLine:hover{border-width:1px; border-style:solid;}
+#boncEntry .EntryCon .EntryGroupLineO {padding:7px 10px; float:left; width:170px;}
+#boncEntry .EntryCon .EntryGroupLine span{float:left;margin-top:3px;margin-right:5px;margin-left:3px;width:30px;height:20px;}
+#boncEntry .EntryCon .EntryGroupLine input{width:270px;font-size:14px !important;height:26px !important;line-height:26px !important;}
+#boncEntry .EntryCon .onFocus { border-width:1px!important; border-style:solid!important; box-shadow:0 0 6px #199ed8!important;}
+
+/* bonc登录 > 中部录入 > 图标基础 */
+#boncEntry .EntryCon .formCode{float:left;width:100px !important;}
+#boncEntry .EntryCon .imgCode{float:left;margin-left:5px;margin-top:23px;width:90px;height:30px;}
+#boncEntry .EntryCon .btnCode{float:left;margin-top:28px;margin-left:5px;color:#999 !important;font-size:14px;padding-right:20px;line-height:20px;height:20px; text-decoration:none;}
+
+/* bonc登录 > 中部录入 > 提交按钮 */
+#boncEntry .EntryCon .btnSubmit {margin:14px 0 0 0;width:354px;}
+#boncEntry .EntryCon .btnSubmit a,
+#boncEntry .EntryCon .btnSubmit button{ display:block; width:354px;height:40px; border-bottom-width:2px; border-bottom-style:solid; font-size:20px;border-radius:2px;line-height:40px;text-align:center; transition: all .3s ease; text-decoration: none;}
+#boncEntry .EntryCon .btnSubmit a.submit:hover,
+#boncEntry .EntryCon .btnSubmit a.submit:focus,
+#boncEntry .EntryCon .btnSubmit button:focus{ transition: all .2s ease; border-bottom-width:2px; border-bottom-style:solid;}
+#boncEntry .EntryCon .btnSubmit a.submit:active {border-bottom-width:2px; border-bottom-style:solid; transition: all .2s ease;}
+#boncEntry .EntryCon .btnSubmit a.find{display:block; position:absolute; font-size:14px;text-align:right; border-bottom:0;}
+#boncEntry .EntryCon .btnSubmit a.find:hover{text-decoration:underline;}
+
+/* bonc登录 > 底部信息 */
+#boncEntry .EntryFoot{position:fixed;bottom:0;border-top-width:1px; border-top-style:soild; width:100%;height:4%;line-height:30px; text-align:center;}
+
+
+/* ---------------------------------- 基础框架 ---------------------------------- */
+
+/* bonc框架 > 主体菜单模拟滚动条 */
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar{padding-left:1px;  background-color:#2f4050; overflow:visible; width:7px; height:7px; border-radius:0;}
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-thumb{background-color:rgba(0, 0, 0, .2); background-clip:padding-box; border:1px solid transparent; border-left-width:2px; min-height:7px; box-shadow:inset 1px 1px 0 rgba(0, 0, 0, .1),inset 0 -1px 0 rgba(0, 0, 0, .07); border-radius:0;}
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0, 0, 0, .3); }
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(0, 0, 0, .5); }
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-button{height:0; width:0;}
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-track{background-clip:padding-box; border:solid transparent; border-width:0 0 0 4px; border-radius:0;}
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-corner{background:transparent;}
+
+/* bonc框架 > 主体菜单容器 */
+#boncFrame .easyui-layout{ background:#ebebed; }
+#boncFrame .layout-panel-west { border-right:0;}
+#boncFrame .layout-panel-west .layout-body { background:#2f4050;}
+#boncFrame .layout-panel-west .layout-body h3 {  color:#ccc; padding-left:50px; font-size:16px; font-weight:700; line-height:50px;}
+#boncFrame .layout-panel-west .panel-header { width:100%!important; border-bottom:0; background-color: #367fa9; padding:0; background: -webkit-linear-gradient(top,#367fa9 0,#367fa9 100%); background: -moz-linear-gradient(top,#367fa9 0,#367fa9 100%); background: -o-linear-gradient(top,#367fa9 0,#367fa9 100%); background: linear-gradient(to bottom,#367fa9 0,#367fa9 100%); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#367fa9,endColorstr=#367fa9,GradientType=0);}
+#boncFrame .layout-panel-west .panel-title { height:60px;line-height:60px; text-indent:-5000px; background:url("images/boncLayout/bg/boncFrameLogo.png") 10px 50% no-repeat;}
+#boncFrame .layout-panel-west .panel-tool {width:28px; height:28px; right:20px; margin-top:16px;}
+#boncFrame .layout-panel-west .layout-button-left { margin-left:0; background:url("images/boncLayout/bg/chinaTower_icon_plus.png") 50% 50% no-repeat; opacity:.8; width:28px; height:28px;}
+#boncFrame .layout-panel-west .layout-button-left:hover { background-color:#2e6b8f; opacity:1; }
+
+/* bonc框架 > 底部容器 */
+#boncFrame .layout-panel-south .layout-body{ background:#e3e3e3; border-top:1px solid #e3e3e3; line-height:27px; text-align:center; color:#666;}
+
+/* bonc框架 > 顶部容器 */
+#boncFrame .layout-panel-north .layout-body{ color:#fff; background:#199ed8; font-size:18px;}
+#boncFrame .layout-panel-north .layout-body h2 { padding-left:20px; font-weight:normal; font-size:24px; line-height:60px;}
+#boncFrame .layout-panel-north .layout-body h2 sub { position: relative; bottom:4px; font-size: 14px; line-height: 1; padding-left:10px;}
+
+/* bonc框架 > 顶部全局菜单 */
+#boncFrame .globalMenu { position:absolute; right:0; top:0; z-index:3;}
+#boncFrame .globalMenu ul { }
+#boncFrame .globalMenu ul li { display: inline-block; line-height: 1;}
+#boncFrame .globalMenu ul li a { display: inline-block; line-height: 60px; padding: 0 12px; margin:0 -2px; border-top:2px solid transparent; font-size:14px; color: #fff; transition:.3s all ease;}
+#boncFrame .globalMenu ul li a:hover{ background-color: #30a8dc; border-top-color:#367fa9; text-decoration: none;}
+#boncFrame .globalMenu ul li a:active,
+#boncFrame .globalMenu ul li a:focus{ background-color: #367fa9; border-top-color:#283745;  text-decoration: none;}
+
+/* bonc框架 > 顶部全局菜单 > 管理员~收藏夹~查询 > 弹窗  */
+.userWindows,
+.favoriteWindows,
+.searchWindows{  position: absolute; top:55px; display: none; }
+.userWindows ul,
+.favoriteWindows ul{border:1px solid #e7eaec; background: #fff;  min-width: 100px; padding:6px 0; margin-top:7px; box-shadow: 1px 1px 3px #f1f1f1; }
+.searchWindows p { border:1px solid #e7eaec; background: #fff;  width:198px; padding-left:2px; box-shadow: 1px 1px 3px #f1f1f1; height:28px; margin-top:7px; }
+.searchWindows p span {border:0!important; box-shadow: none!important;}
+.searchWindows p input {border:0!important; line-height: 26px!important; height: 26px!important; padding:0 4px;}
+.userWindows ul li,
+.favoriteWindows ul li{ display: block; position:relative; line-height: 32px;}
+.userWindows ul li a,
+.favoriteWindows ul li a{display: block; white-space:nowrap; padding:0 24px 0 18px; color:#a7b1c2; transition:all .3s;}
+.favoriteWindows ul li a.close { position: absolute;  right:6px; top:0; color:#f30; font-size:14px; padding:0;}
+.userWindows ul li a:hover,
+.favoriteWindows ul li a:hover{ color:#2f4050; text-decoration: none; }
+.userWindows ul li a:active,
+.userWindows ul li a:focus,
+.favoriteWindows ul li a:active,
+.favoriteWindows ul li a:focus{ background-color: #2f4050; color:#a7b1c2; text-decoration: none;}
+.userWindows .triangleDown,
+.favoriteWindows .triangleDown{ position: absolute; left:50%; top: 0; display: block; margin-left:-12px; width: 0; height: 0; border-left:10px solid transparent; border-right:10px solid transparent;  border-bottom:8px solid #e7eaec;}
+.searchWindows .triangleDown{ position: absolute; right:10px; top: 0; display: block; width: 0; height: 0; border-left:10px solid transparent; border-right:10px solid transparent;  border-bottom:8px solid #e7eaec;}
+.userWindows .triangleDown span,
+.favoriteWindows .triangleDown span,
+.searchWindows .triangleDown span { position: absolute; left:-8px; top: 1px; width: 0; height: 0; border-left:8px solid transparent; border-right:8px solid transparent;  border-bottom:7px solid #fff;}
+
+/* bonc框架 > 子页面容器选项卡 */
+#boncFrame .layout-panel-center .boncTabs {}
+#boncFrame .layout-panel-center .boncTabs .tabs-header{border-width: 0; padding: 0;}
+#boncFrame .layout-panel-center .boncTabs .tabs-scroller-left{border-width:0 1px 1px 0; border-radius:0; border-color:transparent #ddd #2f4050 transparent;}
+#boncFrame .layout-panel-center .boncTabs .tabs-scroller-right{border-width:0 0 1px 1px; border-radius:0; border-color:transparent transparent #2f4050 #ddd;}
+#boncFrame .layout-panel-center .boncTabs .tabs-wrap{border-width:1px 0 1px; border-style: solid; border-color:transparent transparent #2f4050;}
+#boncFrame .layout-panel-center .boncTabs .tabs{ height:39px!important; padding-left:16px; border-width:0; }
+#boncFrame .layout-panel-center .boncTabs .tabs li{float: left; display: inline-block; margin:0; padding: 0; position: relative; border: 0;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-inner {height: 39px!important; border-width:0 1px 0 0; padding-right: 20px; padding-left:20px; border-color:#e7eaec; border-radius:0; background-color:#fafafa!important;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a .tabs-title{display: inline-block; text-decoration: none; margin: 0; padding: 0 3px 0 3px;  line-height:39px; }
+#boncFrame .layout-panel-center .boncTabs .tabs li.tabs-selected a.tabs-inner{font-weight:normal; outline: none;}
+#boncFrame .layout-panel-center .boncTabs .tabs li.tabs-selected a:hover.tabs-inner{cursor: default; pointer: default;}
+#boncFrame .layout-panel-center .boncTabs .tabs-title{font-size: 14px;}
+#boncFrame .layout-panel-center .boncTabs .tabs-panels{margin: 0; padding: 0; border-width: 0;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-inner:hover{background: #f3f3f3!important; color: #333; filter: none;}
+#boncFrame .layout-panel-center .boncTabs .tabs li.tabs-selected a.tabs-inner{background-color: #2f4050!important; color: #a7b1c2;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-inner{color: #666666; background-color: #fff;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-close { right: 8px;}
+#boncFrame .layout-panel-center .boncTabs .tabs-p-tool { right: 24px; margin-top:-7px;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-close {background-color: #eee; border-radius: 100%;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-close:hover{background-color: #ccc;}
+#boncFrame .layout-panel-center .boncTabs .tabs-p-tool { overflow:visible;}
+#boncFrame .layout-panel-center .boncTabs .tabs-p-tool a { background-color: #eee; border-radius: 100%;}
+#boncFrame .layout-panel-center .boncTabs .tabs-panels {overflow: hidden; padding:16px; background-color:#efefef;}
+#boncFrame .layout-panel-center .boncTabs .tabs-panels .panel-body { overflow: hidden; border:0; }
+
+/* bonc框架 > 子页面容器 */
+#boncFrame .contentsIframe { width: 99%; height:99%; border:1px solid #ebeef0; border-top:2px solid #ebeef0; margin:0; background-color:#fff;}
+
+/* bonc框架 > 缩略图主菜单容器 */
+#boncFrame .layout-expand {}
+#boncFrame .layout-expand .panel-body {border:0!important; background:#2f4050;}
+#boncFrame .layout-expand .panel-header { border:0; background-color: #367fa9; background: -webkit-linear-gradient(top,#367fa9 0,#367fa9 100%); background: -moz-linear-gradient(top,#367fa9 0,#367fa9 100%); background: -o-linear-gradient(top,#367fa9 0,#367fa9 100%); background: linear-gradient(to bottom,#367fa9 0,#367fa9 100%); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#367fa9,endColorstr=#367fa9,GradientType=0);}
+#boncFrame .layout-expand .panel-title {height:60px;line-height:60px; padding-left:0; margin-left:0; text-indent:-5000px;}
+#boncFrame .layout-expand .panel-tool a {background:none;}
+
+
+/* bonc框架 > 主体菜单~链接基础 */
+#boncFrame .mainMenu { padding-top:0;}
+#boncFrame .mainMenu li { display:block;  position:relative;}
+#boncFrame .mainMenu li img { width:16px; height:16px;}
+#boncFrame .mainMenu li i { margin-right:6px;}
+#boncFrame .mainMenu li a { transition:background .5s; -webkit-animation:fadeInLeft .5s .2s ease both; -moz-animation:fadeInLeft .5s .2s ease both;display:block; border-left:5px solid transparent; color:#8c97a7; line-height:50px; font-size:14px; text-decoration:none; padding-left:22px;}
+#boncFrame .mainMenu li sub { position: absolute; right:12px; top:50%; margin-top: -6px; line-height:1; padding: 1px 3px; color: #acb0b3; border:1px solid #62676c; border-radius: 100%; font-size: 12px;}
+#boncFrame .mainMenu li a img { margin:-2px 6px 0 0;}
+
+
+/* bonc框架 > 主体菜单~二级基础 */
+#boncFrame .mainMenu li ul { display:none;  background-color:#25323f; border-top:1px solid #2f4050; padding:6px 0 6px 22px; border-left:5px solid #367fa9; }
+#boncFrame .mainMenu li ul li { display:block; line-height:36px;  }
+#boncFrame .mainMenu li ul li a { font-size:14px; line-height:36px; height:36px; border-left:0; background:none!important;}
+
+/* bonc框架 > 主体菜单~三级基础 */
+#boncFrame .mainMenu li ul li ul{ display:none; background-color:#212d39; border-top:1px solid #2f4050; margin-left:-22px; padding:6px 0 6px 32px; border-left:0; }
+#boncFrame .mainMenu li ul li ul li { display:block; line-height:32px; }
+#boncFrame .mainMenu li ul li ul li a { font-size:12px; line-height:32px; height:28px; border-left:0; background:none!important;}
+
+/* bonc框架 > 主体菜单~二&三级下标 */
+#boncFrame .mainMenu li .subscript { transition:all.2s; opacity:.6;  position:absolute; right:20px; top:21px; display:block; width:10px; height:10px; background:url("images/boncLayout/bg/chinaTowerSubscript.png") 50% 50% no-repeat;}
+#boncFrame .mainMenu li .subscriptOver{transform:rotate(90deg); -ms-transform:rotate(90deg); -moz-transform:rotate(90deg); -webkit-transform:rotate(90deg); -o-transform:rotate(90deg);}
+#boncFrame .mainMenu li ul li .subscript  {right:40px; top:11px;}
+
+/* bonc框架 > 主体菜单~一级链接状态 */
+#boncFrame .mainMenu li a:hover,
+#boncFrame .mainMenu li a:active,
+#boncFrame .mainMenu li a:focus,
+#boncFrame .mainMenu li a.selected {transition:background .5s; background-color:#293846; border-left:5px solid #3c8dbc;  color:#fff;  }
+#boncFrame .mainMenu li a:hover {color:#199ed8; }
+#boncFrame .mainMenu li a:active,
+#boncFrame .mainMenu li a:focus,
+#boncFrame .mainMenu li a.selected { background-position: 30px -50px; }
+
+/* bonc框架 > 主体菜单~二级链接状态 */
+#boncFrame .mainMenu li ul li a:hover { color:#199ed8; border-left:0; }
+#boncFrame .mainMenu li ul li a:active,
+#boncFrame .mainMenu li ul li a:focus,
+#boncFrame .mainMenu li ul li a.selected { color:#fff;  border-left:0;  }
+
+/* bonc框架 > 主体菜单~三级链接状态 */
+#boncFrame .mainMenu li ul li ul li a:hover { color:#199ed8; border-left:0; }
+#boncFrame .mainMenu li ul li ul li a:active,
+#boncFrame .mainMenu li ul li ul li a:focus,
+#boncFrame .mainMenu li ul li ul li a.selected { color:#fff;  border-left:0;  }
+
+/* bonc框架 > 缩略图主菜单~一级基础 */
+#boncFrame #mainMenuSimple > .l-btn {filter:;}
+#boncFrame #mainMenuSimple .mainMenu li a {display:block; text-align: center; padding-left:0; width:68px; height:50px;  background-position: 50% 12px; border-left:0;}
+#boncFrame #mainMenuSimple .mainMenu li a i {text-indent:0; display: block; width: 100%; line-height: 50px; text-align: center; font-size:18px;}
+#boncFrame #mainMenuSimple .mainMenu li a span { display: none;}
+
+
+/* bonc框架 > 缩略图主菜单~一级链接状态 */
+#boncFrame #mainMenuSimple .mainMenu li a:hover,
+#boncFrame #mainMenuSimple .mainMenu li a:active,
+#boncFrame #mainMenuSimple .mainMenu li a:focus,
+#boncFrame #mainMenuSimple .mainMenu li a.selected { transition:background .5s; background-color:#293846;  }
+
+/* bonc框架 > 缩略图主菜单~切换按钮 */
+#boncFrame #mainMenuSimple .layout-button-right { background:transparent;}
+#boncFrame #mainMenuSimple .easyui-linkbutton.l-btn-small.easyui-fluid { border:0; width:68px!important; border-radius:0; height:60px!important; background:url("images/boncLayout/bg/chinaTower_icon_plus.png") 50% 50% no-repeat #367fa9; opacity:1;}
+
+/* 主体css特效 */
+@-webkit-keyframes fadeInLeft{0%{opacity:0;-webkit-transform:translateX(-20px)}100%{opacity:1;-webkit-transform:translateX(0)}}
+@-moz-keyframes fadeInLeft{ 0%{opacity:0; -moz-transform:translateX(-20px)} 100%{opacity:1; -moz-transform:translateX(0)}}
+
+/* bonc框架 > 子框架 */
+#boncFrame.boncSubFrame .subFrameLogo{float:left; width:220px; height:100%; margin-right: 10px; text-indent:-5000px;background:url("images/boncLayout/bg/boncFrameLogo.png") 50% 50% no-repeat #367fa9;}
+#boncFrame.boncSubFrame .globalMenu ul li a  { display:inline-block; line-height: 50px;}
+#boncFrame.boncSubFrame .layout-panel-north .layout-body h2 { line-height: 50px;}
+#boncFrame.boncSubFrame .layout-panel-north .layout-body h2 sub { bottom:8px;}
+#boncFrame.boncSubFrame .userWindows { top:45px; }
+
+
+
+

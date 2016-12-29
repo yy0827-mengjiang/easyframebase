@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="java.kpi.formulaKpiClass">
+	
+	<sql name="DIMSQL">
+	
+		<![CDATA[
+		SELECT T.DIM_TYPE AS "DIM_TYPE",
+	       T.TABLE_NAME AS "TABLE_NAME",
+	       T.COLUMN_DESC AS "DIM_NAME",
+	       T.DIM_FIELD AS "DIM_FIELD",
+	       T.CODE AS "CODE",
+	       T.NAME AS "NAME",
+	       T.AILS AS "AILS",
+	       T.CONDITION AS "CONDITION",
+	       T.CONF_TYPE AS "CONF_TYPE",
+	       T.DIM_CODE AS "DIM_CODE",
+	       T.SQL_CODE AS "SQL_CODE",
+	       T.DATASOURCE AS "DATASOURCE",
+	       T.DIM_TABLE AS "DIM_TABLE"
+	  FROM VIEW_DIM T
+		]]>
+	
+	</sql>
+	
+	<sql name="KPISQL">
+	
+		<![CDATA[
+			SELECT T.ID AS "ID",
+		       T.TYPE AS "TYPE",
+		       T.KPI_EDS AS "KPI_EDS",
+		       T.BASE_KEY AS "BASE_KEY",
+		       T.KPI_VERSION AS "KPI_VERSION",
+		       T.KPI_NAME AS "KPI_NAME",
+		       CONCAT (CONCAT (T.KPI_ORIGIN_SCHEMA, '.'), T.KPI_ORIGIN_TABLE)
+		          AS "TABLENAME",
+		       T.KPI_ORIGIN_COLUMN AS "KPI_ORIGIN_COLUMN"
+		  FROM X_BASE_KPI T
+		 WHERE T.KPI_STATE = '1'
+		]]>
+	
+	</sql>
+	
+	<sql name="FKPISQL">
+		<![CDATA[
+			SELECT T.KPI_KEY AS "KPI_KEY",
+		       T.KPI_VERSION AS "KPI_VERSION",
+		       '' AS "DATASOURCE",
+		       T.KPI_KEY AS "KPI_KEY",
+		       T.KPI_CODE AS "KPI_CODE",
+		       T.KPI_NAME AS "KPI_NAME",
+		       '' AS "TABLELINK",
+		       '' AS "COLUMNLINK",
+		       'sum' AS "AGGREGATOR",
+		       T.KPI_TYPE AS "KPI_TYPE"
+		  FROM X_KPI_INFO T
+		 WHERE T.KPI_ISCURR = '1' AND T.KPI_STATUS = '2'
+		]]>
+	</sql>
+
+</mapping>

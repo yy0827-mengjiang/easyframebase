@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="java.kpi.formulaKpiUtilClass">
+
+	<sql name="X_KPI_INFO_SEQ">
+		<![CDATA[
+			SELECT NEXTVAL('X_KPI_INFO_SEQ') ID
+		]]>
+	</sql>
+	
+	<sql name="getCreateUserOrCreateDateTime">
+		<![CDATA[
+			SELECT CREATE_USER AS "CREATE_USER",
+			       CAST (CREATE_DATETIME AS DATE) AS "CREATE_DATETIME"
+			  FROM X_KPI_INFO_TMP
+			 WHERE KPI_CODE = #kpi_code# AND KPI_VERSION = 1
+		]]>
+	</sql>
+	
+	<sql name="getKpiCode">
+		<![CDATA[
+			SELECT T.KPI_CODE AS "KPI_CODE",
+		       T.SERVICE_KEY AS "ID",
+		       T.KPI_BODY AS "KPI_BODY",
+		       T.CUBE_CODE AS "CUBE_CODE",
+		       T.KPI_TYPE AS "KPI_TYPE"
+		  FROM X_KPI_INFO T
+		 WHERE T.KPI_KEY = CAST(#id# AS INTEGER)
+		]]>
+	</sql>
+	
+	<sql name="kpi2CodeVer">
+		<![CDATA[
+			SELECT T.KPI_CODE AS "KPI_CODE",
+		       T.SERVICE_KEY AS "ID",
+		       T.KPI_BODY AS "KPI_BODY"
+		  FROM X_KPI_INFO_TMP T
+		 WHERE T.KPI_CODE = #code# 
+		 AND T.KPI_VERSION =CAST(#version# AS INTEGER)
+		]]>
+	</sql>
+	
+	<sql name="getKpiCodeToTMP">
+		<![CDATA[
+			SELECT T.KPI_CODE AS "KPI_CODE",
+		       T.SERVICE_KEY AS "ID",
+		       T.KPI_BODY AS "KPI_BODY",
+		       T.CUBE_CODE AS "CUBE_CODE",
+		       T.KPI_TYPE AS "KPI_TYPE"
+		  FROM X_KPI_INFO_TMP T
+		 WHERE T.KPI_KEY =CAST(#id# AS INTEGER)
+		]]>
+	</sql>
+
+	<sql name="hasAudit">
+		<![CDATA[
+			SELECT COUNT (KPI_KEY)
+			  FROM X_KPI_INFO_TMP T
+			 WHERE     T.KPI_ISCURR = '0'
+			       AND T.KPI_STATUS = '1'
+			       AND T.KPI_FLAG = 'U'
+			       AND T.KPI_CODE = #kpiCode#
+		]]>
+	</sql>
+	
+	<sql name="saveAttr">
+		<![CDATA[
+			INSERT INTO X_KPI_ATTR_RELATION (RELACTION_ID,
+                                 ATTR_CODE,
+                                 KPI_CODE,
+                                 KPI_VERSION,
+                                 USER_ID,
+                                 CREATE_DATE,
+                                 ACCTTYPE)
+				VALUES (NEXTVAL('X_KPI_ATTR_SEQ'),
+				        #relaction#,
+				        #kpiCode#,
+				        #kpiVersion#,
+				        #userId#,
+				        now(),
+				        #type#)
+		]]>
+	</sql>
+	
+	<sql name="getSeq2Key">
+		<![CDATA[
+			SELECT TRIM(TO_CHAR(NEXTVAL('KPI_SERVICE_SEQ'),'0000')) SEQ
+		]]>	
+	</sql>
+	
+	<sql name="logSQL">
+		<![CDATA[
+			SELECT NEXTVAL('X_KPI_LOG_SEQ') LOGSEQ
+		]]>
+	</sql>
+	
+	<sql name="updateKpi">
+		<![CDATA[
+			DELETE X_KPI_INFO_TMP WHERE KPI_KEY = #kpi_key#
+		]]>
+	</sql>
+	
+	<sql name="updateSource">
+		<![CDATA[
+			DELETE FROM X_KPI_SOURCE_TMP WHERE KPI_CODE = #kpi_code# AND KPI_VERSION = #kpi_version#
+		]]>
+	</sql>
+	
+	<sql name="updateAttr">
+		<![CDATA[
+			DELETE X_KPI_ATTR_RELATION WHERE KPI_CODE = #kpi_code# AND KPI_VERSION=#kpi_version#
+		]]>
+	</sql>
+	
+	<sql name="getCodeName">
+		<![CDATA[
+			SELECT CLASS_NAME AS "CLASS_NAME"
+			  FROM X_KPI_CODE_CLASS T
+			 WHERE T.FLAG = '1'
+			ORDER BY ORD
+		]]>
+	</sql>
+	
+	<sql name="getServerNum">
+		<![CDATA[
+			SELECT T.SERVER_VIEW AS "SERVER_VIEW"
+			  FROM X_KPI_TYPE T
+			 WHERE T.TYPE_STATUS = '1'
+			 AND T.TYPE_CODE = #kpiTypes#
+		]]>
+	</sql>
+	
+	<sql name="getInfoSql">
+		<![CDATA[
+			SELECT CONCAT(NEXTVAL('X_KPI_INFO_SEQ'), '') ID
+		]]>
+	</sql>
+</mapping>

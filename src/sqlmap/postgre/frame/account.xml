@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.account">
+	<sql name="INSERT">
+		<![CDATA[
+			insert into OCT_ACCOUNT(ACCOUNT_CODE,ACCOUNT_NAME,ACCOUNT_DESC,CREATED_USER,CREATED_DATE)
+			VALUES(#account_code#,#account_name#,#account_desc#,#session.USER_ID#,#time()#)
+		]]>
+	</sql>
+	
+	<sql name="LIST">
+		<![CDATA[
+			SELECT ACCOUNT_CODE  AS "ACCOUNT_CODE" ,
+		           ACCOUNT_NAME  AS "ACCOUNT_NAME" ,
+		           ACCOUNT_DESC  AS "ACCOUNT_DESC" ,
+		           CREATED_USER  AS "CREATED_USER" ,
+		           COALESCE(CREATED_DATE,'--')  AS "CREATED_DATE" ,
+		           MODIFIED_USER AS "MODIFIED_USER",
+		           COALESCE(MODIFIED_DATE,'--') AS "MODIFIED_DATE"
+			  FROM OCT_ACCOUNT
+			  where 1=1
+			  {and ACCOUNT_CODE like '%'||#accountCode#||'%'}
+			  {and ACCOUNT_NAME like '%'||#accountName#||'%'}
+		]]>
+	</sql>
+	
+	<sql name="UPDATE">
+		<![CDATA[
+			UPDATE OCT_ACCOUNT SET ACCOUNT_NAME=#account_name_upd#,
+			   ACCOUNT_DESC=#account_desc_upd#,
+			   MODIFIED_USER=#session.USER_ID#,
+			   MODIFIED_DATE=#time()#
+			WHERE ACCOUNT_CODE=#account_code_old#
+		]]>
+	</sql>
+	
+	<sql name="DELETE">
+		<![CDATA[
+			delete from E_USER_ACCOUNT where ACCOUNT_CODE=#account_code#;
+			delete from OCT_ACCOUNT where ACCOUNT_CODE=#account_code#;
+		]]>
+	</sql>
+	
+	<sql name="SHOWLIST">
+		<![CDATA[
+			select t1.USER_ID AS "USER_ID",
+		       t1.LOGIN_ID AS "LOGIN_ID",
+		       t1.USER_NAME AS "USER_NAME"
+			  from E_USER t1
+			 where 1=1
+			 {and t1.LOGIN_ID like '%'||#loginid#||'%'}
+			 {and t1.USER_NAME like '%'||#username#||'%'}
+			  and t1.user_id not in(select user_id from E_USER_ACCOUNT where ACCOUNT_CODE=#account_code#)
+			 order by t1.reg_date desc
+		]]>
+	</sql>
+	
+	<sql name="AccUser">
+		<![CDATA[
+			select u.user_name as "USER_NAME",u.user_id as "USER_ID",u.login_id as "LOGIN_ID" 
+		  from E_USER_ACCOUNT ur left join e_user u on ur.user_id=u.user_id
+		  	where ur.ACCOUNT_CODE=#account_code#
+	  		{and u.login_id like '%'||#userId#||'%'}
+	  		{and u.user_name like '%'||#userName#||'%'}
+		]]>
+	</sql>
+	
+	<sql name="DELUSER">
+		<![CDATA[
+			delete from E_USER_ACCOUNT where account_code = #account_code# and user_id=#userId#
+		]]>
+	</sql>
+	
+	<sql name="ADDUSER">
+		<![CDATA[
+			%{
+				for(item:split(userIds, ',') ){
+					echo("insert into E_USER_ACCOUNT(account_code, user_id) values (#account_code#, "+item+");");
+				}
+			}
+		]]>
+	</sql>
+</mapping>

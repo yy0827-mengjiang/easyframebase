@@ -1,0 +1,216 @@
+<mapping namespace="kpi.metadata">
+<sql name="queryMetaKpi">
+		<![CDATA[
+			SELECT CONCAT(T.KPI_KEY, '') AS "ID",
+			       T.KPI_CODE AS "KPI_CODE",
+			       CONCAT(T.KPI_CATEGORY,'') AS "PID",
+			       T.KPI_NAME AS "NAME",
+			       T.KPI_CODE AS "KPI_FIELD",
+			       '0' AS "ISLEAF",
+			       T.ACCTTYPE AS "ACCOUNT_TYPE",
+			       T.KPI_TYPE AS "KPI_TYPE",
+			       '1' ISKPI AS "ISKPI",
+			       CONCAT(T.CUBE_CODE,'') AS "CUBE_CODE",
+			       '1' AS "DATA_TYPE",
+			        T.KPI_ORD AS "KPI_ORD"
+			  FROM X_KPI_INFO T
+			 WHERE T.KPI_FLAG != 'D'
+			   AND CUBE_CODE=#cube_code#
+			UNION
+		   SELECT CONCAT(X.ID , '') ID,
+		          X.BASE_KEY KPI_CODE,
+		          CONCAT(X.KPI_CATEGORY ,'') PID,
+		          X.KPI_NAME NAME,
+		          X.BASE_KEY KPI_FIELD,
+		          '1' ISLEAF,
+		          X.ACCOUNT_TYPE,
+		          '0' KPITYPE,
+		          '1' ISKPI,
+		          CONCAT(X.CUBE_CODE ,'') CUBE_CODE,
+		          '1' DATA_TYPE,
+		          x.kpi_ord
+		     FROM X_BASE_KPI X 
+		    where x.kpi_state = '1'
+		      AND CUBE_CODE=#cube_code#
+		]]>
+	</sql>
+	<sql name="queryMetaKpiAttr">
+		<![CDATA[
+			SELECT CONCAT(CONCAT(T.KPI_KEY,'_'), T2.ATTR_CODE) AS "ID",
+			       CONCAT(CONCAT(T.KPI_CODE,'_'), T2.ATTR_CODE) AS "KPI_CODE",
+			       CONCAT(T.KPI_KEY,'') AS "PID",
+			       CONCAT(CONCAT(T.KPI_NAME,'_'),T2.ATTR_NAME) AS "NAME",
+			       T.KPI_CODE AS "KPI_FIELD",
+			       '1' AS "ISLEAF",
+			       T.ACCTTYPE AS "ACCOUNT_TYPE",
+			       T.KPI_TYPE AS "KPI_TYPE",
+			       '0' AS "ISKPI",
+			       T.CUBE_CODE AS "CUBE_CODE",
+			       '2' AS "DATA_TYPE",
+			       T.KPI_ORD AS "KPI_ORD"
+			  FROM X_KPI_INFO T, X_KPI_ATTR_RELATION T1, X_KPI_ATTRIBUTE T2
+			 WHERE T.KPI_CODE = T1.KPI_CODE
+			   AND T.KPI_VERSION = T1.KPI_VERSION
+			   AND T1.ATTR_CODE = T2.ATTR_CODE
+			   AND T1.ACCTTYPE = T2.ATTR_TYPE
+			   AND T.KPI_FLAG != 'D'
+			   AND T.CUBE_CODE = #cube_code#
+			   
+			UNION
+			SELECT CONCAT(CONCAT(T.ID ,'_'),T2.ATTR_CODE) ID,
+			       CONCAT(CONCAT(T.BASE_KEY,'_'),T2.ATTR_CODE) KPI_CODE,
+			       CONCAT(T.ID,'') AS "PID",
+			       CONCAT(CONCAT(T.KPI_NAME,'_'), T2.ATTR_NAME) KPI_NAME,
+			       T.BASE_KEY KPI_FIELD,
+			       '1' ISLEAF,
+			       T.ACCOUNT_TYPE,
+			       '0' AS KPITYPE,
+			       '0' AS ISKPI,
+			       T.CUBE_CODE AS CUBE_CODE,
+			       '2' DATA_TYPE,
+			       T.KPI_ORD
+			  FROM X_BASE_KPI T, X_KPI_ATTR_RELATION T1, X_KPI_ATTRIBUTE T2
+			 WHERE T.BASE_KEY = T1.KPI_CODE
+			   AND T.KPI_VERSION = T1.KPI_VERSION
+			   AND T1.ATTR_CODE = T2.ATTR_CODE
+			   AND T1.ACCTTYPE = T2.ATTR_TYPE
+			   AND T.KPI_STATE ='1'
+  			   AND T.CUBE_CODE = #cube_code#
+		]]>
+	</sql>
+	<sql name="queryMetaDimCategory"> 
+		<![CDATA[
+		 SELECT CATEGORY_ID AS "CATEGORY_ID", CATEGORY_NAME AS "CATEGORY_NAME" FROM (  
+			  SELECT A.CATEGORY_ID,A.CATEGORY_NAME,A.CATEGORY_ORD, 
+		 			(SELECT COUNT(1) FROM X_KPI_DIM_CODE 
+		 							WHERE DIM_CATEGORY = A.CATEGORY_ID 
+		 							  AND DIM_CODE IN (
+		 							SELECT DIM_CODE 
+		 							  FROM X_KPI_RAL_DIM 
+		  							 WHERE CUBE_CODE = #cube_code# )) CNT  	       
+		 		FROM X_KPI_DIM_CATEGORY A ) A WHERE CNT > 0  
+		    ORDER BY A.CATEGORY_ORD 
+		 ]]>	       
+	</sql>
+	
+	<sql name="queryMetaDim">
+		<![CDATA[
+				SELECT T.DIM_CODE AS "ID", 
+					  T1.COLUMN_CODE AS "COLUMN", 
+					  T1.COLUMN_DESC AS "DESC",
+					  T.DIM_CATEGORY AS "PID" 
+			     FROM X_KPI_DIM_CODE T 
+		   INNER JOIN X_KPI_RAL_DIM T1 
+		           ON T.DIM_CODE = T1.DIM_CODE 
+		           AND T1.CUBE_CODE =#cube_code# 
+		      ORDER BY T1.DIM_ORD 
+	 	]]>
+	</sql>
+	<sql name="queryMetaAttr">
+		<![CDATA[
+			SELECT T.ID AS "ID",
+			       T.COLUMN_NAME AS "COLUMN",
+			       T.COLUMN_DESC AS "DESC" 
+			  FROM X_KPI_RAL_ATTR T 
+			 WHERE T.CUBE_CODE=#cube_code#
+		]]>
+	</sql>
+	<sql name="queryMetaDimDetail">
+		<![CDATA[
+			SELECT DIM_CODE AS "DIM_CODE",
+				   CODE_TABLE AS "CODE_TABLE",
+				   CODE_TABLE_DESC AS "CODE_TABLE_DESC",
+				   COLUMN_CODE AS "COLUMN_CODE",
+				   COLUMN_DESC AS "COLUMN_DESC",
+				   COLUMN_ORD AS "COLUMN_ORD",
+				   COLUMN_PARENT AS "COLUMN_PARENT",
+				   CONF_TYPE AS "CONF_TYPE",
+				   CONDITION AS "CONDITION",
+				   DIM_PARENT_CODE AS "DIM_PARENT_CODE",
+				   DIM_LEVEL AS "DIM_LEVEL",
+				   DIM_TYPE AS "DIM_TYPE",
+				   DIM_RIGHT  AS "DIM_RIGHT"
+			  FROM X_KPI_DIM_CODE 
+			 WHERE DIM_CODE =#dim_code#
+		]]>
+	</sql>
+	<sql name="queryMetaCubeDetail">
+		<![CDATA[
+			SELECT CUBE_DATASOURCE AS "CUBE_DATASOURCE" 
+			  FROM X_KPI_CUBE 
+			 WHERE CUBE_CODE=#cube_code#
+		]]>
+	</sql>
+	<sql name="queryMetaAttrDetail">
+		<![CDATA[
+			SELECT ID AS "ID",
+		           COLUMN_NAME AS "COLUMN_NAME",
+		           COLUMN_DESC AS "COLUMN_DESC",
+		           ATTR_TYPE AS "ATTR_TYPE" 
+		      FROM X_KPI_RAL_ATTR 
+		     WHERE ATTR_TYPE IN ('D','M') 
+		     AND ID=#attr_id#
+		]]>
+	</sql>
+	
+	<sql name="queryMetaCubeDim">
+		<![CDATA[
+			SELECT COLUMN_CODE AS "COLUMN_CODE" 
+			  FROM X_KPI_RAL_DIM 
+			 WHERE CUBE_CODE=#cube_code#
+			   AND DIM_CODE=#dim_code#
+		]]>
+	</sql>
+	
+	<sql name="queryMetaCubeDimRel">
+		<![CDATA[
+			SELECT A.DIM_CODE AS "DIM_CODE",
+			       A.CODE_TABLE AS "CODE_TABLE",
+			       A.CODE_TABLE_DESC AS "CODE_TABLE_DESC",
+			       A.COLUMN_CODE AS "COLUMN_CODE",
+			       A.COLUMN_DESC AS "COLUMN_DESC",
+			       A.COLUMN_ORD AS "COLUMN_ORD",
+			       A.COLUMN_PARENT AS "COLUMN_PARENT",
+			       A.CONF_TYPE AS "CONF_TYPE",
+			       A.CONDITION AS "CONDITION",
+			       A.DIM_PARENT_CODE AS "DIM_PARENT_CODE",
+			       A.DIM_LEVEL AS "DIM_LEVEL",
+			       A.DIM_TYPE AS "DIM_TYPE",
+			       A.DIM_RIGHT AS "DIM_RIGHT",
+			       B.COLUMN_CODE AS "DIM_COLUMN_CODE",
+			       B.COLUMN_DESC AS "DIM_COLUMN_DESC" 
+			  FROM X_KPI_DIM_CODE A 
+			 INNER JOIN X_KPI_RAL_DIM B 
+			    ON A.DIM_CODE = B.DIM_CODE 
+			   AND A.DIM_DEFAULT='1' 
+			   AND B.CUBE_CODE = #cube_code# 
+		  ORDER BY B.DIM_ORD 
+		]]>
+	</sql>
+	
+	<sql name="queryMetaKpiCategory">
+		<![CDATA[
+			SELECT DISTINCT PARENT_ID AS "CATEGORY_ID"
+			FROM VIEW_ALL_KPI
+		   WHERE CUBE_CODE=#cube_code#
+		]]>
+	</sql>
+	<sql name="queryMetaCategory">
+		<![CDATA[
+			 SELECT CONCAT(T.CATEGORY_ID,'') AS "ID",
+					'' AS "KPI_CODE", 
+					CONCAT(T.CATEGORY_PARENT_ID,'')  AS "PID" , 
+					T.CATEGORY_NAME AS "NAME",  
+					'' AS "KPI_FIELD",
+			        '0' AS "ISLEAF",
+			        T.ACCOUNT_TYPE AS "ACCOUNT_TYPE",
+			        '' AS "KPI_TYPE",
+			        '' AS "ISKPI",
+			        T.CUBE_CODE AS "CUBE_CODE",
+			        '0' AS "DATA_TYPE",
+			        CAST(T.ORD AS INTEGER) AS "KPI_ORD",
+ 			   FROM X_KPI_CATEGORY T
+ 			  WHERE T.CUBE_CODE=#cube_code#
+		]]>
+	</sql>
+</mapping>

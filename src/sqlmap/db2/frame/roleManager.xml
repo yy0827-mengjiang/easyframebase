@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.roleManager">
+    <sql name="subsystems">
+   	 SELECT SUBSYSTEM_ID, SUBSYSTEM_NAME FROM D_SUBSYSTEM T ORDER BY ORD
+    </sql>
+    <sql name="AreaNoExt">
+   	 	select COLUMN_NAME AREA_CONTROL_FRAME_COLUMN  from E_USER_EXT_COLUMN_ATTR t where ATTR_CODE='AREA_CONTROL_FRAME'
+    </sql>
+    <sql name="parentIdObj">
+   	 	SELECT PARENT_CODE FROM E_ROLE T WHERE T.ROLE_CODE = #currentRoleCode#
+    </sql>
+    <sql name="roleNameCount">
+   	 	SELECT COUNT(1) ROLE_NAME_NUM FROM E_ROLE T WHERE T.ROLE_NAME=#roleName# AND T.PARENT_CODE=#parentId#
+    </sql>
+    
+    <sql name="insertTreeNode">
+   	 	INSERT INTO E_ROLE(ROLE_CODE,PARENT_CODE,ROLE_NAME,MEMO,ORD,SUBSYSTEM_ID,CREATED_USER,CREATED_DATE) 
+			VALUES(#seqId#,#parentIdForAdd#,#roleNameForAdd#,#memoForAdd#,#ordForAdd#,#subSystemIdForAdd#,#session.UserInfo.USER_ID#,#time()#)
+    </sql>
+    
+    <sql name="updateTreeNode">
+   	 	UPDATE E_ROLE SET ROLE_NAME=#roleNameForEdite#,
+				                  MEMO=#memoForEdite#,
+				                  ORD=#ordForEdite#,
+				              	  SUBSYSTEM_ID=#subSystemIdForEdite#,
+				              	  MODIFIED_USER=#session.UserInfo.USER_ID#,
+								  MODIFIED_DATE=#time()#
+				WHERE ROLE_CODE=#currentIdForEdite#
+    </sql>
+    
+    <sql name="updateCutToOthers">
+   	 	UPDATE E_ROLE SET PARENT_CODE=#targetId#,
+							  MODIFIED_USER=#session.UserInfo.USER_ID#,
+							  MODIFIED_DATE=#time()#
+						WHERE ROLE_CODE=#sourceId#
+    </sql>
+    
+    <sql name="deleteUser">
+   	 	DELETE FROM E_USER_ROLE WHERE ROLE_CODE=#roleCode# AND USER_ID=#userId#
+    </sql>
+    
+    <sql name="roleObj">
+   	 	 select ROLE_CODE,ROLE_NAME from E_ROLE where ROLE_CODE=#roleCode#
+    </sql>
+    
+    <sql name="userObj">
+   	 	 select USER_NAME,LOGIN_ID from E_USER where USER_ID=#userId#
+    </sql>
+    
+    <sql name="insertUser">
+   	 	 INSERT INTO E_USER_ROLE(ROLE_CODE,USER_ID) VALUES(#roleCode#,#userId#)
+    </sql>
+    
+    
+	<sql name="rolesOfUserObj">
+		<![CDATA[
+			SELECT distinct ROLE_CODE
+	 		 FROM E_USER_ROLE  WHERE USER_ID in 
+	 		 (select USER_ID  from E_USER_ACCOUNT WHERE ACCOUNT_CODE IN
+		     (select ACCOUNT_CODE  from E_USER_ACCOUNT  where user_id = #userId#))
+		]]>
+	</sql>
+	<sql name="seqIdObj">
+		select nextval for e_role_seq SEQ_ID from dual
+	</sql>
+	<sql name="oneTreeNodeObj">
+		SELECT ROLE_CODE, PARENT_CODE, ROLE_NAME, coalesce(MEMO,'') MEMO , ORD,coalesce(SUBSYSTEM_ID,'-1') SUBSYSTEM_ID FROM E_ROLE WHERE ROLE_CODE=#param.currentIdForEdite#
+	</sql>
+	<sql name="allRoleList">
+		<![CDATA[
+			SELECT (case when (select count(1) from E_ROLE where PARENT_CODE=t.ROLE_CODE) >0 then '0' else '1' end) ISLEAF,
+				       ROLE_CODE ,
+				       ROLE_NAME,
+				       PARENT_CODE
+				  FROM E_ROLE T ORDER BY T.ORD
+		]]>
+	</sql>
+	<sql name="hasOwnRoleList">
+		<![CDATA[
+			select ROLE_CODE,ROLE_NAME,PARENT_CODE,ORD,
+				case when (select count(1) c from e_role dd where dd.parent_code = d.role_code) = 0 then 1 else 0 end ISLEAF
+				from 
+				(
+				   SELECT role_code,  role_name, parent_code, ORD FROM e_role T
+				     WHERE T.role_code IN
+				          (
+				           SELECT ROLE_CODE FROM E_USER_ROLE
+				            WHERE USER_ID IN
+				                     (
+				                       SELECT USER_ID FROM E_USER_ACCOUNT
+				                               WHERE ACCOUNT_CODE IN (
+									               SELECT ACCOUNT_CODE FROM E_USER_ACCOUNT WHERE user_id = #userId#
+									           )
+									 )
+						  )
+					ORDER BY ord
+				) d
+		]]>
+	</sql>
+	<sql name="rootNum">
+		SELECT COUNT(1) ROOTNUM FROM E_ROLE T WHERE T.ROLE_CODE='0'
+	</sql>
+	<sql name="insertRoot">
+		INSERT INTO E_ROLE(ROLE_CODE,PARENT_CODE,ROLE_NAME,MEMO,ORD) VALUES('0','-1','root','',0)
+	</sql>
+</mapping>
+
+
+

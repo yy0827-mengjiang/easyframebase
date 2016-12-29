@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.ind">
+	<sql name="queryIndicator">
+		<![CDATA[
+			select I.IND_ID AS "IND_ID",
+		           IND_CODE AS "IND_CODE",
+		           IND_NAME AS "IND_NAME",
+		           S.IND_TYPE_DESC AS "IND_TYPE_DESC",
+		           COALESCE(BUS_EXP,' ')  AS "BUS_EXP",
+		           COALESCE(SKILL_EXP,' ')  AS "SKILL_EXP",
+		           COALESCE(OTHER_EXP,' ')  AS "OTHER_EXP",
+		           ORD AS "ORD",
+		           S.DEPARTMENT_CODE AS "DEPARTMENT_CODE",
+		           S.DEPART_DESC AS "DEPART_DESC",
+			       FACTORY_CON AS "FACTORY_CON",
+			       MAINTE_MAN AS "MAINTE_MAN",
+			       UPDATE_TIME AS "UPDATE_TIME",
+			       '修改指标'  AS "UPDATE_IND"
+			 from E_IND_EXP  i LEFT JOIN 
+			          (SELECT s.IND_ID,S.IND_TYPE_CODE,T.IND_TYPE_DESC,M.DEPART_DESC,S.update_time,S.CREATE_TIME,S.MAINTE_MAN,S.FACTORY_CON,S.DEPARTMENT_CODE,S.ORD,S.OTHER_EXP,S.SKILL_EXP,S.BUS_EXP,S.IND_CODE,S.ID,S.CREATE_MAN,S.UPDATE_MAN
+			          	FROM  E_IND_EXP_DETAILS S LEFT JOIN E_IND_TYPE t ON s.ind_type_code = t.ind_type_code
+			                LEFT JOIN E_department M ON s.department_code = m.depart_code) S
+                ON i.IND_ID = s.IND_ID
+			  where UPDATE_TIME in (select max(UPDATE_TIME) from E_IND_EXP_DETAILS group by ind_id)
+			  		{and i.ind_name like '%'||#ind_name#||'%'  }
+			  		{and S.ind_type_code=#ind_type_code# }
+		order by ord
+		]]>
+	</sql>
+	<sql name="ind_insert">
+		<![CDATA[
+					insert into E_IND_EXP (ind_id, ind_name) values (#ind_seq#,#ind_name#);
+					insert into E_IND_EXP_DETAILS ( ID,
+													IND_ID,
+													IND_CODE,
+													IND_TYPE_CODE,
+													BUS_EXP,
+													SKILL_EXP,
+													OTHER_EXP,
+													ORD,
+													DEPARTMENT_CODE,
+													FACTORY_CON,
+													MAINTE_MAN,
+													CREATE_MAN,
+													CREATE_TIME,
+													UPDATE_MAN,
+													UPDATE_TIME)
+											values(nextval('E_IND_SEQ'),
+												   #ind_seq#,
+												   #ind_code#,
+												   #ind_type_code#,
+												   #bus_exp#,
+												   #skill_exp#,
+												   #other_exp#,
+												   #ord#,
+												   #department_code#,
+												   #factory_con#,
+												   #mainte_man#,
+												   #create_man#,
+												   #time()#,
+												   #update_man#,
+												   #time()#);
+				
+		]]>
+	</sql>
+	<sql name="being_ind">
+		<![CDATA[
+			select IND_NAME AS "IND_NAME"
+			  from E_IND_EXP E1, E_IND_EXP_DETAILS E2
+			 where E1.ind_id = E2.ind_id
+			   and ind_name = #ind_name#
+			   and ind_code = #ind_code#
+			   and ind_type_code = #ind_type_code#
+		]]>
+	</sql>
+	<sql name="ind_delete">
+		<![CDATA[
+			%{
+				for( ind_id :delids) {
+					echo("delete from E_IND_EXP where ind_id="+ind_id+";");
+					echo("delete from E_IND_EXP_DETAILS where ind_id="+ind_id+";");
+					echo("delete from E_MENU_IND where ind_id="+ind_id+";");
+				}
+			 }  
+		]]>
+	</sql>
+	
+	<sql name="being_ind1">
+		<![CDATA[
+			select IND_NAME AS "IND_NAME"
+			  from E_IND_EXP E1, E_IND_EXP_DETAILS E2
+			 where E1.ind_id = E2.ind_id
+			   and ind_name = #ind_name#
+			   and ind_code = #ind_code#
+			   and ind_type_code = #ind_type_code#
+			   and E2.ind_id != #ind_id#
+		]]>
+	</sql>
+	
+	<sql name="ind_update">
+		<![CDATA[
+			
+					update E_IND_EXP set ind_name=#ind_name# where ind_id=#ind_id#;
+					update E_IND_EXP_DETAILS set    IND_CODE=#ind_code#,
+													IND_TYPE_CODE=#ind_type_code#,
+													BUS_EXP=#bus_exp#,
+													SKILL_EXP=#skill_exp#,
+													OTHER_EXP=#other_exp#,
+													ORD=#ord#,
+													DEPARTMENT_CODE=#department_code#,
+													FACTORY_CON=#factory_con#,
+													MAINTE_MAN=#mainte_man#,
+													UPDATE_MAN=#update_man#,
+													UPDATE_TIME=#time()#
+													where ind_id=#ind_id# and id=#id#;
+					
+		]]>
+	</sql>
+	
+	<sql name="being_ind2">
+		<![CDATA[
+			select IND_NAME AS "IND_NAME"
+			  from E_IND_EXP E1, E_IND_EXP_DETAILS E2
+			 where E1.ind_id = E2.ind_id
+			   and ind_name = #ind_name#
+			   and ind_code = #ind_code#
+			   and ind_type_code = #ind_type_code#
+			   and E2.ind_id != #ind_id#
+		]]>
+	</sql>
+	
+	<sql name="ind_publish">
+		<![CDATA[
+			
+					update E_IND_EXP set ind_name=#ind_name# where ind_id=#ind_id#;
+					insert into E_IND_EXP_DETAILS ( ID,
+													IND_ID,
+													IND_TYPE_CODE,
+													BUS_EXP,
+													SKILL_EXP,
+													OTHER_EXP,
+													ORD,
+													DEPARTMENT_CODE,
+													FACTORY_CON,
+													MAINTE_MAN,
+													CREATE_MAN,
+													CREATE_TIME,
+													UPDATE_MAN,
+													UPDATE_TIME)
+											values(nextval('E_IND_SEQ'),
+												   #ind_id#,
+												   #ind_type_code#,
+												   #bus_exp#,
+												   #skill_exp#,
+												   #other_exp#,
+												   #ord#,
+												   #department_code#,
+												   #factory_con#,
+												   #mainte_man#,
+												   #create_man#,
+												   #time()#,
+												   #update_man#,
+												   #time()#);
+				
+		]]>
+	</sql>
+	
+	<sql name="seq">
+		<![CDATA[
+			select nextval('E_IND_SEQ') as "I" from dual
+		]]>
+	</sql>
+	<sql name="listind">
+		<![CDATA[
+			select   S.IND_ID AS "IND_ID",
+		             IND_CODE AS "IND_CODE",
+		             IND_NAME AS "IND_NAME",
+		             S.IND_TYPE_DESC AS "IND_TYPE_DESC",
+		             BUS_EXP AS "BUS_EXP",
+		             SKILL_EXP AS "SKILL_EXP",
+		             OTHER_EXP AS "OTHER_EXP",
+		             ORD AS "ORD",
+		             DEPARTMENT_CODE AS "DEPARTMENT_CODE",
+		             S.DEPART_DESC AS "DEPART_DESC",
+		             FACTORY_CON AS "FACTORY_CON",
+		             MAINTE_MAN AS "MAINTE_MAN",
+		             (SELECT USER_NAME FROM E_USER WHERE USER_ID=CREATE_MAN)  AS "CREATE_MAN",
+		             CREATE_TIME AS "CREATE_TIME",
+		             (SELECT USER_NAME FROM E_USER WHERE USER_ID=UPDATE_MAN)  AS "UPDATE_MAN",
+		             UPDATE_TIME AS "UPDATE_TIME" 
+			    from E_IND_EXP  i LEFT JOIN 
+			          (SELECT * FROM  E_IND_EXP_DETAILS S LEFT JOIN E_IND_TYPE t ON s.ind_type_code = t.ind_type_code
+			                LEFT JOIN E_department M ON s.department_code = m.depart_code) S
+                ON i.IND_ID = s.IND_ID
+			  where id = #id.id#
+		]]>
+	</sql>
+	<sql name="seqObj">
+		<![CDATA[
+			SELECT nextval('E_IND_SEQ') AS "ID" FROM DUAL
+		]]>
+	</sql>
+	<sql name="indInfo">
+		<![CDATA[
+			select   ID AS "ID",
+               		 IND_CODE AS "IND_CODE",
+		             I.IND_ID AS "IND_ID",
+		             IND_NAME AS "IND_NAME",
+		             S.IND_TYPE_CODE AS "IND_TYPE_CODE",
+		             S.IND_TYPE_DESC AS "IND_TYPE_DESC",
+		             BUS_EXP AS "BUS_EXP",
+		             SKILL_EXP AS "SKILL_EXP",
+		             OTHER_EXP AS "OTHER_EXP",
+		             ORD AS "ORD",
+		              DEPARTMENT_CODE AS "DEPARTMENT_CODE",
+		              S.DEPART_DESC AS "DEPART_DESC",
+		             FACTORY_CON AS "FACTORY_CON",
+		             MAINTE_MAN AS "MAINTE_MAN",
+		             (SELECT USER_NAME FROM E_USER WHERE USER_ID=CREATE_MAN)  AS "CREATE_MAN",
+		             CREATE_TIME AS "CREATE_TIME" ,
+		             (SELECT USER_NAME FROM E_USER WHERE USER_ID=UPDATE_MAN) AS "UPDATE_MAN" ,
+		             UPDATE_TIME  AS "UPDATE_TIME",
+		             UPDATE_TIME  AS "UPDATETIME"
+			 from E_IND_EXP i
+				  LEFT JOIN (SELECT s.IND_ID,S.IND_TYPE_CODE,T.IND_TYPE_DESC,M.DEPART_DESC,S.update_time,S.CREATE_TIME,S.MAINTE_MAN,S.FACTORY_CON,S.DEPARTMENT_CODE,S.ORD,S.OTHER_EXP,S.SKILL_EXP,S.BUS_EXP,S.IND_CODE,S.ID,S.CREATE_MAN,S.UPDATE_MAN
+				               FROM E_IND_EXP_DETAILS S
+				               LEFT JOIN E_IND_TYPE t ON s.ind_type_code = t.ind_type_code
+				               LEFT JOIN E_department M ON s.department_code = m.depart_code) S ON i.IND_ID =
+				                                                                                   s.IND_ID
+			  where  i.ind_id = #ind_id#
+					and update_time in (select max(update_time) from E_IND_EXP_DETAILS where ind_id=#ind_id#)
+		]]>
+	</sql>
+	
+	<sql name="departs">
+		<![CDATA[
+		%{
+			if(param.id == '' || param.id == null){
+				echo("select * from (select depart_code \"id\", depart_desc \"text\",parent_code \"_parentId\",  case when (select count(1) c from e_department dd where dd.parent_code = d.depart_code) = 0 then 'leaf'  else  'closed' end \"state\"  from e_department d  where (parent_code is null or parent_code = '0')) a");
+			
+			}else {
+				echo("select * from (select depart_code \"id\",  depart_desc \"text\", parent_code \"_parentId\", case  when (select count(1) c  from e_department dd  where dd.parent_code = d.depart_code) = 0 then 'leaf'  else  'closed'   end \"state\"   from e_department d  where parent_code = #id#) b");
+			}
+		
+		
+		
+		}
+			
+		]]>
+	</sql>
+</mapping>

@@ -1,0 +1,464 @@
+@charset "utf-8";
+
+/* =============================== 东方国信 / 基础框架(frame,login) / 唯一样式表 / 20160101 =============================== */
+
+
+/* ---------------------------------- 常用工具 ---------------------------------- */
+body {background-color:#fff; font-size:14px;}
+
+/* 显示隐藏 */
+.hide{ display: none!important;}
+.show{ display: block!important;}
+
+/* 浮动方式 */
+.fl{ float: left!important;}
+.fr{ float: right!important;}
+
+/* 清除浮动方式 */
+.cr{ clear: right!important;}
+.cb{ clear: both!important;}
+
+/* 对齐方式 */
+.ac{ text-align: center!important;}
+.al{ text-align: left!important;}
+.ar{ text-align: right!important;}
+
+/* 外边距为0 */
+.mt0{ margin-top: 0!important;}
+.mr0{ margin-right: 0!important;}
+.mb0{ margin-bottom: 0!important;}
+.ml0{ margin-left:0!important;}
+
+/* 内边距为0 */
+.pt0{ padding-top:0!important;}
+.pr0{ padding-right:0!important;}
+.pb0{ padding-bottom:0!important;}
+.pl0{ padding-left:0!important;}
+
+/* 自动宽高 */
+.widthAuto { width:auto!important;}
+.hightAuto { height:auto!important;}
+
+/* 自定义宽度 */
+.w0 { width:0!important;}
+.w10 {width:10%!important;}
+.w15 {width:15%!important;}
+.w20 {width:20%!important;}
+.w25 {width:25%!important;}
+.w33 {width:33.333%!important;}
+.w40 {width:40%!important;}
+.w50 {width:50%!important;}
+.w60 {width:60%!important;}
+.w70 {width:70%!important;}
+.w80 {width:80%!important;}
+.w90 {width:90%!important;}
+.w99 {width:99%!important;}
+.w100 {width:100%!important;}
+
+/* 自定义高度 */
+.h0 { height:0!important;}
+.h10 {height:10%!important;}
+.h15 {height:15%!important;}
+.h20 {height:20%!important;}
+.h25 {height:25%!important;}
+.h33 {height:33.333%!important;}
+.h40 {height:40%!important;}
+.h50 {height:50%!important;}
+.h60 {height:60%!important;}
+.h70 {height:70%!important;}
+.h80 {height:80%!important;}
+.h90 {height:90%!important;}
+.h100 {height:100%!important;}
+
+/* 溢出隐藏方式 */
+.ofXhide {overflow-x:hidden!important;}
+.ofYhide {overflow-y:hidden!important;}
+.ofHide { overflow:hidden!important;}
+.ofHide100 { overflow:hidden!important; height:100%;}
+
+/* 线 */
+.rightLine { borde-right:1px solid #f7f7f7;}
+
+
+/* ---------------------------------- 基础登录 ---------------------------------- */
+
+.boncEntryPage,
+.boncEntryPage body {width:100%; height:100%; overflow:hidden;}
+
+.boncEntryArea {overflow:hidden;position:relative;width:100%;height:100%;}
+
+.boncEntryArea .EntryHead{float:left;width:100%;padding:30px 0 ;background:#2b579a;}
+.boncEntryArea .EntryHead h1{margin-left:30px;width:198px;height:59px;text-indent:-5000px;background:url(images/boncLayout/bg/logoEntry.png) no-repeat;}
+.boncEntryArea .EntryHead h2{margin-left:30px;width:274px;height:32px;}
+.boncEntryArea .EntryCon{ position:relative; overflow:hidden;margin:1px 0;width:100%;height:80%;background:#f8f8f8 url(images/boncLayout/bg/bgEntry.jpg) left 0 no-repeat; background-size:100%;}
+.boncEntryArea .EntryCon form { position:static;}
+.boncEntryArea .EntryCon .EntryGroup{position:absolute; top:50%; margin-top:-140px; right:14%; width:460px;}
+.boncEntryArea .EntryCon .EntryGroup:after{display: block; position:absolute; left:-460px; top:40px; content:url(images/boncLayout/img/imgEntry.png);}
+
+.boncEntryArea .EntryCon .EntryGroup .EntryBox{width:460px;}
+/* .boncEntryArea .EntryCon .EntryGroup .EntryBox p{display:none; float:left; margin-top:22px;margin-left:5px; color:#ff0000;line-height:26px;} */
+/* .boncLogin_check{ height:28px;} */
+.boncLogin_check p{ display:none; margin-left:5px; color:#ff0000;line-height:28px;}
+.boncEntryArea .EntryCon .EntryGroupLine{overflow:hidden;float:left;width:340px;margin-top:15px;padding:7px;line-height:26px;border:1px solid #919191;border-radius:2px;background:#fff;}
+.boncEntryArea .EntryCon .EntryGroupLineO {padding:7px 10px; float:left; width:170px;}
+.boncEntryArea .EntryCon .EntryGroupLine span{float:left;margin-top:3px;margin-right:5px;margin-left:3px;width:30px;height:20px;}
+.boncEntryArea .EntryCon .EntryGroupLine input{width:270px;font-size:14px !important;height:26px !important;line-height:26px !important;border:none !important;background-image:none !important;}
+.boncEntryArea .EntryCon .EntryGroupLine input:focus{outline:none;}
+
+.boncEntryArea .EntryCon .iconUser{background:url(images/boncLayout/bg/iconUser.png) no-repeat;}
+.boncEntryArea .EntryCon .iconPassword{background:url(images/boncLayout/bg/iconPassword.png) no-repeat;}
+.boncEntryArea .EntryCon .iconCode{background:url(images/boncLayout/bg/iconCode.png) no-repeat;}
+.boncEntryArea .EntryCon .formCode{float:left;width:100px !important;}
+.boncEntryArea .EntryCon .imgCode{float:left;margin-left:5px;margin-top:23px;width:90px;height:30px;}
+.boncEntryArea .EntryCon .btnCode{float:left;margin-top:28px;margin-left:5px;color:#999 !important;font-size:14px;padding-right:20px;line-height:20px;height:20px;background:url(images/boncLayout/bg/iconRefresh.png) right 0 no-repeat;}
+.boncEntryArea .EntryCon .btnCode:hover{color:#2b579a !important;background:url(images/boncLayout/bg/iconRefreshActive.png) right 0 no-repeat;}
+
+.boncEntryArea .EntryCon .btnSubmit {margin:14px 0 0 0;width:354px;}
+.boncEntryArea .EntryCon .btnSubmit a,
+.boncEntryArea .EntryCon .btnSubmit button{font-family:"微软雅黑"; display:block;/* margin-top:30px; */width:354px;height:40px; border-bottom:2px solid #244880; font-size:20px;color:#fff;border-radius:2px;line-height:40px;background:#2b579a;text-align:center;transition: all .3s ease; text-decoration: none;}
+.boncEntryArea .EntryCon .btnSubmit a:hover,
+.boncEntryArea .EntryCon .btnSubmit button:foucs{ background:#244880;transition: all .3s ease;}
+.boncEntryArea .EntryCon .btnSubmit a.find{display:block;margin-top:0;font-size:14px;background:none;color:#999;text-align:right; border-bottom:0;}
+.boncEntryArea .EntryCon .btnSubmit a.find:hover{text-decoration:underline;}
+
+.boncEntryArea .EntryFoot{position:fixed;bottom:0;border-top:1px solid #d5d5d5;width:100%;height:5%;line-height:40px;background:#e4e4e4;color:#666;text-align:center;}
+
+/* 重庆版登录界面 */
+.boncEntryArea.tabLogin  .EntryCon{ background:#f8f8f8 url(images/boncLayout/bg/bgEntry02.jpg) left 0 no-repeat;}
+.boncEntryArea.tabLogin .EntryCon .EntryGroup{ width:360px; float:right; padding-left:70px; position:relative;  padding-top:40px; margin:0;right:0; top:0; border-left:1px solid #a29e9e;}
+.boncEntryArea.tabLogin .EntryCon .yx-box{width:509px; height:292px;float: left; margin-top:30px; background:url(images/boncLayout/img/bg_tab.png) left top no-repeat; }
+.boncEntryArea.tabLogin .EntryCon .yx-rotaion{ margin:13px 0 0 65px; }
+.boncEntryArea.tabLogin .EntryCon .loginCenter{ position: absolute; width:1000px; top:50%; left:50%;  height:320px; margin:-200px 0 0 -500px; }
+
+/*yx_rotaion*/
+.yx-rotaion-btn,.yx-rotaion-title,.yx-rotation-focus,.yx-rotation-t,.yx-rotaion-btn{position:absolute}
+.yx-rotation-title{display:none;absolute;width:100%;height:40px;line-height:40px;background:#000;filter:alpha(opacity=40);-moz-opacity:0.4;-khtml-opacity:0.4;opacity:0.4;left:0;bottom:0;_bottom:-1px;z-index:1}
+.yx-rotation-t{display:none; color:#fff;font-size:16px;font-family:microsoft yahei;z-index:2;bottom:0;left:10px;line-height:40px}
+.yx-rotation-focus span,.yx-rotaion-btn span{background:url(../images/ico.png) no-repeat;display:block;}
+.yx-rotation-focus{display:none;   height:40px;line-height:40px;right:20px;bottom:0;z-index:2}
+.yx-rotation-focus span{width:12px;height:12px;line-height:12px;float:left;margin-left:5px;position:relative;top:14px;cursor:pointer;background-position:-24px -126px;text-indent:-9999px}
+.yx-rotaion-btn{display:none;  width:100%;height:41px;top:50%;margin-top:-20px;}
+.yx-rotaion-btn span{width:41px;height:41px;cursor:pointer;filter:alpha(opacity=30);-moz-opacity:0.3;-khtml-opacity:0.3;opacity:0.3;position:relative}
+.yx-rotaion-btn .left_btn{background-position:-2px -2px;float:left;left:10px}
+.yx-rotaion-btn .right_btn{background-position:-2px -49px;float:right;right:10px}
+.yx-rotaion-btn span.hover{filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity:0.8;opacity:0.8}
+.yx-rotation-focus span.hover{background-position:-10px -126px}
+.rotaion_list{width:379px;height:272px;overflow:hidden;}
+.rotaion_list li{width:379px; height:272px;}
+.rotaion_list li img{max-width:100%;}
+/* ---------------------------------- 基础框架 ---------------------------------- */
+/* 基本框架头部 */
+#header { position:relative; text-align:left; margin:0 auto;}
+#header-content { height:50px; position: relative; overflow:hidden;}
+#header .panel.layout-panel.layout-panel-center{ position: relative!important; z-index:999!important; overflow:visible!important;}
+#header .panel.layout-panel.layout-panel-south { z-index:777!important;}
+
+/* 基本框架头部 / 系统名称 */
+#header h1,
+.DropdownH1 { position:absolute; left:0; top:0; width:auto; height:46px; padding:4px 0 0 10px; z-index:999;}
+#header-menu {height:50px; margin-left:170px; position:absolute; left:0; top:0; z-index:1;}
+
+/* 基本框架头部 / 全局菜单 */
+#globalMenu { position:absolute; right:0; top:0; z-index:9999999; height:50px; padding-right:10px;}
+#globalMenu li { float:left; display:inline; margin-right:12px; margin-top:18px; }
+#globalMenu li a { padding-left:20px; display:block;}
+#globalMenu li a.adminUser {padding-left:0;}
+#globalMenu li em { padding:0 0 0 20px;}
+#globalMenu li em, #globalMenu li span { float:left;}
+#globalMenu li em span { float:none;}
+
+.globalMenu_Change { top:5px!important;}
+
+/* 基本框架头部 / 当前位置 */
+#contentMap { padding-left:10px; height:24px; overflow:hidden; line-height:24px; position:relative; left:0; white-space:nowrap; border-bottom:1px solid #ccc;}
+#contentMap a,
+#contentMap strong { display:block; float:left; padding-right:5px; text-align:center;}
+#contentMap a b{font-weight:normal; padding-right:2px; color:#ccc;}
+#contentMap p { position:absolute; right:5px; top:0;}
+#contentMap p .favoritesWindowBtn02 { padding-left:16px;}
+#contentMap #mBombWindowBtn { display:block; float:left; padding:0 2px 0 17px; color:#689ccd;}
+#contentmap #mBombWindowBtn:hover { color:#f60;}
+
+#location span{ margin:0 2px;}
+
+/* 基本框架头部 / 系统时间 */
+.systemTimeArea { position:absolute; right:10px; top:24px; z-index:1;}
+.systemTimeAreaChange { left:10px!important; top:0!important;}
+
+/* 基本框架头部 / 条件查询 */
+#boncSearch{ position:absolute; right:0; top:50px; z-index:9; background:#2b579a; padding:6px 12px;border-top:1px solid #244880; display:none;}
+#boncSearch input {background:#244880; color:#fefefe; border:1px solid #244880;}
+#boncSearch input:foucs {border:1px solid #ccc;}
+#boncSearch a { color:#fff;}
+
+.autocomplete{border:1px solid #9ACCFB;background-color:white;text-align:left;}
+.autocomplete li{list-style-type:none;position:relative;}
+.autocomplete li span{position:absolute; right:0; top:0}
+.clickable{cursor:default;}
+
+/* 基本框架头部 / 收藏夹弹窗 */
+#favoritesWindow { display:none;position:absolute;text-align:left; z-index:2000;right:40px!important; top:50px!important; min-height:120px; min-width:120px; background:#2b579a;border-top:1px solid #244880;}
+#favoritesWindow ul {padding:0 0 5px 28px; background:#2b579a;}
+#favoritesWindow ul li { line-height:1.8; position:relative;}
+#favoritesWindow ul li a, #favoritesWindow ul li .close {color:#fff; }
+#favoritesWindow ul li .close { position:absolute; right:10px; top:4px; display:block; cursor:pointer; width:13px; height:13px;}
+
+/* 基本框架头部 / 消息弹窗 */
+#managerWindow { display:none;position:absolute;text-align:left; z-index:2000;right:142px!important; top:50px!important; border-radius:0 0 2px 2px; border-top:1px solid #244880;}
+#managerWindow ul {position:relative; z-index:1; padding:0 12px 4px 12px; background:#2b579a;}
+#managerWindow ul li { line-height:1.8;}
+#managerWindow ul li a { color:#fff;}
+
+/* 基本框架头部 / 消息弹窗 */
+#reportInfoWindow{ display:none;position:absolute;text-align:left; z-index:2000;right:55px!important; top:50px!important; border-radius:0 0 2px 2px; border-top:1px solid #244880;}
+#reportInfoWindow ul {position:relative; z-index:1; padding:0 12px 4px 12px; background:#2b579a;}
+#reportInfoWindow ul li { line-height:1.8;}
+#reportInfoWindow ul li a { color:#fff;}
+
+/* 基本框架头部 / 条件查询弹窗 */
+#searchWindow {display:none;position:absolute;text-align:left;z-index:2000;top:-20px;}
+#searchWindow ul {position:relative; z-index:1; padding:5px;  background:#2b579a; }
+#searchWindow ul li { line-height:1.5;}
+
+/* 基本框架头部 / 左侧菜单切换按钮 */
+#retrunL_btn, #retrunR_btn { display:block;}
+#retrunL_btn { width:12px; height:52px; background:url("../base/images/boncLayout/bg/retrunL_btn.png") left center no-repeat;}
+#retrunR_btn { width:12px; height:52px; background:url("../base/images/boncLayout/bg/retrunR_btn.png") left center no-repeat;}
+
+/* 基本框架头部 / 导航菜单 / level-1 */
+#navMenu {height:50px; white-space:nowrap; overflow:hidden; position:relative;}
+#navMenu a:link, #navMenu a:visited { display:inline-block; line-height:40px; text-decoration:none; padding:0 18px; margin-top:10px; font-size:16px;}
+#navMenu a:focus, #navMenu a:active { position:relative;}
+#navMenu a.newHover{ color: #0d4885!important;  font-weight: bold; border-radius:6px 6px 0 0 ; background:#fff  url("../base/images/boncLayout/bg/bg_hovernav.gif") left top repeat-x;}
+
+/* 基本框架头部 / 导航菜单 / level-2 / 悬浮式 */
+#sider-bar {display:none; position:absolute; padding:10px 0px; text-align:left; z-index:10000; margin-top:-1px; border:1px solid #ddd!important;}
+@media screen and (-ms-high-contrast:active), (-ms-high-contrast:none){
+	#sider-bar{margin-top:0!important;}/* margin-top:3px!important; height:450px!important; */}
+
+/* 基本框架头部 / 导航菜单 / level-2 / 下拉式 */ 
+#navMenuDropdown {height:50px; display:block; white-space:nowrap; position:absolute; margin-left:170px; margin-right:280px; z-index:12;}
+#nav { display: block; height:50px; background:transparent; width:100%; margin: 0; position:relative;}
+#nav a{ color:rgba(255,255,255,.9); display: block; font-size:16px; text-decoration:none; vertical-align:middle; line-height:50px; padding:0 24px;}
+#nav a>span {font-size:16px;}
+#nav a:hover {background:#2a66bf; color:#fff!important;}
+#nav a:active, #nav a:focus, #nav a.selected{ outline-style: none; background:#244880; color:#fff!important; }
+#nav ul { list-style: none; }
+#nav .subs { background:#244880; min-width:98px;  padding: 0 0 15px 0; border:1px solid #244880; border-top:0; visibility: hidden; position: absolute; top: 100%; margin-top:0;}
+#nav .subs a { line-height:35px; color:#f8f8f8;min-width:55px; margin:0 6px; }
+#nav .subs ul {  float: left!important;}
+#nav ul .subs { position:absolute; top:0; border-left:1px solid #1d3966;} 
+#nav .subs .subs .subs {background: #8fc320;}
+#nav ul { float: left;}
+#nav>li { white-space: nowrap; position:absolute; top:0;}
+#nav>li {white-space: nowrap;}
+#nav li:hover>* { visibility: visible;}
+#nav li:hover { position: relative;}
+#nav>li, #nav li { margin: 0;}
+#nav ul>li { margin: 5px 0 0;}
+#nav ul li { float: none; margin:0;}
+#nav ul a { color: #d4efff; font-size: 14px; text-align: left; text-decoration: none;  padding: 0 20px 0 18px;  }
+#nav ul a:hover { text-align: left; text-decoration: none; color:#7bd101!important;  }
+#nav li:hover>a { border-style: none; color: #fff;  font-weight: normal; text-decoration: none;}
+#nav span { background-position: right center; background-repeat: no-repeat; display: block; overflow: visible; padding-right: 0;font-family:'Microsoft Yahei'!important; font-size:14px;}
+#nav ul span { background-image: url("../images/arrow_a.png"); padding-right:30px; margin-right:-10px; font-size:14px;}
+#nav ul li .subs .hoverLink { font-size: 14px; text-decoration: none; padding: 0 20px;}
+#nav ul li .subs .hoverBox.subs { color:#fff;}
+#nav ul li .subs .subs .subs .subs .hoverLink,  #nav ul li .subs .subs .subs .subs .hoverLinkOn {  text-align: left; text-decoration: none; border-radius:0; -moz-border-radius:0; -webkit-border-radius:0; padding: 0 20px;  background-image: url(../images/arrow2.gif)!important; color:#c00!important;}
+#nav .subs.Sleft { left:0; }
+#nav ul .subs.Sleft {left:100%;}
+#nav .subs.Sright { right:0; }
+#nav ul .subs.Sright {right:100%;}
+#nav.subs .hoverLink:hover, #nav .subs .hoverLinkOn {color:#fff;background-image: url(../images/arrow1_.gif); background-repeat:no-repeat;background-position: 8px 50%;}
+
+/* 基本框架头部 / 导航菜单 / level-2 / 下拉式 / 二级菜单失去焦点问题 */
+.easyui-tabs.tabs-Style.tabs-container { position:relative; z-index:11;}
+
+/* 基本框架头部 / 导航菜单 / level-2 / 浮动式 */
+#LeftMenu { padding-top:0;}
+#LeftMenu li { }
+#LeftMenu li .tree-title { line-height:28px; height:28px; }
+#LeftMenu li .tree-node {  color:#333; height:28px; line-height:28px; margin:0;!important; border-left:4px solid transparent;}
+#LeftMenu li .tree-node-hover { color:#000;background:#e0e0e0; }
+#LeftMenu li .tree-node.tree-node-selected { background:#e4e4e4; color:#2b579a; border-left:4px solid #19719c;}
+#LeftMenu li span.tree-icon,
+#LeftMenu li span.tree-hit{ margin-top:5px!important;}
+
+#LeftMenu li span.tree-icon { background:url('images/boncLayout/bg/ico_newTree01.png') center center no-repeat!important;}
+#LeftMenu li span.tree-icon.icon-tree02 { background:url('images/boncLayout/bg/ico_newTree02.png') center center no-repeat!important;}
+
+/* 基本框架头部 / 导航菜单 / 左右移动控件 */
+.scrollerLeftDropdown, .scrollerRightDropdown { padding:0!important; float:left; width:15px; height:15px; cursor:pointer; }
+.scrollerLeftDropdown:hover,
+.scrollerRightDropdown:hover { background-color:#244880;}
+
+/* 基本框架主体 */
+#container {margin:0 auto;  background:#fff;}
+
+/* 基本框架底部信息 */
+#footer { height:20px; padding-left:5px;}
+
+/* 系统全局菜单图标 */
+.icoNotice {background:url("../base/images/boncLayout/bg/announcement.png") left center no-repeat;}
+.indexInterpretation {background:url("../base/images/boncLayout/bg/interpretation.png") left center no-repeat;}
+.threeIcon  {background:url("../base/images/boncLayout/bg/modification.png") left center no-repeat;}
+.fourIcon {background:url("../base/images/boncLayout/bg/exit.png") left center no-repeat;}
+.switchingSkin a {  background:url("../base/images/boncLayout/bg/peel.png") left center no-repeat;}
+.switchingFull a { background:url("../base/images/boncLayout/bg/arrow_out.png") left center no-repeat;}
+.switchingFull a.fullBtn_k { background:url("../base/images/boncLayout/bg/arrow_in.png") left center no-repeat;}
+.changePassword a { background:url("../base/images/boncLayout/bg/modification.png") left center no-repeat;}
+.cancellation a { background:url("../base/images/boncLayout/bg/exit.png") left top no-repeat;}
+.jumpY_ { background:url("../base/images/boncLayout/bg/jumpBottom.png") left center no-repeat;}
+.jumpY { background:url("../base/images/boncLayout/bg/jumpTop.png") left center no-repeat;}
+#favoritesWindow ul li .close { background:url("../base/images/boncLayout/bg/x.png") no-repeat;}
+.ico1_delete { background:url("../base/images/boncLayout/bg/drive_delete.png") left center no-repeat;}
+.ico1_edit { background:url("../base/images/boncLayout/bg/drive_edit.png") left center no-repeat;}
+.ico1_add { background:url("../base/images/boncLayout/bg/drive_add.png") left center no-repeat;}
+.ico1_exit { background:url("../base/images/boncLayout/bg/exit.png") left center no-repeat;}
+.favoritesWindowBtn01 { padding-left:20px; background:url("../base/images/boncLayout/bg/add_favorite.png") left center no-repeat;}
+.favoritesWindowBtn02 { background:url("../base/images/boncLayout/bg/star.png") left center no-repeat;}
+.favoritesWindowBtn03 { padding-left:20px; background:url("../base/images/boncLayout/bg/043.png") left center no-repeat;}
+.scrollerLeft { background:url("../base/images/boncLayout/bg/jumpLeft.png") no-repeat;}
+.scrollerLeft:hover, .scrollerRight:hover { background-color:#244880; cursor: pointer;}
+.scrollerRight { background:url("../base/images/boncLayout/bg/jumpRight.png") no-repeat;}
+.scrollerLeftDropdown { background:url("../base/images/boncLayout/bg/jumpLeft.png") no-repeat;}
+.scrollerRightDropdown { background:url("../base/images/boncLayout/bg/jumpRight.png") no-repeat;}
+.icoSearch {background:url("../base/images/boncLayout/bg/icoSearch.png") no-repeat;}
+#mBombWindowBtn { background:url("../base/images/boncLayout/bg/tool1.png") left center no-repeat;}
+.menu-snb { background:url("../base/images/boncLayout/bg/tool1.png") left center no-repeat;}
+.adminUser em { background:url("../base/images/boncLayout/bg/user.png") left center no-repeat; cursor: pointer;}
+.site{ background:url("../base/images/boncLayout/bg/modification.png") left center no-repeat;}
+
+#headerMenu {height:50px; margin-left:201px;float:left; position:relative;}
+.scrollerLeft, .scrollerRight { float:left; padding:0!important; width:15px; height:15px;}
+
+
+.panel.layout-panel.layout-panel-west.layout-split-west .layout-button-left{display:none;}
+.moveBtnGroup{position:absolute; width:12px; height:52px;left:0;top:280px;cursor:pointer;}
+/* 可能用得到 */
+
+/* 
+.tabs-Style .tabs-header-plain .tabs-scroller-left, .tabs-Style .tabs-header-plain .tabs-scroller-right{ height:18px;}
+.tabs-Style .tabs { height:20px; padding-top:4px; position:relative; bottom:0;z-index:9999999999999;}
+.tabs-Style li a.tabs-inner {height:20px; line-height:20px; padding-left:10px; padding-right:10px; border-radius:2px 2px 0 0!important;}
+.layout-split-west {border-right:0 solid #fff!important;}
+.panel.layout-panel.layout-panel-west.layout-split-west .panel-body.layout-body{ background:#fff!important;}
+.tree-icon.tree-folder.icon-tree01 { display:none;}
+#LeftMenu.tree {padding-top:5px;}
+
+
+.dataListIndExp { border-collapse:collapse; border-top:1px solid #ccc!important;}
+.dataListIndExp th, .dataListIndExp td { border-collapse:collapse; padding-top:5px; padding-bottom:5px;border-bottom:1px dotted #ccc!important; }
+.dataListIndExp th {  border-collapse:collapse;text-align:center; font-weight:normal; background:#f4f8ff; }
+.dataListIndExp td { padding-left:5px;}
+
+#b{width:1200px;padding:0 12px;background:#FFF;position:relative}
+.l{width:844px;float:left;border-right:1px solid #DDD;padding-right:10px;position:relative}
+.m{width:670px;float:left;border-right:1px solid #DDD;padding-right:10px;position:relative}
+.r{width:336px;float:right;padding-bottom:200px}
+.topbg{height:30px;background:url(http://img.lanrentuku.com/img/images/a.png) repeat -20px 0}
+*/
+
+
+#boncFrame {overflow-x:hidden;}
+#boncFrame #header-menu.panel-body { background:none;}
+#boncFrame .tabs-header {background-color:#fff; padding:0; position:relative; z-index:9999;}
+#boncFrame .layout-panel-west  .panel-body{background-color:#f4f4f4;}
+
+
+
+
+/* table 样式 */
+html .datagrid-header{border-width: 0!important;}
+html .datagrid-header td{ background: #eeeeee!important; color: #333333; border-style: solid; border-color: #b6b6b6;     border-width: 0 1px 2px 0;} 
+html .datagrid-header .datagrid-cell span {line-height: 28px}
+html .datagrid-view td{border-style: solid;border-color: #b6b6b6;  }
+
+html .datagrid-body table tr td div{white-space: nowrap!important;}
+.datagrid-body table tr:nth-child(even){background:#F4F4F4;}
+.datagrid-body table tr:nth-child(even).datagrid-row-selected,
+.datagrid-body table tr.datagrid-row-over{background-color: #2979cc; }
+
+.datagrid-body table tr tr.treegrid-tr-tree,
+.datagrid-body table tr:nth-child(even) tr.treegrid-tr-tree{background-color: #fff;  }
+
+
+html .datagrid-btable .tree-icon.tree-folder{background:url('images/boncLayout/bg/ico01tree.png') center center no-repeat!important;}
+html .datagrid-btable .tree-icon.tree-folder.tree-folder-open{background:url('images/boncLayout/bg/ico_newTree01.png') center center no-repeat!important;}
+html .datagrid-btable .tree-icon.tree-file { background:url('images/boncLayout/bg/ico_newTree02.png') center center no-repeat!important;}
+
+
+
+/* 左侧菜单 */
+#boncFrame #pageWest { background:#fafafa;}
+#boncFrame .panel.layout-panel.layout-panel-west .panel-header { height:32px;background-color: #4ebbf0; background: -webkit-linear-gradient(top,#4ebbf0 0,#4ebbf0 100%); background: -moz-linear-gradient(top,#4ebbf0 0,#4ebbf0 100%); background: -o-linear-gradient(top,#4ebbf0 0,#4ebbf0 100%); background: linear-gradient(to bottom,#4ebbf0 0,#4ebbf0 100%); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#4ebbf0,endColorstr=#4ebbf0,GradientType=0);}
+#boncFrame .panel.layout-panel.layout-panel-west .panel-header .panel-title { font-size:16px; color:#fff; font-weight:normal; padding-left:18px; line-height:32px!important;height:32px!important;background:url('images/boncLayout/bg/ico_menu_new.png') left 50% no-repeat!important;}
+#boncFrame .panel.layout-panel.layout-panel-west .panel-header,
+#boncFrame .panel.layout-panel.layout-panel-west .panel-body {border-right:0!important;}
+/*操作者：董一伯  20160705  影响左侧菜单栏<<得显示 后面添加了display: none;  */
+#boncFrame a.layout-button-left{ background: url('images/boncLayout/bg/layout_arrows.png') no-repeat 0 0;display: none;}
+
+#boncFrame .layout-tabs.easyui-tabs .tabs { height:32px!important; border-bottom:1px solid #e4e4e4!important; background:#f0f0f0;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li {position:relative; top:4px;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li .tabs-title {font-size:14px!important; color: 1a3c70;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li .tabs-title.tabs-closable{ color: #666;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li a.tabs-inner {border-radius: 6px 6px 0 0;  padding-right:18px; color:#333!important; border:1px solid #bdbdbd; border-bottom:0!important;  background:transparent!important; font-weight:normal!important; height:28px!important; line-height:28px!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected {border-radius: 6px 6px 0 0;  background:transparent!important; border-bottom:0!important; }
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected a.tabs-inner { transition: 0 all ease!important; border:1px solid #e4e4e4!important; border-bottom:0!important; background:#fff!important; color:#2a579a!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected .tabs-title.tabs-closable{ color: #4ebbf0; font-weight: bold;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li a.tabs-close { background:url('images/boncLayout/bg/ico_close.png') 50% 50% no-repeat!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li span.tabs-p-tool {right:20px;}
+#boncFrame .layout-tabs.easyui-tabs .tabs-p-tool .icon-mini-refresh { background:url('images/boncLayout/bg/ico_refresh.png') 50% 50% no-repeat!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected a.tabs-close { background:url('images/boncLayout/bg/ico_close_active.png') 50% 50% no-repeat!important;  margin-left:5px;}
+#boncFrame .layout-tabs.easyui-tabs li.tabs-selected .tabs-p-tool .icon-mini-refresh { background:url('images/boncLayout/bg/ico_refresh_active.png') 50% 50% no-repeat!important;  }
+
+.newSearchA{text-align: left!important; padding-left:5px!important;}
+.newSearchA h2{ display: none;}
+.newSearchA .search-area{padding-left:10px!important; }
+/* 第二个选项卡样式
+#boncFrame .layout-tabs.easyui-tabs .tabs { height:32px!important; border-bottom:3px solid #e5e5e5!important; background:#ffffff;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li { margin-top:7px; margin-right:4px; position:relative; top:-5px!important; }
+#boncFrame .layout-tabs.easyui-tabs .tabs li .tabs-title {font-size:14px!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li a.tabs-inner { padding-top:0; transition: 0 all ease!important; cursor:pointer; border-radius:0!important; color:#666!important; background:transparent!important; font-weight:normal!important; height:30px!important; line-height:30px!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected { background:transparent!important; border-bottom:0!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected a.tabs-inner { padding:0 2px 0 8px; transition: 0 all ease!important; border-radius:0!important; border:0!important; border-bottom:3px solid #2c579b!important; background:#fff!important; color:#2a579a!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li a.tabs-close { background:url('images/boncLayout/bg/ico_close.png') 50% 50% no-repeat!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs-p-tool .icon-mini-refresh { background:url('images/boncLayout/bg/ico_refresh.png') 50% 50% no-repeat!important;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected a.tabs-close { background:url('images/boncLayout/bg/ico_close_active.png') 50% 50% no-repeat!important;}
+#boncFrame .layout-tabs.easyui-tabs li.tabs-selected .tabs-p-tool .icon-mini-refresh { background:url('boncLayout/bg/ico_refresh_active.png') 50% 50% no-repeat!important;}
+*/
+
+
+#boncFrame #footer {color:#333; text-align:center; position:relative; height:24px; line-height:24px; background:#fafafa; }
+#boncFrame #footer span { position:absolute; right:6px; top:0;}
+#boncFrame #footer span em { color:#0085d0; font-weight:bold;}
+
+
+/* 组件示例 */
+
+.demoMav { background:#2b579a; color:#fff; margin:10px; font-size:12px; min-width:170px; left:10px; top:10px;}
+.demoMav a {color:#fff;}
+.demoMav dt, .demoMav dd {padding:0 10px; line-height:1.8;}
+.demoMav dt { background:#244880; font-size:16px;}
+
+.exampleWarp { padding:10px; margin-left:10px;}
+.exampleWarp .titOne {font-size:18px; color:#fff;  background:#2b579a; border-left:4px solid #7bd101; padding:6px; font-weight:normal; }
+.exampleWarp .titThree, .titTwo { font-size:14px; font-weight:normal;background:#eee; color:#000; padding:6px; border-top:2px solid #333; margin-top:10px;}
+.exampleWarp .lable { background:#f8f8f8; border:1px solid #eee; border-top:1px solid #fff; margin-bottom:5px; padding:6px; font-size:12px;}
+.exampleWarp .lable a { color:#2b579a;}
+
+.exampleWarp .parameters th,
+.exampleWarp .parameters td {border:1px solid #eee; padding:2px 6px; font-size:12px;}
+
+
+/* 欢迎页面 */
+body.welcome{background:#f2f2f2 url("images/boncLayout/bg/well.png") center center no-repeat; background-size: auto 90%; }
+
+/*添加水印*/
+.watermarkDate{position:relative;}
+.watermarkDate .watermark {border:none; font-size:35px; line-height:1.2; font-family:"楷体"; box-shadow: 1px 1px 12px #fff; color:#000; text-shadow: 1px 1px 0 #fff; padding:8px; position:absolute; left:50%; top:160px; width:85%; margin-left:-45%; text-align:center; z-index:9999;transform:rotate(30deg); -ms-transform:rotate(30deg); -moz-transform:rotate(30deg); -webkit-transform:rotate(30deg); -o-transform:rotate(30deg);filter:alpha(opacity=30); -moz-opacity:0.3; opacity:0.3;}
+	
+
+
+
+ 

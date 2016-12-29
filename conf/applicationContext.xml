@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  - Application context definition for JPetStore's business layer.
+  - Contains bean references to the transaction manager and to the DAOs in
+  - dataAccessContext-local/jta.xml (see web.xml's "contextConfigLocation").
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+
+	<!-- ========================= GENERAL DEFINITIONS ========================= -->
+
+	<!-- Configurer that replaces ${...} placeholders with values from properties files -->
+	<!-- (in this case, mail and JDBC related properties) -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- =========================c3p0 连接池 =========================
+<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
+		<property name="driverClass"><value>${jdbc.driverClassName}</value></property>
+		<property name="jdbcUrl"><value>${jdbc.url}</value></property>
+		<property name="user"><value>${jdbc.username}</value></property>
+		<property name="password"><value>${jdbc.password}</value></property>
+		<property name="minPoolSize"><value>5</value></property>
+		<property name="maxPoolSize"><value>200</value></property>
+		<property name="maxIdleTime"><value>1800</value></property>
+		<property name="acquireIncrement"><value>2</value></property>
+		<property name="maxStatements"><value>0</value></property>
+		<property name="initialPoolSize"><value>2</value></property>
+		<property name="idleConnectionTestPeriod"><value>1800</value></property>
+		<property name="acquireRetryAttempts"><value>30</value></property>
+		<property name="breakAfterAcquireFailure"><value>true</value></property>
+		<property name="testConnectionOnCheckout"><value>false</value></property>
+	</bean>
+ 	-->
+ 	
+ 	<!-- =========================dbcp 连接池 ========================= -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	    <property name="driverClassName" value="${jdbc.driverClassName}"></property>
+	    <property name="url" value="${jdbc.url}"></property>
+	    <property name="username" value="${jdbc.username}"></property>
+	    <property name="password" value="${jdbc.password}"></property>
+	    
+	    <!--initialSize: 初始化连接-->  
+		<property name="initialSize" value="5"></property> 
+	    
+	    <!--maxActive: 最大连接数量--> 
+		<property name="maxActive" value="250"></property>
+		
+		<!--minIdle: 最小空闲连接-->  
+		<property name="minIdle" value="5"></property> 
+		<!--maxIdle: 最大空闲连接-->
+	    <property name="maxIdle" value="30"></property>
+	    
+	    <!--maxWait: 超时等待时间以毫秒为单位 6000毫秒/1000等于60秒--> 
+	    <property name="maxWait" value="10000"></property>
+	    <property name="defaultAutoCommit" value="true"></property>
+	    
+	    <!--removeAbandonedTimeout: 超时时间(以秒数为单位)-->  
+	    <property name="removeAbandonedTimeout" value="600"></property>
+	    
+	    <!--removeAbandoned: 是否自动回收超时连接-->  
+	    <property name="removeAbandoned" value="true"></property>
+	    
+	    <!--connectionProperties：数据连接时属性  -->
+	    <property name="connectionProperties" value="remarks=true;"></property>
+	     
+		<!--用来验证从连接池取出的连接,在将连接返回给调用者之前-->
+		
+		<property name="timeBetweenEvictionRunsMillis" value="3600000"></property>
+		<property name="testWhileIdle" value="true"></property> 
+		
+		<!-- oracl -->
+		<property name="validationQuery" value="select 1 from dual"></property>
+		<!-- db2 -->	
+		<!-- <property name="validationQuery" value="select 1 from sysibm.sysdummy1"></property>  -->
+		
+		<property name="testOnBorrow" value="true"></property>  
+
+	</bean>
+	<!-- Transaction manager for a single JDBC DataSource -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+</beans>

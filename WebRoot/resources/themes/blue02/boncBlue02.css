@@ -1,0 +1,128 @@
+@charset "utf-8";
+
+/* =============================== 东方国信 / 基础蓝色风格 / 唯一样式表 / 20160101 =============================== */
+
+/* 按组件类型注释说明 */
+
+/*  ---------------------------------- 基础登录 ---------------------------------- */
+
+
+/* 头部容器样式 */
+#header-content, #header, #header-menu { background:#2b579a url("images/bg/bg_navBlue.png") left bottom repeat-x!important;}
+/* 主菜单样式 */
+#header h1{background:url("images/bg/logo.png") left bottom no-repeat; width: 340px; height:45px;}
+#header h1 img{ display: none; }
+#headerMenu{ margin-left:350px;}
+#navMenu, #nav { }
+#navMenu a:link, #navMenu a:visited { color:#fff;  line-height:32px;}
+
+/* Green Button */
+#navMenu a.newHover{
+	margin-top:10px;
+	/* A semi-transparent text shadow */
+	/* Overriding the default underline styling of the links */
+	text-decoration:none !important;
+	white-space:nowrap;
+	display:inline-block;
+	font-weight:bold;
+	vertical-align:baseline;
+	position:relative;
+	cursor:pointer;
+	background-repeat:no-repeat;
+	/* The following two rules are fallbacks, in case
+	   the browser does not support multiple backgrounds. */
+
+	background-position:bottom left;
+	background-image:url('images/bg/button_bg.png');
+	
+	/* Multiple backgrounds version. The background images
+	   are defined individually in color classes */
+	
+	background-position:bottom left, top right, 0 0, 0 0;
+	background-clip:border-box;
+	
+	/* Applying a default border raidus of 8px */
+	
+	-moz-border-radius:20px;
+	-webkit-border-radius:20px;
+	border-radius:20px;
+	
+	/* A 1px highlight inside of the button */
+	
+	-moz-box-shadow:0 0 1px #fff inset;
+	-webkit-box-shadow:0 0 1px #fff inset;
+	box-shadow:0 0 1px #fff inset;
+	
+	/* Animating the background positions with CSS3 */
+	/* Currently works only in Safari/Chrome */
+	
+	-webkit-transition:background-position 1s;
+	-moz-transition:background-position 1s;
+	transition:background-position 1s;
+	color:#1d3a66 !important;
+	border:1px solid #1f4e99 !important;	
+	background-color: #efefef;
+	
+	background-image:url('images/bg/button_bg.png'), url('images/bg/button_bg.png'), -moz-radial-gradient(center bottom, circle, rgba(255,255,255,1) 0,rgba(235,235,235,0) 100px),-moz-linear-gradient(#fff, #efefef);
+	background-image:url('images/bg/button_bg.png'), url('images/bg/button_bg.png'), -webkit-gradient(radial, 50% 100%, 0, 50% 100%, 100, from(rgba(255,255,255,1)), to(rgba(235,235,235,0))),-webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#efefef));
+}
+
+
+#navMenu a.newHover:hover{
+	
+		background-color:#efefef;
+	
+	background-image:url('images/bg/button_bg.png'), url('images/bg/button_bg.png'), -moz-radial-gradient(center bottom, circle, rgba(255,255,255,1) 0,rgba(235,235,235,0) 100px),-moz-linear-gradient(#fff, #efefef);
+		background-image:url('images/bg/button_bg.png'), url('images/bg/button_bg.png'), -webkit-gradient(radial, 50% 100%, 0, 50% 100%, 100, from(rgba(255,255,255,1)), to(rgba(235,235,235,0))),-webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#efefef));
+
+	background-position:top left;
+	background-position:top left, bottom right, 0 0, 0 0;
+}
+
+#navMenu a.newHover:active{
+	/* Moving the button 1px to the bottom when clicked */
+	bottom:-1px;
+}
+
+/* 当前位置样式 */
+#contentMap{ background:#e4e4e4; }
+#contentMap a { color:#2b579a;}
+#contentMap span { color:#999;}
+#contentMap strong {color:#666; font-weight:normal;}
+
+
+/* 全局菜单样式*/
+#globalMenu li span,
+#globalMenu li em,
+#globalMenu li a { color:#fff}
+#globalMenu li a:hover {color:#fff;}
+#globalMenu li{ margin-top:0; margin-left: 15px; background: none; min-width: 40px; text-align: center;}
+#globalMenu li em,
+#globalMenu li a{padding-top:30px; padding-left:0;}
+#globalMenu .adminUser em{background: url("images/bg/newIco01.png") center 2px no-repeat;}
+#globalMenu a.favoritesWindowBtn02 {background: url("images/bg/newIco02.png") center 2px no-repeat;}
+#globalMenu .icoNotice a{background: url("images/bg/newIco03.png") center 2px no-repeat;}
+#globalMenu .indexInterpretation a{background: url("images/bg/newIco04.png") center 2px no-repeat;}
+#globalMenu .icoSearch a{background: url("images/bg/newIco05.png") center 2px no-repeat;}
+
+/* 主体容器样式*/
+#container { background:#fff;}
+
+/* */
+.systemTimeArea em {color:#fff;}
+/* 左侧菜单标题 */
+#LeftMenu{padding-top:10px;}
+#boncFrame .panel.layout-panel.layout-panel-west .panel-header { border-bottom:1px solid #1d3a66; background-color: #5281cc; background: -webkit-linear-gradient(top,#5c9bff 0,#5281cc 100%); background: -moz-linear-gradient(top,#5c9bff 0,#5281cc 100%); background: -o-linear-gradient(top,#5c9bff 0,#5281cc 100%); background: linear-gradient(to bottom,#5c9bff 0,#5281cc 100%); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#5c9bff,endColorstr=#5281cc,GradientType=0);}
+#LeftMenu li .tree-node.tree-node-selected{ background-color: #fff; height:26px;  color:#000; border-top:1px solid #ccc; border-bottom:1px solid #ccc; border-left-color:#fff; }
+
+/* tab 菜单 */
+#boncFrame .layout-tabs.easyui-tabs .tabs{border-bottom: 1px solid #9a9a9a!important; background: url("images/bg/bg_tabs.png") left bottom repeat-x; }
+#boncFrame .tabs-header{box-shadow:0 0 10px #dbdbdb;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected{border: 1px solid #9a9a9a!important; border-bottom:0!important; border-radius:0;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected a.tabs-inner{ border:0!important;border-radius:0;}
+#boncFrame .layout-tabs.easyui-tabs .tabs li a.tabs-inner{border-radius:0; }
+#boncFrame .layout-tabs.easyui-tabs .tabs li.tabs-selected .tabs-title.tabs-closable{ color: #1e3c6b;}
+
+html .contents-head { min-height:5px;}
+html .contents-head h2{ display: none;}
+

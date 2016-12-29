@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.setting">
+
+	<sql name="querySetting">
+		<![CDATA[
+			SELECT T.TYPE_CODE AS "TYPE_CODE",
+			       T.TYPE_NAME AS "TYPE_NAME",
+			       T.USED_TYPE AS "USED_TYPE",
+			       T.VIEW_RULE AS "VIEW_RULE",
+			       CASE T.TYPE_STATUS
+			       WHEN '1' THEN '有效'
+			       ELSE '无效'
+			       END AS "STATUS",
+			       T.TYPE_STATUS AS "TYPE_STATUS",
+			       T.TYPE_ORD AS "TYPE_ORD",
+			       T.SERVER_CLASS AS "SERVER_CLASS",
+			       T.VIEW_TYPE_NAME AS "VIEW_TYPE_NAME",
+			       T.EXT_VIEW AS "EXT_VIEW",
+			       T.URL AS "URL",
+			       T.SERVER_VIEW AS "SERVER_VIEW",
+			       T.ICON AS "ICON"
+			  FROM X_KPI_TYPE T
+			  WHERE 1=1 
+			  ORDER BY T.TYPE_STATUS DESC,T.TYPE_ORD
+		]]>
+	</sql>
+	
+	<sql name="status">
+		<![CDATA[
+			UPDATE X_KPI_TYPE T SET T.TYPE_STATUS = #flag# WHERE T.TYPE_CODE=#id#
+		]]>
+	</sql>
+
+	<sql name="queryData">
+		<![CDATA[
+			SELECT T.TYPE_CODE AS "TYPE_CODE",
+		       T.TYPE_NAME AS "TYPE_NAME",
+		       T.USED_TYPE AS "USED_TYPE",
+		       T.VIEW_RULE AS "VIEW_RULE",
+		       T.TYPE_ORD AS "TYPE_ORD",
+		       T.SERVER_CLASS AS "SERVER_CLASS",
+		       T.VIEW_TYPE_NAME AS "VIEW_TYPE_NAME",
+		       T.EXT_VIEW AS "EXT_VIEW",
+		       T.URL AS "URL",
+		       T.SERVER_VIEW AS "SERVER_VIEW",
+		       T.ICON AS "ICON"
+		  FROM X_KPI_TYPE T
+		 WHERE T.TYPE_CODE = #id#
+		]]>
+	</sql>
+	
+	<sql name="settingupdate">
+		<![CDATA[
+			UPDATE X_KPI_TYPE T
+			   SET T.TYPE_NAME = #type_name# ,
+			       T.USED_TYPE = #used_type#,
+			       T.VIEW_RULE = #view_rule#,
+			       T.TYPE_ORD = #type_ord#,
+			       T.SERVER_CLASS = #server_class#,
+			       T.VIEW_TYPE_NAME = #view_type_name#,
+			       T.EXT_VIEW = '#ext_view#,
+			       T.URL = #url#,
+			       T.SERVER_VIEW =#server_view#,
+			       T.ICON = #icon#
+			 WHERE T.TYPE_CODE=#type_code#
+		]]>
+	</sql>
+	
+	<sql name="formulaInfo">
+		<![CDATA[
+			SELECT T.ID,T.NAME,T.FORMULA_EXPLAIN FROM X_KPI_FORMULA T ORDER BY ID
+		]]>
+	</sql>
+	
+	<sql name="delFormula">
+		<![CDATA[
+			DELETE FROM X_KPI_FORMULA T where t.id =#ID#
+		]]>
+	</sql>
+</mapping>

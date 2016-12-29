@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.userext">
+	<sql name="maxExtColumnNum">
+		<![CDATA[
+			SELECT coalesce(cast(SUBSTR(max(COLUMN_NAME)||'',4) as integer),0)+1 as "V_EXTCOLUME_NUM"  FROM E_USER_EXT_COLUMN_ATTR
+		]]>
+	</sql>
+	<sql name="list">
+		<![CDATA[
+			SELECT ATTR_CODE "ATTR_CODE",
+			       PARENT_CODE "PARENT_CODE",
+			       ATTR_NAME "ATTR_NAME",
+			       M.MODEL_DESC "SHOW_MODE",
+			       CODE_TABLE "CODE_TABLE",
+			       CODE_KEY "CODE_KEY",
+			       CODE_PARENT_KEY "CODE_PARENT_KEY",
+			       CODE_DESC "CODE_DESC",
+			       CODE_ORD "CODE_ORD",
+			       T.TYPE_DESC "DATA_TYPE",
+			       CASE WHEN MULTI=0 THEN '否' ELSE '是' END "MULTI",
+			       ATTR_ORD "ATTR_ORD",
+			       CASE WHEN IS_NULL=0 THEN '否' ELSE '是' END "IS_NULL",
+			       DEFAULT_VALUE "DEFAULT_VALUE",
+			       DEFAULT_DESC "DEFAULT_DESC",
+			       ATTR_DESC "ATTR_DESC",
+			       U.SUBSYSTEM_ID "SUBSYSTEM_ID",
+			       SUB.SUBSYSTEM_NAME "SUBSYSTEM_NAME"
+			  FROM E_USER_ATTR_DIM U 
+			  INNER JOIN E_USER_EXT_MODEL M ON U.SHOW_MODE=M.MODEL_CODE 
+			  INNER JOIN E_USER_EXTVALUE_TYPE T ON U.DATA_TYPE = T.TYPE_CODE
+			  LEFT JOIN D_SUBSYSTEM SUB ON U.SUBSYSTEM_ID = SUB.SUBSYSTEM_ID
+			  WHERE 1=1
+			  	{and attr_code like '%'||#attr_code#||'%'}
+			  	{and attr_name like '%'||#attr_name#||'%'}
+			  	{and data_type = #value_type#}
+			  	{and show_mode = #model_type#}
+			  order by attr_ord
+		]]>
+	</sql>
+	
+	<sql name="edit">
+		<![CDATA[
+			update e_user_attr_dim
+			   set 
+			   	parent_code=#attr_father_code#,
+			       attr_name = #attr_name#,
+			       attr_desc = #attr_desc#,
+			       code_table = upper(#code_table#),
+			       code_key = upper(#code_key#),
+			       code_parent_key = upper(#code_parent_key#),
+			       code_desc = upper(#code_desc#),
+			       code_ord = upper(#code_ord#),
+			       data_type = #ext_value_type#,
+			       multi = TO_NUMBER(#muni#,'99G999D9S'),
+			       attr_ord = TO_NUMBER(#ext_index#,'99G999D9S'),
+			       is_null = TO_NUMBER(#isNull#,'99G999D9S'),
+			       default_value = #default_value#,
+			       default_desc = #default_desc#,
+			       subsystem_id = #subsystem_id#
+			 where attr_code=#attr_code#
+		]]>
+	</sql>
+	
+	<sql name="add">
+		<![CDATA[
+			insert into e_user_attr_dim
+			  (attr_code, parent_code, attr_name, attr_desc, show_mode, code_table, code_key, code_parent_key, code_desc, code_ord, data_type, multi, attr_ord, is_null, default_value, default_desc, subsystem_id)
+			values
+			  (#ext_code#, #attr_father_code#, #ext_name#,#ext_desc#, #ext_model#, upper(#code_table#), upper(#code_key#), upper(#code_parent_key#), upper(#code_desc#), upper(#code_ord#), #ext_value_type#, TO_NUMBER(#muni#,'99G999D9S'), TO_NUMBER(#ext_index#,'99G999D9S'), TO_NUMBER(#isNull#,'99G999D9S'),  #default_value#, #default_desc#, #subsystem_id#);
+		    INSERT INTO E_USER_EXT_COLUMN_ATTR(ATTR_CODE,COLUMN_NAME) VALUES(#ext_code#,'EXT'||#maxExtColumnNum.V_EXTCOLUME_NUM#);
+		]]>
+	</sql>
+	
+	
+</mapping>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.kpiQueryAndAudit">
+	
+	<sql name="queryAudit">
+		<![CDATA[
+			SELECT 
+			   T.AUDIT_OPINION AS "V1",
+			   CASE T.AUDIT_FLAG
+			   WHEN '1' THEN '定义审核'
+			   ELSE '技术审核'
+			   END AS "V2",
+			   CASE T.AUDIT_RESULT
+			   WHEN '2' THEN '审核通过'
+			   ELSE '审核未通过'
+			   END AS "V3",
+      		   (SELECT USER_NAME FROM E_USER WHERE USER_ID=T.EXAMINE_USER) AS "V4",
+      		   CONCAT(CONCAT(CAST(T.EXAMINE_DATETIME AS DATE),' '),CAST(T.EXAMINE_DATETIME AS TIME)) AS "V5"
+		  FROM X_KPI_AUDIT T
+		  WHERE T.KPI_KEY=#kpi_key#
+		  ORDER BY T.EXAMINE_DATETIME ASC
+		]]>
+	</sql>
+	
+	<sql name="saveaudit">
+	<![CDATA[
+		INSERT INTO X_KPI_AUDIT
+		  (AUDIT_ID,
+		   KPI_KEY,
+		   KPI_CODE,
+		   AUDIT_RESULT,
+		   AUDIT_FLAG,
+		   AUDIT_OPINION,
+		   EXAMINE_USER,
+		   EXAMINE_DATETIME)
+		VALUES
+		  (NEXTVAL('X_KPI_AUDIT_SEQ'),
+		   CAST(#kpi_key# AS INTEGER),
+		   #kpi_code#,
+		   #kpi_status#,
+		   #audit_flag#,
+		   #audit_opinion#,
+		   #UserInfo.USER_ID#,
+		   now())
+		]]>
+	</sql>
+	
+	<sql name="update3KPIINFOTMP">
+		<![CDATA[
+		UPDATE X_KPI_INFO_TMP SET KPI_STATUS='3' WHERE KPI_KEY=CAST(#kpi_key# AS INTEGER)
+		]]>
+	</sql>
+	
+	<sql name="update2KPIINFOTMP">
+		<![CDATA[
+		UPDATE X_KPI_INFO_TMP SET KPI_STATUS=#nextStatus# WHERE KPI_KEY=CAST(#kpi_key# AS INTEGER)
+		]]>
+	</sql>
+	
+	<sql name="update2audit">
+		<![CDATA[
+		UPDATE X_KPI_INFO_TMP SET KPI_OWNER=#kpi_owner#,KPI_TABLE=#kpi_table#,KPI_COLUMN=#kpi_code# WHERE KPI_KEY=CAST(#kpi_key# AS INTEGER);
+		INSERT INTO X_KPI_SQL_INFO(SQL_ID, KPI_CODE, KPI_VERSION, KPI_TABLE, KPI_COLUMN, KPI_SQL, RULE_COLUMN,FORMULA_COLUMN,KPI_CREATETIME, IS_RUN,USER_TABLE) VALUES (NEXTVAL('X_KPI_SQL_SEQ'),#kpi_code#,CAST(#kpi_version# AS INTEGER),#kpi_table#,#kpi_code#,#kpi_sql#,#rule_column#,#formula_column#,now(),'0',#user_table#);
+		DELETE FROM X_KPI_SQL_INFO_DATA WHERE KPI_CODE=#kpi_code#;
+		INSERT INTO X_KPI_SQL_INFO_DATA(SQL_ID, KPI_CODE, KPI_VERSION, KPI_TABLE, KPI_COLUMN, KPI_SQL, RULE_COLUMN,FORMULA_COLUMN,KPI_CREATETIME, IS_RUN,USER_TABLE) VALUES (NEXTVAL('X_KPI_SQL_SEQ'),#kpi_code#,CAST(#kpi_version# AS INTEGER),#kpi_table#,#kpi_code#,#kpi_sql#,#rule_column#,#formula_column#,now(),'0',#user_table#);
+		]]>
+	</sql>
+	
+	<sql name="update2nextStatus">
+		<![CDATA[
+		UPDATE X_KPI_INFO_TMP SET KPI_ISCURR='0' WHERE KPI_ISCURR='1' AND KPI_STATUS='2'  AND KPI_CODE=#kpi_code# ;
+		UPDATE X_KPI_INFO_TMP SET KPI_ISCURR='1',KPI_STATUS='2'  WHERE KPI_KEY=CAST(#kpi_key# AS INTEGER);
+		DELETE FROM X_KPI_INFO WHERE KPI_CODE=#kpi_code#;
+		INSERT INTO X_KPI_INFO (SELECT T.*,CAST(SUBSTR(T.KPI_CODE,4,8) AS INTEGER) AS KPI_ORD FROM X_KPI_INFO_TMP T WHERE KPI_KEY=CAST(#kpi_key# AS INTEGER));
+		DELETE FROM X_KPI_SOURCE WHERE KPI_CODE=#kpi_code#;
+		INSERT INTO X_KPI_SOURCE (SELECT * FROM X_KPI_SOURCE_TMP WHERE SOURCE_KEY=CAST(#kpi_key# AS INTEGER));
+		]]>
+	</sql>
+	
+	<sql name="queryTab">
+		<![CDATA[
+		SELECT '' AS "VALUE", '--请选择--' AS "TEXT"
+		  FROM DUAL
+		UNION
+		SELECT T.TABLE_NAME AS "VALUE", T.TABLE_DES AS "TEXT"
+		  FROM X_KPI_RES_TABLE T
+		 WHERE T.ISVALID = '1'
+		   AND T.ACCTTYPE = #acctType#
+		   AND T.KPI_TYPE = #kpiType#
+		 ]]>
+	</sql>
+	
+	<sql name="queryKpiDetail">
+		<![CDATA[
+		 SELECT 
+	       T.KPI_OWNER,
+	       T.KPI_TABLE,
+	       T.KPI_COLUMN
+	      FROM X_KPI_INFO T WHERE T.KPI_CODE=#KPI_CODE#
+	     ]]>
+	</sql>
+	
+	<sql name="queryCube">
+		<![CDATA[
+		SELECT '' AS "CUBE_CODE", '--全部--' AS "CUBE_NAME" FROM DUAL
+		UNION all
+		SELECT T.CUBE_CODE, T.CUBE_NAME FROM X_KPI_CUBE T WHERE T.CUBE_STATUS = '1'
+		]]>
+	</sql>
+	<sql name="queryFlag">
+		<![CDATA[
+		select '' AS "value",'--全部--' AS "text" from dual
+		union all
+		select 'I' AS "value",'--新增--' AS "text" from dual
+		union all
+		select 'U' AS "value",'--修改--' AS "text" from dual
+		union all
+		select 'D' AS "value",'--删除--' AS "text" from dual
+		]]>
+	</sql>
+	<sql name="queryCategory">
+		<![CDATA[
+		WITH RECURSIVE N(CATEGORY_ID,CATEGORY_PARENT_ID,CUBE_CODE) AS (
+		    SELECT CATEGORY_ID,
+		    CATEGORY_PARENT_ID,
+		    CUBE_CODE
+		    FROM X_KPI_CATEGORY
+		    WHERE CATEGORY_ID IN (
+		    SELECT PARENT_ID FROM VIEW_ALL_KPI  T WHERE 1=1)
+		    UNION ALL
+		    SELECT X.CATEGORY_ID,X.CATEGORY_PARENT_ID,X.CUBE_CODE FROM X_KPI_CATEGORY X, N
+		    WHERE X.CATEGORY_ID=N.CATEGORY_PARENT_ID )
+		   SELECT ID AS "ID",
+		         PARENT_ID AS "PARENT_ID",
+		         NAME AS "NAME" ,
+		         KPI_CODE AS "KPI_CODE",
+		         KPI_VERSION AS "KPI_VERSION" ,
+		         KPI_TYPE AS "KPI_TYPE" ,
+		         ACCOUNT_TYPE AS "ACCOUNT_TYPE",
+		         TYPE  AS "TYPE",
+		         DIM_ATTR AS "DIM_ATTR",
+		         DATA_TYPE AS "DATA_TYPE",
+		         CUBE_CODE AS "CUBE_CODE",
+		         ORD AS "ORD"
+		    FROM (SELECT T.CATEGORY_ID AS ID,
+		           T.CATEGORY_PARENT_ID PARENT_ID,
+		           T.CATEGORY_NAME AS NAME,
+		           NULL AS KPI_CODE,
+		           NULL AS KPI_VERSION,
+		           T.CATEGORY_TYPE AS KPI_TYPE,
+		           T.ACCOUNT_TYPE AS ACCOUNT_TYPE,
+		           'compositeKpiCategory' AS TYPE,
+		           '0' AS DIM_ATTR,
+		           '1' AS DATA_TYPE,
+		           CUBE_CODE AS CUBE_CODE,
+		            CAST(T.ORD AS INTEGER) AS ORD
+		      FROM X_KPI_CATEGORY T
+		     WHERE 1=1
+		     	{ AND T.CUBE_CODE = #cube_code#}
+		      	AND T.CATEGORY_FLAG IS NULL
+		     	{ AND T.CATEGORY_PARENT_ID=CAST(#id# AS INTEGER)}
+		        AND T.CATEGORY_ID IN(SELECT CATEGORY_ID FROM N)
+		       AND T.CATEGORY_FLAG IS NULL
+		       ) T ORDER BY T.ORD
+		]]>
+	</sql>
+</mapping>

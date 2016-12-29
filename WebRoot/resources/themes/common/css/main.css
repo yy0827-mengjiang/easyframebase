@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* 模块标题 */
+.BoxOuter_a1 { margin:10px 0 0 0; float:left;}
+.BoxOuter_a1 .BoxInter_a1Top { position:relative; height:28px;}
+.BoxOuter_a1 .BoxInter_a1Top p { position:absolute; right:3px; top:3px;}
+.BoxOuter_a1 .BoxInter_a1Top p a { padding:0 3px;}
+.BoxOuter_a1 .BoxInter_a1Top h2 { position:relative; top:4px; margin:0 0 0 8px; padding:3px 10px 2px 10px; display:inline-table; border-radius:2px 2px 0 0; }
+.BoxOuter_a1 .BoxInter_a1Top ul li { float:left;}
+.BoxOuter_a1 .BoxInter_a1Top ul li a:link, .BoxOuter_a1 .BoxInter_a1Top ul li a:visited {position:relative; top:5px; margin:0 0 0 4px; padding:3px 10px 2px 10px; display:inline-table; }
+.BoxOuter_a1 .BoxInter_a1Top ul li a:hover, .BoxOuter_a1 .BoxInter_a1Top ul li a:active, .BoxOuter_a1 .BoxInter_a1Top ul li a.hover {padding:2px 9px 2px 9px;border-radius:2px 2px 0 0; text-decoration:none;}
+.BoxOuter_a1 .BoxInter_a1Top h2 { letter-spacing:2px;}
+.BoxOuter_a1 .BoxInter_a1Bot{ min-height:232px; border-radius:0 0 4px 4px; padding:10px; text-align:center;}
+
+/* 模块宽度 */
+.W100 { width:100%;}
+.W033 { width:32.666%; margin-right:1%;}
+.W039 { width:39%;}
+.W060 { width:60%; margin-right:1%;}
+.W033_end { width:32.666%; margin-right:0;}
+
+/* 数据表格 */
+.datalist { margin:0;}
+.datalist thead th { height:22px;}
+.datalist tbody td {  line-height:22px; padding:3px 0;}
+
+   /*添加水印*/
+.watermarkDate{position:relative;}
+.watermarkDate .watermark {border:none; font-size:35px; font-family:"楷体"; box-shadow: 1px 1px 12px #fff; color:#000; text-shadow: 1px 1px 0 #fff; padding:8px; position:absolute; left:50%; top:200px; width:85%; margin-left:-45%; text-align:center; z-index:9999;transform:rotate(30deg); -ms-transform:rotate(30deg); -moz-transform:rotate(30deg); -webkit-transform:rotate(30deg); -o-transform:rotate(30deg);filter:alpha(opacity=30); -moz-opacity:0.3; opacity:0.3;}
+		

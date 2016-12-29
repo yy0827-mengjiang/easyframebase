@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<kpi id="指标编码" version="指标版本">
+	<!--基础维度定义-->
+	<dimensions>
+			<dimension id="维度ID" name="维度名称" alias="别名（可选）" tableLink="维度来源表" columnLink="维度来源列" formatType="维度类型 0日/1月/2其他" confType="配置方式0自动/1手动"  datasource="数据源">
+					<dictionary key="码表主键" name="码表显示文本" tableLink="码表表名">
+							<![CDATA[
+							 select key, text from dual
+							]]> 
+					</dictionary>
+			</dimension>
+	</dimensions>
+	<!--基础指标定义-->
+	<measures>
+		  <measure id="指标编码（code）" version="1" kpiKey="1" name="指标名称" alias="别名（可选）" tableLink="指标来源表" columnLink="指标来源列" aggregator="聚合 （sum/count/avg)" datasource="数据源">
+		  		<foreignKeyLink dimension="外键映射维度" foreignKeyColumn="外键列"/>
+		  </measure>
+	</measures>
+	<!--计算公式定义 只有一个 -->
+	<formulas>
+			<formula  type="0指标/1公式" source="指标ID">
+			   	<![CDATA[
+					 ({id} + {id}) / {id} 
+				]]>
+			</formula>
+	</formulas>
+	<!-- 约束条件定义 -->
+	<conditions>
+			<condition source="指标或者维度的ID" type="0维度/1指标" prepend="and/or" operator="比较连接符" paramsType="1动态获取/0常量/3逻辑符"  paramsValue="1111" dataType="string/date/number">
+					<![CDATA[
+				 		 {id} in ('1111','11111')
+				  ]]>
+			</condition>
+			<expression>
+				<![CDATA[
+					and .....
+				  ]]>
+			</expression>
+	</conditions> 
+	<selfwhere></selfwhere>
+	<formulastr>
+		html
+	</formulastr>
+	<condstr>
+		html
+	</condstr>
+</kpi>

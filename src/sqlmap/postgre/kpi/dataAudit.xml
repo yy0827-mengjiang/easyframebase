@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="kpi.dataAudit">
+
+	<sql name="dataQuery">
+		<![CDATA[
+		SELECT 
+		     T.KPI_KEY AS "V0",
+		     T.KPI_CODE AS "V1",
+	         T.KPI_NAME AS "V2",
+	         T.KPI_CATEGORY AS "V3",
+	         T.KPI_NUIT AS "V4",
+	         T.KPI_VERSION AS "V5",
+	         T.ACCTTYPE AS "V55",
+	         CASE T.KPI_ISCURR
+		     WHEN '1' THEN '是'
+		     WHEN '0' THEN '否'
+		     END AS "V6",
+             T.KPI_CALIBER AS "V7",
+             T.KPI_EXPLAIN AS "V8",
+             CASE T.KPI_FLAG
+             WHEN 'I' THEN '新增'
+             WHEN 'U' THEN '修改'
+             WHEN 'D' THNE '下线'
+             END AS "V9",
+             CASE T.KPI_STATUS
+             WHEN '0' THEN '指标定义审核中'
+			 WHEN '1' THEN '技术规范审核中'
+			 WHEN '2' THEN '审核通过'
+			 WHEN '3' THEN '审核未通过'
+			 WHEN '4' THEN '编辑模式'
+			 END AS "V10",
+             TT.CATEGORY_NAME AS "V11",
+             (SELECT USER_NAME FROM E_USER WHERE USER_ID=T.CREATE_USER) AS "V12",
+              CONCAT(CONCAT(CAST(T.CREATE_DATETIME AS DATE),' '),CAST(T.CREATE_DATETIME AS TIME)) AS "V13",
+             (SELECT USER_NAME FROM E_USER WHERE USER_ID=T.UPDATE_USER) AS "V14",
+             CONCAT(CONCAT(CAST(T.UPDATE_DATETIME AS DATE),' '),CAST(T.UPDATE_DATETIME AS TIME)) AS "V15",
+             (SELECT USER_NAME FROM E_USER WHERE USER_ID=T.EXAMINE_USER) AS "V16",
+             CONCAT(CONCAT(CAST(T.EXAMINE_DATETIME AS DATE),' '),CAST(T.EXAMINE_DATETIME AS TIME)) AS "V17",
+             CONCAT(CONCAT(CONCAT(CASE T.KPI_TYPE
+			       	WHEN '1' THEN '基础指标'
+			       	WHEN '2' THEN '复合指标'
+			       	ELSE '衍生指标'
+			       	END,'('),CASE T.ACCTTYPE
+			       			 WHEN '1' THEN '日'
+			       			 ELSE '月'
+			       			 END ),')') AS "V18",
+             SERVICE_KEY  AS "V19",
+             KPI_TYPE AS "V20",
+             TTT.type_name as "V21"
+        FROM X_KPI_INFO_TMP T join X_KPI_CATEGORY TT ON T.KPI_CATEGORY=TT.CATEGORY_ID 
+									join X_KPI_TYPE TTT ON T.KPI_TYPE = TTT.TYPE_CODE 
+		WHERE 1=1
+        AND T.KPI_STATUS = '9'
+        {AND T.KPI_NAME LIKE CONCAT(CONCAT('%',#kpi_name#),'%')
+        (AND T.KPI_ISCURR=#kpi_iscurr#)
+        {AND T.CUBE_CODE = #cube_code#}
+        {AND SUBSTR(T.SERVICE_KEY,1,2) = #kt#}
+        {AND SUBSTR(T.SERVICE_KEY,3,2) = #st#}
+        {AND SUBSTR(T.SERVICE_KEY,5,2) = #cl#}
+        {AND SUBSTR(T.SERVICE_KEY,7,2) = #cy#}
+        {AND SUBSTR(T.SERVICE_KEY,9,2) = #ra#}
+        ORDER BY T.CREATE_DATETIME DESC
+        ]]>
+	</sql>
+	
+	<sql name="queryData">
+		<![CDATA[
+		SELECT TT.KPI_NAME AS "KPI_NAME",
+	       TT.KPI_VERSION AS "KPI_VERSION",
+	       CONCAT(CONCAT(T.ACCT_MONTH , '') ,T.DAY_ID) AS "ACCT"",
+	       T.RECORDS AS "RECORDS",
+	       T.KPI_RECORDS AS "KPI_RECORDS"
+	  FROM X_KPI_INFO_DATA_CHECK T JOIN X_KPI_INFO_TMP TT ON (T.KPI_CODE = TT.KPI_CODE 
+	  															AND T.KPI_VERSION = TT.KPI_VERSION)
+	 WHERE T.KPI_CODE = #kpi_code#
+	   AND T.KPI_VERSION = #kpi_version#
+	   ]]>
+	</sql>
+	
+	<sql name="audit">
+		<![CDATA[
+		INSERT INTO X_KPI_AUDIT
+		  (AUDIT_ID,
+		   KPI_KEY,
+		   KPI_CODE,
+		   AUDIT_RESULT,
+		   AUDIT_FLAG,
+		   AUDIT_OPINION,
+		   EXAMINE_USER,
+		   EXAMINE_DATETIME)
+		  SELECT X_KPI_AUDIT_SEQ.NEXTVAL,
+		         T.KPI_KEY,
+		         T.KPI_CODE,
+		         #kpi_status#,
+		         '3',
+		         #audit_opinion#,
+		         #.UserInfo.USER_ID#,
+		         now()
+		    FROM X_KPI_INFO_TMP T
+		   WHERE T.KPI_CODE = #kpi_code#
+		     AND T.KPI_VERSION = #kpi_version#
+		     ]]>
+	</sql>
+	
+	<sql name="update3Status">
+		<![CDATA[
+		UPDATE X_KPI_INFO_TMP T
+		   SET T.KPI_STATUS = '3'
+		 WHERE T.KPI_CODE = #kpi_code#
+		   AND T.KPI_VERSION = #kpi_version#
+		   ]]>
+	</sql>
+	
+	<sql name="update2Status">
+	<![CDATA[
+		UPDATE X_KPI_INFO_TMP T SET T.KPI_ISCURR='0' WHERE T.KPI_ISCURR='1' AND T.KPI_STATUS='2'  AND T.KPI_CODE=#kpi_code#;
+		UPDATE X_KPI_INFO_TMP T SET T.KPI_ISCURR='1',T.KPI_STATUS='2' WHERE T.KPI_CODE=#kpi_code# and t.kpi_version=#kpi_version#;
+		DELETE FROM X_KPI_INFO WHERE KPI_CODE=#kpi_code#;
+		INSERT INTO X_KPI_INFO (SELECT * FROM X_KPI_INFO_TMP WHERE KPI_CODE=#kpi_code# and KPI_VERSION=#kpi_version#);
+		DELETE FROM X_KPI_SOURCE WHERE KPI_CODE=#kpi_code#;
+		INSERT INTO X_KPI_SOURCE (SELECT * FROM X_KPI_SOURCE_TMP WHERE SOURCE_CODE=#kpi_code# and kpi_version=#kpi_version#);
+		INSERT INTO X_KPI_SQL_INFO (SQL_ID,KPI_CODE,KPI_VERSION,KPI_TABLE,KPI_COLUMN,KPI_SQL,KPI_CREATETIME,IS_RUN,RUN_CNT,RUN_DURATION,RUN_STARTTIME,RUN_ENDTIME,RUN_RESULT,RULE_COLUMN,FORMULA_COLUMN,USER_TABLE) SELECT SQL_ID,KPI_CODE,KPI_VERSION,KPI_TABLE,KPI_COLUMN,KPI_SQL,KPI_CREATETIME,IS_RUN,RUN_CNT,RUN_DURATION,RUN_STARTTIME,RUN_ENDTIME,RUN_RESULT,RULE_COLUMN,FORMULA_COLUMN,USER_TABLE FROM X_KPI_SQL_INFO_DATA T WHERE T.KPI_CODE=#kpi_code# AND T.KPI_VERSION=#kpi_version#;
+	]]>
+	</sql>
+</mapping>

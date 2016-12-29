@@ -1,0 +1,93 @@
+@charset "utf-8";
+
+
+
+/* 框架 */
+body { }
+
+/* header */
+
+
+
+/* background */
+.bg_none{ background:none !important;}
+.font_weight_none{ font-weight:normal;}
+.bg_gray{background:#F2F2F2 !important;}
+
+/* border */
+.bt_none{ border-top:none !important;}
+.br_none{border-right:none !important;}
+.bb_none{border-bottom:none !important;}
+.bt_solid{border-top:1px solid #dbdbdb !important;}
+/* clear */
+.cl{ clear:both !important;}
+
+/* float */
+.fl{ float:left !important;}
+.fr{ float:right !important;}
+.fn{ float:none !important;}
+
+/* text */
+.txt_left{ text-align:left !important;}
+.txt_centern{ text-align:center !important;}
+.txt_right{ text-align:right !important;}
+.va_top{vertical-align:top !important;}
+
+/* color */
+.orange{ color:#ff7e00!important;}
+.grey{ color:#6500e3!important;}
+.grey01{ color:#b7b7b7!important;}
+.yellow{ color:#fff600!important;}
+.blue{ color:#0095ff!important;}
+.red{ color:#ff0000!important;}
+.green{ color:#6ea000!important;}
+
+
+/* font-size  */
+.font11{ font-size:11px !important;}
+.font_blod{font-weight:bold !important;}
+
+/* margin */
+.mt_0{ margin-top:0 !important;}
+.mt_10{ margin-top:10px !important;}
+.mt_110{ margin-top:110px !important;}
+.ml_0{ margin-left:0 !important;}
+.ml_15{ margin-left:15px !important;}
+.ml_10{margin-left:-10px !important;}
+.mb_0{margin-bottom:0 !important;}
+.mb_10{margin-bottom:10px !important;}
+.mr_10{margin-right:10px !important;}
+
+
+/* padding */
+.pr_none { padding-right:0!important;}
+.pr_5 { padding-right:5px!important;}
+.pr_28{ padding-right:28px!important;}
+/* input */
+.inputS{ height:16px; padding:3px 0 1px 5px; border:1px solid #c4c4c4; color:#666666;}
+.selectS{ padding:1px 0;}
+.fileS{ padding:1px 0;}
+.select{ border:1px solid #c4c4c4; padding:2px; min-width:100px;}
+.checkboxS{ position:relative; top:-1px; }
+.textarea{border:1px solid #c4c4c4; width:98%;}
+.radio{position:relative; top:-3px;}
+
+
+/* width */
+.wb90{ width:90% !important;}
+.wb25{width:25% !important;}
+.wb95{ width:95% !important;}
+.w_700{ width:700px !important;}
+.w_200{ width:200px !important;}
+.w_150{ width:150px !important;}
+.w_100{ width:100px !important;}
+.w_80{ width:80px !important;}
+.w_50{ width:50px !important;}
+
+
+/* button */
+.button{ margin-top:20px; text-align:center;}
+.button ul li{ display:inline;}
+.button.right{ text-align:right;}
+.btn01_right{ text-align:right;}
+

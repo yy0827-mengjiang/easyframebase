@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.homesql">
+	<sql name="userDaysObj">
+		<![CDATA[
+			SELECT CURRENT_DATE - T .UPDATE_DATE::date AS "DAYNUM" FROM E_USER T WHERE T .USER_ID ='101'
+		]]>
+	</sql>
+	
+	<sql name="RootMenuList">
+		<![CDATA[
+		select RESOURCES_ID as "RESOURCES_ID", RESOURCES_NAME as "RESOURCES_NAME", URL as "URL",coalesce(RESOURCE_STATE,'3') as "RESOURCE_STATE",RESOURCES_TYPE as "RESOURCES_TYPE",
+		COALESCE(CASE  ATTACHMENT WHEN '' THEN NULL ELSE ATTACHMENT END,'/resources/themes/base/images/boncLayout/bg/bg_box04.png') as "ATTACHMENT"
+		  FROM e_menu t
+		 where t.parent_id = '0'
+		   and RESOURCES_ID in
+		       (select id
+		          from (select b.MENU_ID ID
+		                  from E_USER_PERMISSION b
+		                 where b.USER_ID = #session.UserInfo.USER_ID#
+		                   and b.AUTH_READ = 1
+		                union all
+		                select c.MENU_ID
+		                  from E_ROLE_PERMISSION c
+		                 where c.ROLE_CODE in
+		                       (select ROLE_CODE
+		                          from E_USER_ROLE
+		                         where USER_ID = #session.UserInfo.USER_ID#)
+		                   and c.AUTH_READ = 1) A)
+		 order by ord
+		]]>
+	</sql>
+	<sql name="col_list">
+		<![CDATA[
+			select ID as "ID" from E_USER_COLLECT U where U.user_id = #session.UserInfo.USER_ID#
+		]]>
+	</sql>
+	
+</mapping>

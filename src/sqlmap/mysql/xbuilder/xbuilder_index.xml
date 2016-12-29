@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.index">
+	<sql name="theme_list">
+		<![CDATA[
+			select ID,NAME,ord CLASS_NUM from x_theme order by ord
+		]]>
+	</sql>
+	<sql name="color_list">
+		<![CDATA[
+			select b.THEME_ID,a.css THEME_FILE_PATH,b.CLASS ID,b.NAME from x_theme a,x_theme_color b where a.id=b.theme_id order by b.THEME_ID,b.ord
+		]]>
+	</sql>
+</mapping>
+
+
+

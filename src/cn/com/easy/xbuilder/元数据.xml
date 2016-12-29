@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<report id="" theme="">
+	<info url="报表地址" name="报表名称" type="自定义sql(1)；指标库(2)" typeExt="3立方体(对自定义sql的扩展)" cubeId="指标库魔方ID" lType="pc是1，手机是2" createUser="创建人" createTime="创建时间" modifyUser="修改人" modifyTime="修改时间"/>
+	<layout type="" width="">table表格代码</layout>
+	<containers>
+		<container id="唯一id" type="基础(1)/切换(2)/选项卡(3)" title="标题" bgclass="" pop="id" styleclass="">
+			<components>
+				<component id="唯一id" compId="数据库表中组件Id" url="jsp地址" propertyUrl="属性jsp地址" title="标题" type="datagrid" tablepagi="是否分页，1是0否，默认为1" tablepaginum="每页显示记录数，默认为10" tableexport="是否导出，1是0否，默认为1" tableheadlock="是否锁定行" tableheadlocknum="锁定行数"
+					tablecollock="是否锁定列，1是0否，默认为0" tablecollocknum="锁定列数量，默认为1" width="宽度" height="高度"  datasourceid="20131008105246" index="0" showTitle="1:是,0:否,默认为1" userUrl="用户添加的url"
+					tableshowrowtotal="是否显示行小计，1是0否，默认为0" tableshowtotal="是否显示合计，1是0否，默认为0" tableshowtotalname="合计名称，字符，默认为‘合计’" tableshowtotalposition="显示合计的位置，top顶部bottom底部，默认top" tablesetsum="是否是指标值做聚合，1是0否，默认为1">
+					<weblink>
+						<condition id="" varname="" desname="" cond="" />
+					</weblink>
+					<sortcolstore>
+						<sortcol id="排序字段id" col="排序字段" desc="排序字段描述" type="排序方式 asc desc，默认为desc" kpitype="字段类型 dim kpi,默认为dim" extcolumnid="如果是计算列，则存计算列id，否则为空"/>
+						<sortcol id="排序字段id" col="排序字段" desc="排序字段描述" type="排序方式 asc desc，默认为desc" kpitype="字段类型 dim kpi,默认为dim" extcolumnid="如果是计算列，则存计算列id，否则为空"/>
+						<sortcol id="排序字段id" col="排序字段" desc="排序字段描述" type="排序方式 asc desc，默认为desc" kpitype="字段类型 dim kpi,默认为dim" extcolumnid="如果是计算列，则存计算列id，否则为空"/>
+					</sortcolstore>
+					<datastore><!--数据存储区-->
+						<datacol tableheadwidth="表头宽度;默认为100" 
+							tableheadalign="表头对齐方式: left right center;默认为center" 
+							tablerowcode="绑定单元格行编号b,c,d" 
+							tablecolcode="绑定单元格编号 如b2,c2,d2"
+							tablecoldesc="绑定单元格对应的汉字名称 如'网上用户数'" 
+							datacolid="绑定数据集中对应的指标库指标id" 
+							datacoltype="dim（维度）/kpi（指标）" 
+							extcolumnid="如果是计算列，则为计算列id，否则为空"
+							datacolcode="绑定数据集中对应的字段 如“area_no”或者“地市编号”"
+							datacoldesc="绑定数据集中对应的指标库指标描述"
+							datafmtrowmerge="行间相邻相同数据合并，1是0否，默认为0"
+							datafmttype="格式化数据类型：common：常规  number：数值 percent：百分数,默认为common" 
+							datadecimal="小数位数，默认为0"
+							datafmtthousand="格式化数据：是否显示千位符 1：是 0：否，默认为0"
+							datafmtisbd="格式化数据：是否设置边界判断 1：是 0：否，默认为0" 
+							datafmtbdup="格式化数据：设置边界判断时 大于边界值颜色值，默认为 #00ff00"
+							datafmtisbdvalue="格式化数据：设置边界值，默认为0"
+							datafmtbddown="格式化数据：设置边界判断时 小于边界值颜色值，默认为#ff0000" datafmtisarrow="格式化数据：设置边界判断时 是否显示增减箭头，1是0否，默认为0"
+							datafmtalign="格式化数据：数据对齐方式: left right center" index="1"><!--数据列与绑定列等设置 list多个 按照绑定顺序-->
+							<eventstore  type="link/cas" >
+								<event id="动作id(惟一标识)" source="报表id或组件id">
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+								<event id="动作id(惟一标识)" source="报表id或组件id">
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+							</eventstore>
+						</datacol>
+					</datastore>
+					<dynheadstore>
+						<dynheadcol id="惟一标识，与headui中的td的data-dynheadid属性值对应" bindingtype="动态表头类型（1：与系统常量表绑定，2：与查询条件绑定），默认为1" datatype="数据类型（1：日，2：月），默认为1" dimsionname="查询条件英文名称，默认为空字符，如acct_day" yearstep="年偏移量，整数，默认为0" monthstep="月偏移量，整数，默认为0" daystep="日偏移量，整数，默认为0" prefixstr="前缀，在生成的动态值前面添加的字符串，默认为空字符" suffixstr="后缀，在生成的动态值后面添加的字符串，默认为空字符"></dynheadcol>
+						<dynheadcol id="惟一标识，与headui中的td的data-dynheadid属性值对应" bindingtype="动态表头类型（1：与系统常量表绑定，2：与查询条件绑定），默认为1" datatype="数据类型（1：日，2：月），默认为1" dimsionname="查询条件英文名称，默认为空字符，如acct_day" yearstep="年偏移量，整数，默认为0" monthstep="月偏移量，整数，默认为0" daystep="日偏移量，整数，默认为0" prefixstr="前缀，在生成的动态值前面添加的字符串，默认为空字符" suffixstr="后缀，在生成的动态值后面添加的字符串，默认为空字符"></dynheadcol>
+					</dynheadstore>
+					<headui><!-- 存放复杂表头dom信息 加密保存 或者xml片段 -->
+						<![CDATA[
+							<table>
+								<tr>
+									<td data-dynheadid="">
+									</td>
+								</tr>
+							</table>
+						]]>
+					</headui>
+					
+				</component>
+				<component id="唯一id" compId="数据库表中组件Id" url="jsp地址" propertyUrl="属性jsp地址" title="标题" type="treegrid" width="宽度" height="高度" 
+					fieldwidth ="下钻列宽,默认为200" 
+					idfield="下钻表格 编码列,默认为 TREEFILE_ID"
+					treefield="下钻表格 描述列,默认为 TREEFILE_DESC" treefieldtitle="下钻列 显示名称,默认为 下钻名称" 
+					hastotalflag="是否显示汇总， 1：是 0：否，默认为0" totaltitle="显示汇总时的名称，默认为 合计 " 
+					totalcode="显示汇总时的下钻编码，默认为 all" 
+					datasourceid="组件绑定数据源id:20131008105246"
+					contextmenuwidth="右键菜单宽,默认为200" layoutid="布局编码layout_01：编辑恢复的时候找到每个组件对应哪个部局" index="1">
+					<datastore><!--数据存储区-->
+						<datacol tableheadwidth="表头宽度;默认为100" 
+							tableheadalign="表头对齐方式: left right center;默认为center" 
+							tablerowcode="绑定单元格行编号b,c,d" 
+							tablecolcode="绑定单元格编号 如b2,c2,d2"
+							tablecoldesc="绑定单元格对应的汉字名称 如'网上用户数'" 
+							datacolid="绑定数据集中对应的指标库指标id" 
+							datacoltype="dim（维度）/kpi（指标）" 
+							extcolumnid="如果是计算列，则为计算列id，否则为空"
+							datacolcode="绑定数据集中对应的字段 如“area_no”或者“地市编号”"
+							datacoldesc="绑定数据集中对应的指标库指标描述"
+							datafmtrowmerge="行间相邻相同数据合并，1是0否，默认为0"
+							datafmttype="格式化数据类型：common：常规  number：数值 percent：百分数,默认为common" 
+							datadecimal="小数位数，默认为0"
+							datafmtthousand="格式化数据：是否显示千位符 1：是 0：否，默认为0"
+							datafmtisbd="格式化数据：是否设置边界判断 1：是 0：否，默认为0" 
+							datafmtbdup="格式化数据：设置边界判断时 大于边界值颜色值，默认为 #00ff00"
+							datafmtisbdvalue="格式化数据：设置边界值，默认为0"
+							datafmtbddown="格式化数据：设置边界判断时 小于边界值颜色值，默认为#ff0000" datafmtisarrow="格式化数据：设置边界判断时 是否显示增减箭头，1是0否，默认为0"
+							datafmtalign="格式化数据：数据对齐方式: left right center" index="1"><!--数据列与绑定列等设置 list多个 按照绑定顺序-->
+							<eventstore  type="link/cas" >
+								<event id="动作id(惟一标识)" source="报表id或组件id">
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+								<event id="动作id(惟一标识)" source="报表id或组件id">
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+							</eventstore>
+						</datacol>
+					</datastore>
+					<!-- %%%%下钻设置%%%% -->
+					<subdrills>
+						<subdrill drillcolcodeid="编码列id" drillcode="下钻表格根节点 编码 如 area，默认为空字符" drillcoltitle="下钻列 显示名称，默认为空字符" 
+							drillcolcode="下钻表格 编码列，默认为空字符" drillcoldesc="下钻表格 描述列，默认为空字符" 
+							level="下钻 级别 按序号显示级别 0 1 2 ...n,默认为 0"  group="下钻 显示分组名称，默认为空字符" 
+							isdefault="是否默认显示,0:不显示1：显示，默认为0"  datasourceid="组件绑定数据源id:20131008105246，默认为空字符" 
+					    	index="0">
+					    	<subdirllsortcols>
+					    		<subdirllsortcol colcode="下钻的排序列，默认为空字符.指标库方式时为指标id" sortkpitype="下钻排序的指标类型，维度：dim,指标：kpi,默认为dim" sorttype="下钻排序方式，默认为asc" extcolumnid="如果为计算列，存计算列id" ></subdirllsortcol>
+					    		<subdirllsortcol colcode="下钻的排序列，默认为空字符.指标库方式时为指标id" sortkpitype="下钻排序的指标类型，维度：dim,指标：kpi,默认为dim" sorttype="下钻排序方式，默认为asc" extcolumnid="如果为计算列，存计算列id"></subdirllsortcol>
+					    	</subdirllsortcols>
+					    </subdrill>
+						<subdrill drillcolcodeid="编码列id" drillcode="下钻表格根节点 编码 如 area，默认为空字符" drillcoltitle="下钻列 显示名称，默认为空字符" 
+							drillcolcode="下钻表格 编码列，默认为空字符" drillcoldesc="下钻表格 描述列，默认为空字符"  
+							level="下钻 级别 按序号显示级别 0 1 2 ...n,默认为 0"  group="下钻 显示分组名称，默认为空字符" 
+							isdefault="是否默认显示,0:不显示1：显示，默认为0"  datasourceid="组件绑定数据源id:20131008105246，默认为空字符" 
+					    	index="0">
+					    	<subdirllsortcols>
+					    		<subdirllsortcol colcode="下钻的排序列，默认为空字符.指标库方式时为指标id"  sortkpitype="下钻排序的指标类型，维度：dim,指标：kpi,默认为dim" sorttype="下钻排序方式，默认为asc" ></subdirllsortcol>
+					    		<subdirllsortcol colcode="下钻的排序列，默认为空字符.指标库方式时为指标id"  sortkpitype="下钻排序的指标类型，维度：dim,指标：kpi,默认为dim" sorttype="下钻排序方式，默认为asc" ></subdirllsortcol>
+					    	</subdirllsortcols>
+					    </subdrill>
+					</subdrills>
+					<!-- %%%%下钻设置end%%%% -->
+					<dynheadstore>
+						<dynheadcol id="惟一标识，与headui中的td的data-dynheadid属性值对应" bindingtype="动态表头类型（1：与系统常量表绑定，2：与查询条件绑定），默认为1" datatype="数据类型（1：日，2：月），默认为1" dimsionname="查询条件英文名称，默认为空字符，如acct_day" yearstep="年偏移量，整数，默认为0" monthstep="月偏移量，整数，默认为0" daystep="日偏移量，整数，默认为0" prefixstr="前缀，在生成的动态值前面添加的字符串，默认为空字符" suffixstr="后缀，在生成的动态值后面添加的字符串，默认为空字符"></dynheadcol>
+						<dynheadcol id="惟一标识，与headui中的td的data-dynheadid属性值对应" bindingtype="动态表头类型（1：与系统常量表绑定，2：与查询条件绑定），默认为1" datatype="数据类型（1：日，2：月），默认为1" dimsionname="查询条件英文名称，默认为空字符，如acct_day" yearstep="年偏移量，整数，默认为0" monthstep="月偏移量，整数，默认为0" daystep="日偏移量，整数，默认为0" prefixstr="前缀，在生成的动态值前面添加的字符串，默认为空字符" suffixstr="后缀，在生成的动态值后面添加的字符串，默认为空字符"></dynheadcol>
+					</dynheadstore>
+					<headui><!-- 存放复杂表头dom信息 加密保存 或者xml 片段 -->
+						<![CDATA[
+							
+						]]>
+					</headui>
+				</component>
+			
+			<!-- 面页模版 -->
+			<component id="唯一id" compId="数据库表中组件Id" url="jsp地址" propertyUrl="属性jsp地址" title="标题" type="webpage" 
+					 width="宽度" height="高度"  datasourceid="20131008105246" index="0"  userUrl="用户添加的url">
+				<weblink>
+					<condition id="" varname="" desname="" cond="" />
+				</weblink>
+			</component>
+			
+			<!-- 交叉表 -->
+			<component id="唯一id" compId="数据库表中组件Id" url="jsp地址" propertyUrl="属性jsp地址" title="标题" type="crosstable" tablepagi="0否，默认为0" tableexport="是否导出，1是0否，默认为1" tableheadlock="是否锁定行" tableheadlocknum="锁定行数"
+					tablecollock="是否锁定列，1是0否，默认为0" tablecollocknum="锁定列数量，默认为1" width="宽度" height="高度" issort="是否排序，1是0否，默认为0" rowtype="(行展显方式)1列表,2树形，默认列表" rowsumposition="(行合计的位置)top,bottom"  colSumName="列合计名称" rowSumName="行合计名称" 
+					sortcolid="排序字段id" sortcol="排序字段" sortcoldesc="排序字段描述" sorttype="排序方式 asc desc，默认为asc"  datasourceid="20131008105246" index="0" showTitle="1:是,0:否,默认为1" sumtype="合计方式:0:不合计、1:行合计、2:列合计、3:行列都合计;默认为0不合计">
+					<sortcolstore>
+						<sortcol id="排序字段id" col="排序字段" desc="排序字段描述" type="排序方式 asc desc，默认为desc" kpitype="字段类型 dim,默认为dim，非旋转" extcolumnid="如果是计算列，则为计算列id，否则为空"/>
+						<sortcol id="排序字段id" col="排序字段" desc="排序字段描述" type="排序方式 asc desc，默认为desc" kpitype="字段类型 dim,默认为dim，非旋转" extcolumnid="如果是计算列，则为计算列id，否则为空"/>
+						<sortcol id="排序字段id" col="排序字段" desc="排序字段描述" type="排序方式 asc desc，默认为desc" kpitype="字段类型 dim,默认为dim，非旋转" extcolumnid="如果是计算列，则为计算列id，否则为空"/>
+					</sortcolstore>
+					<crosscolstore>
+						<crosscol id="id" dimid="维度ID" dimfield="维度名称" dimdesc="描述" tableheadwidth="" datafmtrowmerge="行间相邻相同数据合并，1是0否，默认为0" tableheadalign="center" type="1：行维度，2：列维度" index="列或行的下标(0，1，2)">
+						     <eventstore  type="link/cas" >
+								<event id="动作id(惟一标识)" source="报表id或组件id" >
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+								<event id="动作id(惟一标识)" source="报表id或组件id" >
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+							</eventstore>
+						</crosscol>
+						<crosscol id="id" dimid="维度ID" dimfield="维度名称" dimdesc="描述" tableheadwidth="" datafmtrowmerge="行间相邻相同数据合并，1是0否，默认为0" tableheadalign="center" type="1：行维度，2：列维度" index="列或行的下标(0，1，2)" >
+						<eventstore  type="link/cas" >
+								<event id="动作id(惟一标识)" source="报表id或组件id" >
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+								<event id="动作id(惟一标识)" source="报表id或组件id" >
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+							</eventstore>
+						</crosscol>
+					</crosscolstore>
+					<datastore><!--数据存储区-->
+						<datacol tableheadwidth="表头宽度;默认为100" 
+							tableheadalign="表头对齐方式: left right center;默认为center" 
+							tablerowcode="绑定单元格行编号b,c,d" 
+							tablecolcode="绑定单元格编号 如b2,c2,d2"
+							tablecoldesc="绑定单元格对应的汉字名称 如'网上用户数'" 
+							datacolid="绑定数据集中对应的指标库指标id" 
+							datacoltype="dim（维度）/kpi（指标）" 
+							extcolumnid="如果是计算列，则为计算列id，否则为空"
+							datacolcode="绑定数据集中对应的字段 如“area_no”或者“地市编号”"
+							datacoldesc="绑定数据集中对应的指标库指标描述"
+							datafmtrowmerge="行间相邻相同数据合并，1是0否，默认为0"
+							datafmttype="格式化数据类型：common：常规  number：数值 percent：百分数,默认为common" 
+							datadecimal="小数位数，默认为0"
+							datafmtthousand="格式化数据：是否显示千位符 1：是 0：否，默认为0"
+							datafmtisbd="格式化数据：是否设置边界判断 1：是 0：否，默认为0" 
+							datafmtbdup="格式化数据：设置边界判断时 大于边界值颜色值，默认为 #00ff00"
+							datafmtisbdvalue="格式化数据：设置边界值，默认为0"
+							datafmtbddown="格式化数据：设置边界判断时 小于边界值颜色值，默认为#ff0000" datafmtisarrow="格式化数据：设置边界判断时 是否显示增减箭头，1是0否，默认为0"
+							datafmtalign="格式化数据：数据对齐方式: left right center，默认为right" index="1"><!--数据列与绑定列等设置 list多个 按照绑定顺序-->
+							<eventstore  type="link/cas" >
+								<event id="动作id(惟一标识)" source="报表id或组件id" >
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+								<event id="动作id(惟一标识)" source="报表id或组件id" >
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+									<parameter dimsionid="维度/约束的id" name="参数名" value="对应表格数据的字段"/><!-- 参值集：a=b&b=c&c=d -->
+								</event>
+							</eventstore>
+						</datacol>
+					</datastore>
+					<headui><!-- 存放复杂表头dom信息 加密保存 或者xml片段 -->
+						<![CDATA[
+							<table>
+								<tr>
+									<td>
+									</td>
+								</tr>
+							</table>
+						]]>
+					</headui>
+				</component>
+			</components>
+		</container>
+		<container id="" type="基础(1)/切换(2)/选项卡(3)" title="标题" bgclass="" pop="id">
+			<components>
+				<component id="" compId="" datasourceid="数据集id" url="jsp地址" propertyUrl="属性jsp地址" title="标题" chartTitle="图形标题(显示在图形上部的标题)" type="line/column/pie/bar/ring" width=""
+					height="" attrenable="属性是否启用，true/false" isvalid="是否有效，1：有效，0：无效。"  colors="指标颜色的列表，逗号隔开的颜色值" showTitle="1:是,0:否,默认为1" stacking="（柱图、柱线图）是否堆叠显示：true/false">
+					<xaxis sortfield="排序列" sortExtField="排序计算列" sortkpitype="排序列是维度列还是指标列，kpi/dim,默认为dim" sortFiledId="排序列指标ID" dimfield="维度列" dimExtField="维度计算列" dimFiledId="排序列指标ID" sortType="asc/desc" scatterDimField="散点图group by列，最小粒度维度" scatterDimExtField="散点图最小粒度计算列" scatterDimFieldId="指标库类型，散点图group by列ID，最小粒度维度列ID"/>
+					<yaxis id="编码" title="标题" color="颜色" unit="单位" min="最小值" max="最大值" index="顺序" /><!--多刻度，多指标-->
+					<yaxis id="编码" title="标题" color="颜色" unit="单位" min="最小值" max="最大值" index="顺序" />
+					<kpi name="指标名称" type="line/column/pie/bar" field="指标列" extcolumnid="如果是计算列，则为计算列id，否则为空" kpiId="指标ID" color="颜色" yaxisid="yaxis编码" index="0"/><!--多刻度，多指标-->
+					<kpi name="指标名称" type="line/column/pie/bar" field="指标列" extcolumnid="如果是计算列，则为计算列id，否则为空" kpiId="指标ID" color="颜色" yaxisid="yaxis编码" index="0"/>
+					<legend position="top/bottom/left/right" isShow="true/false"/> 
+				</component>
+			</components>
+		</container>
+	</containers>
+	<!-- 
+	<query showtype="普通、平铺">
+		<link dimsionid="" />
+		<link dimsionid="" />
+	</query>
+	 -->
+	<dimsions>
+		<dimsion id="维度的id" type="输入框/下拉框/树/。。。" varname="变量名" desc="描述"
+			table="维度对应表名"  codecolumn="维度编码字段"
+			desccolumn="维度描述字段" level="多级联动的级别" ordercolumn="排序列" parentcol="上一级编码字段"
+			isselectm="下拉框是否多选" showtype="常规/平铺" index="0" formula="条件运算符" isparame="是否为参数，1是0否" fieldid="指标编码" field="指标字段名" fieldtype="指标类型"
+			defaultvaluetype="默认值类型，1常量（默认）、2用户属性" defaultvalue="默认值，默认为空字符"
+			>
+			<sql extds="">
+				<![CDATA[
+					select area_no from 表 where user=#user_id#
+				]]>
+			</sql><!--手动配置的时候需要用这个标签-->
+		</dimsion>
+	</dimsions>
+	<datasources>
+		<datasource id="01" name="" extds="" createtime="" creator="" index="0" reference="引用其他datasource的id" kpistoreid="kpistoreId1" datatype="数据集类型：map、list或其他类型,默认值list">
+			<![CDATA[
+				select area_no from 表 where user=#user_id#
+			]]>
+		</datasource>
+		<datasource id="02" name="" extds="" reference="引用其他datasource的id" datatype="数据集类型：map、list或其他类型,默认值list">
+			<![CDATA[
+			select area_no from 表 where user=#user_id#
+			]]>
+		</datasource>
+	</datasources>
+	
+	<!-- 临时数据源 -->
+	<tmpdatasources>
+		<tmpdatasource id="01" name="" extds="" createtime="" creator="" index="0" reference="引用其他datasource的id" kpistoreid="kpistoreId1" datatype="数据集类型：map、list或其他类型,默认值list">
+			<![CDATA[
+				select area_no from 表 where user=#user_id#
+			]]>
+		</tmpdatasource>
+		<tmpdatasource id="02" name="" extds="" reference="引用其他datasource的id" datatype="数据集类型：map、list或其他类型,默认值list">
+			<![CDATA[
+			select area_no from 表 where user=#user_id#
+			]]>
+		</tmpdatasource>
+	</tmpdatasources>
+	
+	<extcolumns>
+		<extcolumn id="" datasourceid="数据源id1" formulaid="数据库记录id1" name="计算列名称" formula="公式(a+b)/a*c">
+	      <param name="a" value="指标1"/>
+	      <param name="b" value="指标2"/>
+	      <param name="c" value="指标3"/>
+		</extcolumn>
+		<extcolumn id="" datasourceid="数据源id1" formulaid="数据库中公式id1" name="计算列名称" formula="公式(a+b)/a*d">
+	      <param name="a" value="指标1"/>
+	      <param name="b" value="指标2"/>
+	      <param name="c" value="指标3"/>
+		</extcolumn>
+	</extcolumns>
+	<kpistores>
+		<kpistore id="kpistoreId1">
+			<kpistorecol kpiid="指标库中指标id" kpicolumn="指标库中指标字段名" kpidesc="指标库中指标描述" kpitype="指标库中指标类型(dim/kpi)"/>
+			<kpistorecol kpiid="指标库中指标id" kpicolumn="指标库中指标字段名" kpidesc="指标库中指标描述" kpitype="指标库中指标类型(dim/kpi)"/>
+			<kpistorecol kpiid="指标库中指标id" kpicolumn="指标库中指标字段名" kpidesc="指标库中指标描述" kpitype="指标库中指标类型(dim/kpi)"/>
+		</kpistore>
+		<kpistore id="kpistoreId2">
+			<kpistorecol kpiid="指标库中指标id" kpicolumn="指标库中指标字段名" kpidesc="指标库中指标描述" kpitype="指标库中指标类型(dim/kpi)"/>
+			<kpistorecol kpiid="指标库中指标id" kpicolumn="指标库中指标字段名" kpidesc="指标库中指标描述" kpitype="指标库中指标类型(dim/kpi)"/>
+			<kpistorecol kpiid="指标库中指标id" kpicolumn="指标库中指标字段名" kpidesc="指标库中指标描述" kpitype="指标库中指标类型(dim/kpi)"/>
+		</kpistore>
+	</kpistores>
+</report>

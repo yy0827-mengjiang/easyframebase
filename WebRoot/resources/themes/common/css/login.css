@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px white inset;}
+.boncEntryPage,
+.boncEntryPage body {width:100%; height:100%; overflow:hidden;}
+
+.boncEntryArea {overflow:hidden;position:relative;width:100%;height:100%;}
+
+.boncEntryArea .EntryHead{float:left;width:100%;padding:30px 0 ;background:#2b579a;}
+.boncEntryArea .EntryHead h1{margin-left:30px;width:198px;height:59px;text-indent:-5000px;background:url(../login/logoEntry.png) no-repeat;}
+.boncEntryArea .EntryHead h2{margin-left:30px;width:274px;height:32px;}
+
+.boncEntryArea .EntryCon{float:left;overflow:hidden;margin:1px 0;width:100%;height:75%;background:#f8f8f8 url(../login/bgEntry.jpg) left 0 no-repeat;background-size:100% 100%;}
+.boncEntryArea .EntryCon .EntryGroup{float:right;margin-right:300px;width:340px;margin-top:150px;}
+.boncEntryArea .EntryCon .EntryGroupLine{overflow:hidden;margin-top:15px;padding:7px;line-height:26px;border:1px solid #919191;border-radius:2px;background:#fff;}
+.boncEntryArea .EntryCon .EntryGroupLineO {padding:7px 10px; float:left; width:150px;}
+.boncEntryArea .EntryCon .EntryGroupLine span{float:left;margin-top:3px;margin-right:5px;margin-left:3px;width:30px;height:20px;}
+.boncEntryArea .EntryCon .EntryGroupLine input{width:270px;font-size:14px !important;height:26px !important;line-height:26px !important;border:none !important;background-image:none !important;}
+.boncEntryArea .EntryCon .EntryGroupLine input:focus{outline:none;}
+
+.boncEntryArea .EntryCon .iconUser{background:url(../login/iconUser.png) no-repeat;}
+.boncEntryArea .EntryCon .iconPassword{background:url(../login/iconPassword.png) no-repeat;}
+.boncEntryArea .EntryCon .iconCode{background:url(../login/iconCode.png) no-repeat;}
+.boncEntryArea .EntryCon .formCode{float:left;width:100px !important;}
+.boncEntryArea .EntryCon .imgCode{float:left;margin-left:5px;margin-top:23px;width:90px;height:30px;}
+.boncEntryArea .EntryCon .btnCode{float:left;margin-top:28px;margin-left:5px;color:#999 !important;font-size:14px;padding-right:20px;line-height:20px;height:20px;background:url(../login/iconRefresh.png) right 0 no-repeat;}
+.boncEntryArea .EntryCon .btnCode:hover{color:#2b579a !important;background:url(../login/iconRefreshActive.png) right 0 no-repeat;}
+
+.boncEntryArea .EntryCon .btnSubmit{margin:0 auto;width:400px;}
+.boncEntryArea .EntryCon .btnSubmit a{display:block;margin-top:30px;width:340px;height:42px;font-size:20px;color:#fff;border-radius:2px;line-height:42px;background:#2b579a;text-align:center;transition: all .3s ease;}
+.boncEntryArea .EntryCon .btnSubmit a:hover{background:#4c7cc5;transition: all .3s ease;}
+.boncEntryArea .EntryCon .btnSubmit a.find{display:block;margin-top:0;font-size:14px;background:none;color:#999;text-align:right;}
+.boncEntryArea .EntryCon .btnSubmit a.find:hover{text-decoration:underline;}
+
+.boncEntryArea .EntryFoot{position:fixed;bottom:0;border-top:1px solid #d5d5d5;width:100%;height:5%;line-height:40px;background:#e4e4e4;color:#666;text-align:center;}

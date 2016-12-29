@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+        <title>jQuery页面引导插件</title>
+        <meta name="keywords" content="页面引导,页面功能" />
+        <meta name="description" content="用户第一次使用产品时需要建立一个使用向导，引导用户如何使用产品，比如使用演示的方式逐一介绍界面上的功能模块，从而提升了用户体验和产品的亲和力。" />
+        <link rel="stylesheet" type="text/css" href="http://www.sucaihuo.com/jquery/css/common.css" />
+        <link rel="stylesheet" href="jquery.pagewalkthrough.css"/>
+        <!--[if lt IE 9]>
+<script src="html5.js"></script>
+<![endif]-->
+        <style type="text/css">
+            .demo{text-align:center}
+            .button {display: inline-block;outline: none;cursor: pointer;text-align: center;text-decoration: none;font: 22px/100% 'Microsoft yahei',Arial, Helvetica, sans-serif;padding: .5em 2em .55em;text-shadow: 0 1px 1px rgba(0,0,0,.3);-webkit-border-radius: .5em; -moz-border-radius: .5em;border-radius: .5em;-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+            .button:hover {text-decoration: none;}
+            .button:active {position: relative;top: 1px;}
+            .green {color: #e8f0de;border: solid 1px #538312;background: #64991e;background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));background: -moz-linear-gradient(top,  #7db72f,  #4e7d0e);filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e');}
+            .green:hover {background: #538018;background: -webkit-gradient(linear, left top, left bottom, from(#6b9d28), to(#436b0c));background: -moz-linear-gradient(top,  #6b9d28,  #436b0c);filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#6b9d28', endColorstr='#436b0c');color:#fff}
+            .green:active {color: #a9c08c;background: -webkit-gradient(linear, left top, left bottom, from(#4e7d0e), to(#7db72f));background: -moz-linear-gradient(top,  #4e7d0e,  #7db72f);filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');}
+            #walkthrough-content{display:none}
+            #walkthrough-content h3{height:30px; line-height:30px}
+            #walkthrough-content p{line-height:28px}
+        </style>
+    </head>
+    <body>
+        <div class="head">
+            <div class="head_inner">
+                <a class="logo" href="http://www.sucaihuo.com">
+                    <img alt="素材火logo" src="http://www.sucaihuo.com/Public/images/logo.jpg"/>
+                </a>
+            </div>
+        </div>
+        <div class="container" id="main">
+            <h2 class="title"><a href="http://www.sucaihuo.com/js/41.html" target="_blank">jQuery页面引导插件</a></h2>
+            <div id="walkthrough-content">
+                <div id="walkthrough-1">
+                    <h3>欢迎来到素材火示例DEMO演示页</h3>
+
+                    <p>页面功能介绍引导页的效果是通过一款叫做<a href="https://github.com/jwarby/jquery-pagewalkthrough" target="_blank">pagewalkthrough.js</a>的jQuery插件实现的。</p>
+                    <p>点击下一步了解更多...</p>
+                </div>
+
+                <div id="walkthrough-2">
+                    这是素材火官网LOGO，点击这里可以跳转到网站首页。
+                </div>
+
+                <div id="walkthrough-3">
+                    点击这里可以查看该插件的使用教程。
+                </div>
+
+                <div id="walkthrough-5">
+                    这是页脚和版权信息。
+                </div>
+            </div>  
+        </div>
+        <div class="foot">
+            Powered by sucaihuo.com  本站皆为作者原创，转载请注明原文链接：<a href="http://www.sucaihuo.com" target="_blank">www.sucaihuo.com</a>
+        </div>
+        <script type="text/javascript" src="http://www.sucaihuo.com/Public/js/other/jquery.js"></script>
+        <script type="text/javascript" src="jquery.pagewalkthrough.min.js"></script>
+        <script>
+            $(function() {
+                // 设置参数
+                $('body').pagewalkthrough({
+                    name: 'introduction',
+                    steps: [{
+                            popup: { //定义弹出提示引导层
+                                content: '#walkthrough-1',
+                                type: 'modal'
+                            }
+                        }, {
+                            wrapper: '.logo',//当前引导对应的元素位置
+                            popup: {
+                                content: '#walkthrough-2',//关联的内容元素
+                                type: 'tooltip',//弹出方式（tooltip和modal以及nohighlight）
+                                position: 'bottom'//弹出层位置（top,left, right or bottom）
+                            }
+                        }, {
+                            wrapper: '.title',
+                            popup: {
+                                content: '#walkthrough-3',
+                                type: 'tooltip',
+                                position: 'bottom'
+                            }
+                        }, {
+                            wrapper: '.foot',
+                            popup: {
+                                content: '#walkthrough-5',
+                                type: 'tooltip',
+                                position: 'top'
+                            }
+                        }]
+                });
+
+                // 一步一步显示引导页
+                $('body').pagewalkthrough('show');
+            });
+        </script>
+    </body>
+</html>
+

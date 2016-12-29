@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.reportManager">
+	<!--报表管理 start  -->
+	<sql name="reportStateList">
+		<![CDATA[
+			SELECT * FROM (
+				select  '-1' code, '全部' code_desc,1 ord from dual union all
+				select  '0' code, '保存' code_desc,2 ord from dual union all
+				select  '3' code, '发布' code_desc,3 ord from dual union all
+				select  '1' code, '上架' code_desc,4 ord from dual union all
+				select  '2' code, '下架' code_desc,5 ord from dual union all
+				select  '4' code, '暂存' code_desc,6 ord from dual
+			)	order by ord
+		]]>
+	</sql>
+	
+	<sql name="reportStateListWithXSaveMode">
+		<![CDATA[
+			SELECT * FROM (
+				select  '-1' code, '全部' code_desc,1 ord from dual union all
+				select  '0' code, '保存' code_desc,2 ord from dual union all
+				select  '3' code, '发布' code_desc,3 ord from dual union all
+				select  '1' code, '上架' code_desc,4 ord from dual union all
+				select  '2' code, '下架' code_desc,5 ord from dual union all
+				select  '4' code, '暂存' code_desc,6 ord from dual
+			) WHERE code not in('4')
+			order by ord
+		]]>
+	</sql>
+	
+	<sql name="reportList">
+		<![CDATA[
+			select r.id report_id,
+		       nvl(r.NAME,'正在编译') report_name,
+		       decode(r.state,'0','保存','1','上架','2','下架','3','发布','4','暂存','--') state,
+		       case when nvl(total,0)=0 and r.state != '4' then '0' else r.state end old_state,
+ 			   r.state infact_state,
+		       nvl(t.user_name,'--') creator_name,
+		       nvl(r.CREATE_TIME,'--') create_date,
+		       nvl(t1.user_name,'--') updator_name,
+		       nvl(r.MODIFY_TIME,'--') update_date,
+		       nvl(m.PUBLISH_DATE,'--') publish_date,
+		       nvl(T2.USER_NAME, '--') publish_username,
+		       nvl(total,0) total,
+		       nvl(m.name,'--') menu_name,
+		       r.URL,
+		       r.CREATE_USER
+		  from x_report_info r,
+		 	   (select user_id, user_name from e_user) t,
+		 	   (select user_id, user_name from e_user) t1,
+		 	   (select user_id, user_name from e_user) t2,(select mr.*,
+		       (select count(1)
+		          from x_report_menu_rel rr, e_menu mm
+		         where rr.menu_id = mm.resources_id
+		           and rr.report_id = mr.report_id
+		         group by rr.report_id) total,
+		       mn.id,
+		       mn.name
+		  from x_report_menu_rel mr,
+		       (SELECT RESOURCES_ID id,
+		               concat('菜单名称：',RESOURCES_NAME) name
+		          FROM e_menu) mn
+		 where mr.MENU_ID = mn.id (+)
+		   and publish_date in (select max(publish_date)
+		                          from x_report_menu_rel rmr, e_menu m
+		                         where rmr.menu_id = m.resources_id
+		                         group by report_id)) m 
+		  where r.id=m.report_id(+)
+		    and r.create_user = t.user_id(+)
+		    and r.modify_user = t1.user_id(+)
+		    and m.publish_users = t2.user_id(+)
+			{ and r.name like '%'||#report_name#||'%' }
+			{ and r.id like '%'||#report_id#||'%' }
+			{ and t.user_name like '%'||#creator_name#||'%'}
+			{ and m.name like '%'||#menu_name#||'%'}
+			{ and r.state = (case when #reportState#='-1' then r.state else '%{reportState}' end)}
+			{ and r.create_time like replace(#create_date#,'-','') || '%'}
+			{ and r.modify_time like replace(#update_date#,'-','') || '%'}
+		order by r.CREATE_TIME desc 
+		]]>
+	</sql>
+	<sql name="reportListWithXSavedMode">
+		<![CDATA[
+			select r.id report_id,
+		       nvl(r.NAME,'正在编译') report_name,
+		       decode(r.state,'0','保存','1','上架','2','下架','3','发布','4','暂存','--') state,
+		       case when nvl(total,0)=0 and r.state != '4' then '0' else r.state end old_state,
+ 			   r.state infact_state,
+		       nvl(t.user_name,'--') creator_name,
+		       nvl(r.CREATE_TIME,'--') create_date,
+		       nvl(t1.user_name,'--') updator_name,
+		       nvl(r.MODIFY_TIME,'--') update_date,
+		       nvl(m.PUBLISH_DATE,'--') publish_date,
+		       nvl(T2.USER_NAME, '--') publish_username,
+		       nvl(total,0) total,
+		       nvl(m.name,'--') menu_name,
+		       r.URL,
+		       r.CREATE_USER
+		  from x_report_info r,
+		 	   (select user_id, user_name from e_user) t,
+		 	   (select user_id, user_name from e_user) t1,
+		 	   (select user_id, user_name from e_user) t2,(select mr.*,
+		       (select count(1)
+		          from x_report_menu_rel rr, e_menu mm
+		         where rr.menu_id = mm.resources_id
+		           and rr.report_id = mr.report_id
+		         group by rr.report_id) total,
+		       mn.id,
+		       mn.name
+		  from x_report_menu_rel mr,
+		       (SELECT RESOURCES_ID id,
+		               concat('菜单名称：',RESOURCES_NAME) name
+		          FROM e_menu) mn
+		 where mr.MENU_ID = mn.id (+)
+		   and publish_date in (select max(publish_date)
+		                          from x_report_menu_rel rmr, e_menu m
+		                         where rmr.menu_id = m.resources_id
+		                         group by report_id)) m 
+		  where r.id=m.report_id(+)
+		    and r.create_user = t.user_id(+)
+		    and r.modify_user = t1.user_id(+)
+		    and m.publish_users = t2.user_id(+)
+			{ and r.name like '%'||#report_name#||'%' }
+			{ and r.id like '%'||#report_id#||'%' }
+			{ and t.user_name like '%'||#creator_name#||'%'}
+			{ and m.name like '%'||#menu_name#||'%'}
+			{ and r.state = (case when #reportState#='-1' then r.state else '%{reportState}' end)}
+			{ and r.create_time like replace(#create_date#,'-','') || '%'}
+			{ and r.modify_time like replace(#update_date#,'-','') || '%'}
+			and r.state not in('4')
+		order by r.CREATE_TIME desc 
+		]]>
+	</sql>
+	
+	<sql name="reportListAccount">
+		<![CDATA[
+			select r.id report_id,
+		       nvl(r.NAME,'正在编译') report_name,
+		       decode(r.state,'0','保存','1','上架','2','下架','3','发布','4','暂存','--') state,
+		       case when nvl(total,0)=0 and r.state != '4' then '0' else r.state end old_state,
+ 			   r.state infact_state,
+		       nvl(t.user_name,'--') creator_name,
+		       nvl(r.CREATE_TIME,'--') create_date,
+		       nvl(t1.user_name,'--') updator_name,
+		       nvl(r.MODIFY_TIME,'--') update_date,
+		       nvl(m.PUBLISH_DATE,'--') publish_date,
+		       nvl(T2.USER_NAME, '--') publish_username,
+		       nvl(total,0) total,
+		       nvl(m.name,'--') menu_name,
+		       r.URL,
+		       r.CREATE_USER
+		  from x_report_info r,
+		 	   (select user_id, user_name from e_user) t,
+		 	   (select user_id, user_name from e_user) t1,
+		 	   (select user_id, user_name from e_user) t2,(select mr.*,
+		       (select count(1)
+		          from x_report_menu_rel rr, e_menu mm
+		         where rr.menu_id = mm.resources_id
+		           and rr.report_id = mr.report_id
+		         group by rr.report_id) total,
+		       mn.id,
+		       mn.name
+		  from x_report_menu_rel mr,
+		       (SELECT RESOURCES_ID id,
+		               concat('菜单名称：',RESOURCES_NAME) name
+		          FROM e_menu) mn
+		 where mr.MENU_ID = mn.id (+)
+		   and publish_date in (select max(publish_date)
+		                          from x_report_menu_rel rmr, e_menu m
+		                         where rmr.menu_id = m.resources_id
+		                         group by report_id)) m 
+		  where r.id=m.report_id(+)
+		    and r.create_user = t.user_id(+)
+		    and r.modify_user = t1.user_id(+)
+		    and m.publish_users = t2.user_id(+)
+		    and (r.create_user = #session.UserInfo.USER_ID#
+		      or r.create_user in (select USER_ID
+								  from E_USER_ACCOUNT
+								 WHERE ACCOUNT_CODE IN
+								       (select ACCOUNT_CODE from E_USER_ACCOUNT where user_id = #session.UserInfo.USER_ID#)))
+		    
+			{ and r.name like '%'||#report_name#||'%' }
+			{ and r.id like '%'||#report_id#||'%' }
+			{ and t.user_name like '%'||#creator_name#||'%'}
+			{ and m.name like '%'||#menu_name#||'%'}
+			{ and r.state = (case when #reportState#='-1' then r.state else '%{reportState}' end)}
+			{ and r.create_time like replace(#create_date#,'-','') || '%'}
+			{ and r.modify_time like replace(#update_date#,'-','') || '%'}
+		order by r.CREATE_TIME desc 
+		]]>
+	</sql>
+	<sql name="reportListWithXSavedModeAccount">
+		<![CDATA[
+			select r.id report_id,
+		       nvl(r.NAME,'正在编译') report_name,
+		       decode(r.state,'0','保存','1','上架','2','下架','3','发布','4','暂存','--') state,
+		       case when nvl(total,0)=0 and r.state != '4' then '0' else r.state end old_state,
+ 			   r.state infact_state,
+		       nvl(t.user_name,'--') creator_name,
+		       nvl(r.CREATE_TIME,'--') create_date,
+		       nvl(t1.user_name,'--') updator_name,
+		       nvl(r.MODIFY_TIME,'--') update_date,
+		       nvl(m.PUBLISH_DATE,'--') publish_date,
+		       nvl(T2.USER_NAME, '--') publish_username,
+		       nvl(total,0) total,
+		       nvl(m.name,'--') menu_name,
+		       r.URL,
+		       r.CREATE_USER
+		  from x_report_info r,
+		 	   (select user_id, user_name from e_user) t,
+		 	   (select user_id, user_name from e_user) t1,
+		 	   (select user_id, user_name from e_user) t2,(select mr.*,
+		       (select count(1)
+		          from x_report_menu_rel rr, e_menu mm
+		         where rr.menu_id = mm.resources_id
+		           and rr.report_id = mr.report_id
+		         group by rr.report_id) total,
+		       mn.id,
+		       mn.name
+		  from x_report_menu_rel mr,
+		       (SELECT RESOURCES_ID id,
+		               concat('菜单名称：',RESOURCES_NAME) name
+		          FROM e_menu) mn
+		 where mr.MENU_ID = mn.id (+)
+		   and publish_date in (select max(publish_date)
+		                          from x_report_menu_rel rmr, e_menu m
+		                         where rmr.menu_id = m.resources_id
+		                         group by report_id)) m 
+		  where r.id=m.report_id(+)
+		    and r.create_user = t.user_id(+)
+		    and r.modify_user = t1.user_id(+)
+		    and m.publish_users = t2.user_id(+)
+		    and (r.create_user = #session.UserInfo.USER_ID#
+		      or r.create_user in (select USER_ID
+								  from E_USER_ACCOUNT
+								 WHERE ACCOUNT_CODE IN
+								       (select ACCOUNT_CODE from E_USER_ACCOUNT where user_id = #session.UserInfo.USER_ID#)))
+			{ and r.name like '%'||#report_name#||'%' }
+			{ and r.id like '%'||#report_id#||'%' }
+			{ and t.user_name like '%'||#creator_name#||'%'}
+			{ and m.name like '%'||#menu_name#||'%'}
+			{ and r.state = (case when #reportState#='-1' then r.state else '%{reportState}' end)}
+			{ and r.create_time like replace(#create_date#,'-','') || '%'}
+			{ and r.modify_time like replace(#update_date#,'-','') || '%'}
+			and r.state not in('4')
+		order by r.CREATE_TIME desc 
+		]]>
+	</sql>
+	
+	<sql name="currentReportCount">
+		<![CDATA[
+			select count(1) TOTAL
+			  from e_menu m, x_report_menu_rel r
+			 where r.menu_id = m.resources_id
+			   and m.parent_id = #parent_id#
+			   and r.report_id = #report_id#
+		]]>
+	</sql>
+	<sql name="menuListWhenIdIsNull">
+		<![CDATA[
+			select resources_id "id",
+			       resources_name "text",
+			       null "_parentId",
+			       'closed' "state"
+			  from e_menu
+			 where resources_id = '0'
+		]]>
+	</sql>
+	<sql name="menuListWhenIdIsNotNull">
+		<![CDATA[
+			select t.resources_id "id",
+			       t.resources_name "text",
+			       '%{param.id}' "_parentId",
+			       case when (select count(1)
+			                 from e_menu m
+			                where m.parent_id = t.resources_id) > 0 then
+			          'closed'
+			         else
+			          'leaf'
+			       end "state"
+			  from e_menu t
+			 where t.parent_id = #id#
+			   and t.resources_id in
+			       (select menu_id
+			          from e_user_permission
+			         where user_id = #session.UserInfo.USER_ID#
+			           and auth_read = 1
+			        union
+			        select a.menu_id
+			          from e_role_permission a, e_user_role b
+			         where a.role_code(+) = b.role_code
+			           and b.user_id = #session.UserInfo.USER_ID#
+			           and a.auth_read = 1)
+
+		]]>
+	</sql>
+	<sql name="menuIdObj">
+		<![CDATA[
+			SELECT E_M_SEQ.Nextval MENU_ID_VALUE FROM DUAL
+		]]>
+	</sql>
+	<sql name="insertMenu">
+		<![CDATA[
+			insert into e_menu(resources_id, resources_name, resources_type, parent_id, url,ord) values('%{menuIdObj.MENU_ID_VALUE }', #resources_name#, '1', #parent_id#, #url#,'1')
+		]]>
+	</sql>
+	<sql name="insertMenuUserPermission">
+		<![CDATA[
+			insert into e_user_permission
+			  (user_id, menu_id, auth_create, auth_read, auth_update, auth_delete,AUTH_EXPORT) values(#session.UserInfo.USER_ID#, '%{menuIdObj.MENU_ID_VALUE }', 1, 1, 1, 1,1)
+		]]>
+	</sql>
+	<sql name="insertMenuReportRel">
+		<![CDATA[
+			insert into x_report_menu_rel  (report_id, menu_id, publish_users, publish_username, publish_date)  values(#report_id#, '%{menuIdObj.MENU_ID_VALUE }', #session.UserInfo.USER_ID#, #session.UserInfo.USER_NAME#, #time()#)
+		]]>
+	</sql>
+	<sql name="updateReportState">
+		<![CDATA[
+			update x_report_info set state='1' where id=#report_id#
+		]]>
+	</sql>
+	
+	<sql name="deleteReport">
+		<![CDATA[
+			delete from x_report_info where id=#report_id#
+		]]>
+	</sql>
+	<sql name="deleteReportDim">
+		<![CDATA[
+			delete from x_report_var_dim where report_id=#report_id#
+		]]>
+	</sql>
+	<sql name="deleteReportUserPermission">
+		<![CDATA[
+			delete from e_user_permission where menu_id in (select menu_id from x_report_menu_rel where report_id = #report_id#)
+		]]>
+	</sql>
+	<sql name="deleteMenu">
+		<![CDATA[
+			delete from e_menu where  resources_id  in (select menu_id from x_report_menu_rel where report_id = #report_id#)
+		]]>
+	</sql>
+	<sql name="deleteReportMenuRel">
+		<![CDATA[
+			delete from x_report_menu_rel where report_id =#report_id#
+		]]>
+	</sql>
+	<sql name="deleteReportColumns">
+		<![CDATA[
+			delete from x_report_columns where report_sql_id in (select report_sql_id from x_report_sql where report_id = #report_id#)
+		]]>
+	</sql>
+	<sql name="deleteReportSql">
+		<![CDATA[
+			delete from x_report_sql where report_id=#report_id#
+		]]>
+	</sql>
+	<sql name="deleteReportDescribe">
+		<![CDATA[
+			DELETE FROM x_report_describe T  WHERE T.REPORT_ID=#report_id#
+		]]>
+	</sql>
+	<sql name="deleteReportDuiBiao">
+		<![CDATA[
+			DELETE FROM x_REPORT_DUIBIAO T WHERE T.REPORT_ID=#report_id#
+		]]>
+	</sql>
+	
+	<sql name="fileList">
+		<![CDATA[
+			SELECT USER_ID, CREATE_TIME, FILE_PATH, FILE_NAME, REPORT_ID
+			  FROM x_REPORT_FILE
+			 WHERE REPORT_ID = #reportId#
+			 ORDER BY ID DESC
+		]]>
+	</sql>
+	<sql name="addFileInFileList">
+		<![CDATA[
+			INSERT INTO x_REPORT_FILE
+				  (ID, USER_ID, CREATE_TIME, FILE_PATH, FILE_NAME,REPORT_ID)
+				VALUES
+				  ('%{tempfileName}',
+				   '%{sessionScope.UserInfo.LOGIN_ID}',
+				   #time()#,
+				   '%{filePath}',
+				   '%{initFileName}',
+				   '%{reportId}')
+		]]>
+	</sql>
+	
+	<sql name="deleteFileInFileList">
+		<![CDATA[
+			DELETE FROM x_REPORT_FILE WHERE FILE_PATH=#filePath#
+		]]>
+	</sql>
+	
+	<sql name="updateReportStateTo2">
+		<![CDATA[
+			update x_report_info set state='2' where id=#report_id#
+		]]>
+	</sql>
+	
+	<sql name="discribeInfo">
+		<![CDATA[
+		select user_id "user_id",report_man "user_name", depart_code "department_code",
+				   depart_desc "department_desc",report_desc "report_desc",report_id "report_id" , b.name "words"
+				   from x_report_describe a , x_report_info b
+				   where a.report_id = b.id 
+				   and report_id=#report_id# 
+		]]>
+	</sql>
+	<sql name="discribeUserList">
+		<![CDATA[
+			select user_id, user_name from e_user
+			 where 1=1
+			 {and user_name like '%'||#userName#||'%'}
+		]]>
+	</sql>
+	
+	<sql name="discribeDepartListWhenIdIsNull">
+		<![CDATA[
+			select depart_code "id",
+		             depart_desc "text",
+		             parent_code "_parentId",
+		             case
+		               when (select count(1) c
+		                       from e_department dd
+		                      where dd.parent_code = d.depart_code) = 0 then
+		                'leaf'
+		               else
+		                'closed'
+		             end "state"
+		        from e_department d
+		       where (parent_code is null or parent_code = '0')
+		]]>
+	</sql>
+	
+	<sql name="discribeDepartListWhenIdIsNotNull">
+		<![CDATA[
+			select depart_code "id",
+					       depart_desc "text",
+					       parent_code "_parentId",
+					       case
+					         when (select count(1) c
+				                   from e_department dd
+		                      where dd.parent_code = d.depart_code) = 0 then
+		                'leaf'
+		               else
+		                'closed'
+		             end "state"
+		        from e_department d
+		       where parent_code = #id#
+		]]>
+	</sql>
+	
+	<sql name="reportIdInDiscribe">
+		<![CDATA[
+			select t.REPORT_ID from x_report_describe t where t.report_id = #report_id#
+		]]>
+	</sql>
+	
+	<sql name="updateReportName">
+		<![CDATA[
+			UPDATE x_report_info SET NAME =#words# where id = #report_id#
+		]]>
+	</sql>
+	
+	<sql name="insertReportDiscribe">
+		<![CDATA[
+			insert into x_report_describe(report_id,user_id,report_man,depart_code,depart_desc,report_desc)
+							values(#report_id#,#user_id#,#user_name#,#department_code#,#department_desc#,#report_desc#)
+		]]>
+	</sql>
+	
+	<sql name="updateReportDiscribe">
+		<![CDATA[
+			update x_report_describe set   user_id=#user_id#,
+										   report_man=#user_name#,
+										   depart_code=#department_code#,
+										   depart_desc=#department_desc#,
+										   report_desc=#report_desc#
+								 where report_id=#report_id#
+		]]>
+	</sql>
+	
+	<!-- 授权 start -->
+	<sql name="allRoleList">
+		<![CDATA[
+			SELECT (case when (select count(1) from E_ROLE where PARENT_CODE=t.ROLE_CODE) >0 then '0' else '1' end) ISLEAF,
+				       ROLE_CODE ,
+				       ROLE_NAME,
+				       PARENT_CODE
+				  FROM E_ROLE T ORDER BY T.ORD
+		]]>
+	</sql>
+	<sql name="hasOwnRoleList">
+		<![CDATA[
+			SELECT role_code, role_name, parent_code, ORD
+			  FROM e_role T
+			 where T.role_code in
+			       (SELECT ROLE_CODE
+			          FROM E_USER_ROLE
+			         WHERE USER_ID in
+			               (select USER_ID
+			                  from E_USER_ACCOUNT
+			                 WHERE ACCOUNT_CODE IN
+			                       (select ACCOUNT_CODE
+			                          from E_USER_ACCOUNT
+			                         where user_id = #userId#)))
+		  order by role_code desc
+		]]>
+	</sql>
+	
+	<sql name="menuObjForEditMenuRole">
+		<![CDATA[
+			select MENU_ID from X_REPORT_MENU_REL WHERE REPORT_ID=#formId#
+		]]>
+	</sql>
+	<sql name="userObjForEditMenuRole">
+		<![CDATA[
+			select USER_NAME, LOGIN_ID from e_user where user_id=#userId#
+		]]>
+	</sql>
+	<sql name="deleteRolePermissionForEditMenuRole">
+		<![CDATA[
+			delete E_ROLE_PERMISSION where role_code=#roleId# and MENU_ID=#menuId#
+		]]>
+	</sql>
+	<sql name="roleObjForEditMenuRole">
+		<![CDATA[
+			select ROLE_NAME from e_role where role_code=#roleId#
+		]]>
+	</sql>
+	<sql name="insertLogForEditMenuRole">
+		<![CDATA[
+			insert into E_OPERATION_LOG(USER_ID,MENU_ID,OPERATE_TYPE_CODE,OPERATE_RESULT,CONTENT,CLIENT_IP,CREATE_DATE) VALUES(#userId#,#menuId#,'4','1','用户　'||#userName#||'('||#loginId#||')'||' 菜单'||'('||#formName#||')'||'删除角色　'||#roleName#||'('||#roleId#||')',#ip#,#currentTime#)
+		]]>
+	</sql>
+	<sql name="insertRolePermissionForEditMenuRole">
+		<![CDATA[
+			INSERT INTO E_ROLE_PERMISSION(ROLE_CODE,MENU_ID,AUTH_CREATE,AUTH_READ,AUTH_UPDATE,AUTH_DELETE,AUTH_EXPORT)
+								values(#roleId#,#menuId#,'0','1','0','0','1')
+		]]>
+	</sql>
+	<!-- 授权 end -->
+	
+	
+	<!--报表管理 end 
+	-->
+</mapping>
+
+
+

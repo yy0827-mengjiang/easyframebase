@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.dimensionManager">
+	<sql name="loadDim">
+		<![CDATA[
+		  	select dim_category_id dim_id,
+				       parent_dim_category_id parent_dim_id,
+				       dim_category_name dim_name,
+				       '' dim_var_desc,
+				       '' dim_sql,
+				       '' dim_desc,
+				       dim_category_order dim_ord,
+				       '0' is_leaf,
+				       'folder' type,
+				       'closed' state
+				  from (select *
+				          from x_dimension_category
+				         where parent_dim_category_id = #id#
+				         order by dim_category_order)
+				union all
+				select dim_id,
+				       dim_category_id parent_dim_id,
+				       dim_var_name dim_name,
+				       dim_var_desc,
+				       dim_sql,
+				       dim_desc,
+				       dim_ord,
+				       '1' is_leaf,
+				       'leaf' type,
+				       'leaf' state
+				  from (select *
+				          from x_dimension
+				         where dim_category_id = #id#
+				         order by dim_ord)
+		]]>
+	</sql>
+	
+	<sql name="appendDimCategory">
+		<![CDATA[
+		  insert into x_dimension_category
+			  (DIM_CATEGORY_ID,
+			   PARENT_DIM_CATEGORY_ID,
+			   DIM_CATEGORY_NAME,
+			   DIM_CATEGORY_ORDER)
+			values
+			  (#time()#,
+			   #parent#,
+			   #name#,
+			   #order#)
+		]]>
+	</sql>
+	
+	<sql name="appendDim_createType_1">
+		<![CDATA[
+		  insert into x_dimension
+			  (dim_id,
+			   dim_var_name,
+			   dim_table,
+			   dim_var_type,
+			   dim_var_desc,
+			   dim_col_code,
+			   dim_col_desc,
+			   dim_category_id,
+			   dim_col_ord,
+			   dim_state,
+			   creator,
+			   create_time,
+			   creator_name,
+			   dim_desc,
+			   dim_parent_col,
+			   caslvl,
+			   parent_dim_id,
+			   defaule_value,
+			   defaule_desc,
+			   database_name)
+			values
+			  (#time()#,
+			   #dim_var_name#,
+			   #dim_table#,
+			   #dim_var_type#,
+			   #dim_var_desc#,
+			   #dim_col_code#,
+			   #dim_col_desc#,
+			   #parent#,
+			   #dim_col_ord#,
+			   '1',
+			   #session.USER_ID#,
+			   #time()#,
+			   #session.USER_NAME#,
+			   #dimDesc#,
+			   #dim_parent_col#,
+			   #caslvl#,
+			   #parent_dim_id#,
+			   #defaule_value#,
+			   #defaule_desc#,
+			   #database_name#)
+		]]>
+	</sql>
+	
+	<sql name="appendDim_createType_2">
+		<![CDATA[
+		   insert into x_dimension
+			  (dim_id,
+			   dim_var_name,
+			   dim_table,
+			   dim_var_type,
+			   dim_var_desc,
+			   dim_col_code,
+			   dim_col_desc,
+			   dim_category_id,
+			   dim_col_ord,
+			   dim_state,
+			   creator,
+			   create_time,
+			   creator_name,
+			   dim_desc,
+			   dim_parent_col,
+			   caslvl,
+			   parent_dim_id,
+			   defaule_value,
+			   defaule_desc,
+			   dim_sql,
+			   database_name)
+			values
+			  (#time()#,
+			   #dim_var_name#,
+			   #dim_table#,
+			   #dim_var_type#,
+			   #dim_var_desc#,
+			   #dim_col_code#,
+			   #dim_col_desc#,
+			   #parent#,
+			   #dim_col_ord#,
+			   '1',
+			   #session.USER_ID#,
+			   #time()#,
+			   #session.USER_NAME#,
+			   #dimDesc#,
+			   #dim_parent_col#,
+			   #caslvl#,
+			   #parent_dim_id#,
+			   #defaule_value#,
+			   #defaule_desc#,
+			   #dimSql#,
+			   #database_name#)
+		]]>
+	</sql>
+	
+	<sql name="removeDimCategory_dimension">
+		<![CDATA[
+		   delete from x_dimension  where dim_category_id = #id#
+		]]>
+	</sql>
+	
+	<sql name="removeDimCategory_category">
+		<![CDATA[
+		   delete from x_dimension_category where dim_category_id = #id#
+		]]>
+	</sql>
+	
+	<sql name="removeDim">
+		<![CDATA[
+		  delete from x_dimension where DIM_ID=#id#
+		]]>
+	</sql>
+	
+	<sql name="editDimCategory">
+		<![CDATA[
+		   update x_dimension_category 
+				set dim_category_name=#name#,
+					dim_category_order=#order# 
+				where dim_category_id =#id#
+		]]>
+	</sql>
+	
+	<sql name="editDim_createType_1">
+		<![CDATA[
+		   update x_dimension 
+			  set 
+			   dim_var_name=#dim_var_name#,
+			   dim_table=#dim_table#,
+			   dim_var_type=#dim_var_type#,
+			   dim_var_desc=#dim_var_desc#,
+			   dim_col_code=#dim_col_code#,
+			   dim_col_desc=#dim_col_desc#,
+			   dim_col_ord=#dim_col_ord#,
+			   dim_desc=#dimDesc#,
+				modifier=#session.USER_ID#,
+				modifier_name=#session.USER_NAME#,
+		   		modify_time=#time()#,
+		   		dim_parent_col=#dim_parent_col#,
+			   caslvl=#caslvl#,
+			   parent_dim_id=#parent_dim_id#,
+			   defaule_value=#defaule_value#,
+			   defaule_desc=#defaule_desc#,
+			   dim_sql=null,
+			   database_name=#database_name# 
+				where dim_id =#id#
+		]]>
+	</sql>
+	
+	<sql name="editDim_createType_2">
+		<![CDATA[
+		   update x_dimension 
+			  set 
+			   dim_var_name=#dim_var_name#,
+			   dim_table=#dim_table#,
+			   dim_var_type=#dim_var_type#,
+			   dim_var_desc=#dim_var_desc#,
+			   dim_col_code=#dim_col_code#,
+			   dim_col_desc=#dim_col_desc#,
+			   dim_col_ord=#dim_col_ord#,
+			   dim_desc=#dimDesc#,
+				modifier=#session.USER_ID#,
+				modifier_name=#session.USER_NAME#,
+		   		modify_time=#time()#,
+		   		dim_parent_col=#dim_parent_col#,
+			   caslvl=#caslvl#,
+			   parent_dim_id=#parent_dim_id#,
+			   defaule_value=#defaule_value#,
+			   defaule_desc=#defaule_desc#,
+			   dim_sql=#dimSql#,
+			   database_name=#database_name#
+				where dim_id =#id#
+		]]>
+	</sql>
+	
+	<sql name="CURDIM">
+		<![CDATA[
+		   select dim_id      "dim_id",
+		       dim_var_name    "dim_var_name",
+		       dim_table       "dim_table",
+		       dim_var_type    "dim_var_type",
+		       dim_var_desc    "dim_var_desc",
+		       dim_col_code    "dim_col_code",
+		       dim_col_desc    "dim_col_desc",
+		       dim_col_ord     "dim_col_ord",
+		       dim_state       "dim_state",
+		       case dim_table when '' then '2' else '1' end  "createType",
+		       dim_desc        "dimDesc",
+		       dim_parent_col "dim_parent_col",
+			   caslvl "caslvl",
+			   parent_dim_id "parent_dim_id",
+			   parent_dim_id || ' ' ||dim_parent_col  "parent_dim_id_show",
+			   defaule_desc "defaule_desc",
+			   defaule_value "defaule_value",
+			   dim_sql "dimSql"
+		  from x_dimension
+		  where  dim_id=#id#
+		]]>
+	</sql>
+	
+	<sql name="cur">
+		<![CDATA[
+		   select dim_id      "dim_id",
+		       dim_var_name    "dim_var_name",
+		       dim_table       "dim_table",
+		       dim_var_type    "dim_var_type",
+		       dim_var_desc    "dim_var_desc",
+		       dim_col_code    "dim_col_code",
+		       dim_col_desc    "dim_col_desc",
+		       dim_col_ord     "dim_col_ord",
+		       dim_state       "dim_state",
+		       case dim_table when '' then '2' else '1' end  "createType",
+		       dim_desc        "dimDesc",
+		       dim_parent_col "dim_parent_col",
+			   caslvl "caslvl",
+			   parent_dim_id "parent_dim_id",
+			   parent_dim_id  "parent_dim_id_show",
+			   parent_dim_id || '@' ||dim_parent_col  "parent_dim_id_showc",
+			   defaule_desc "defaule_desc",
+			   defaule_value "defaule_value",
+			   replace(replace(dim_sql,chr(10),' '),chr(13),' ') "dimSql",
+			   DATABASE_NAME "database_name"
+	       from x_dimension
+	       where  dim_id=#id#
+		]]>
+	</sql>
+</mapping>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="xbuilder.globalDataset">
+	<sql name="LIST">
+		<![CDATA[
+			select g.id GLBDATASET_ID,
+		       nvl(g.NAME,'--') GLBDATASET_NAME,
+		       nvl(g.TYPE,'--') GLBDATASET_TYPE,
+			   nvl(g.SQL,'--') GLBDATASET_SQL,
+		       nvl(g.CREATE_USER,'--') CREATE_USER,
+		       nvl(e.USER_NAME,'--') CREATE_USER_NAME,
+		       nvl(g.CREATE_TIME,'--') CREATE_TIME,
+		       nvl(g.MODIFY_USER,'--') MODIFY_USER,
+		       nvl(k.USER_NAME,'--') MODIFY_USER_NAME,
+		       nvl(g.MODIFY_TIME,'--') MODIFY_TIME,
+		       nvl(s.db_name,'--') DB_NAME 
+		  	   from 
+		  	   (X_DATASET_GLOBAL g
+				  left join X_EXT_DB_SOURCE s
+				    on (g.TYPE = s.DB_SOURCE)
+				  left join e_user e
+				    on (g.CREATE_USER = e.user_id)
+				  join (select f.id, f.modify_user, h.user_name
+				          from X_DATASET_GLOBAL f
+				          left join e_user h
+				            on (f.modify_user = h.user_id)) k
+				    on (k.id = g.id))
+				where 1=1 and #USER_ID# in (select user_id from E_USER_ACCOUNT where account_code in (select account_code from E_USER_ACCOUNT where user_id=g.CREATE_USER) )
+			{
+				and g.name like '%'||#glbdataset_name#||'%'
+			}
+			{
+				and to_char(to_date(g.create_time,'yyyymmddhh24miss'),'yyyy-mm-dd') >= #create_time_start#
+			}
+			{
+				and to_char(to_date(g.create_time,'yyyymmddhh24miss'),'yyyy-mm-dd') <= #create_time_end#
+			}
+			{
+				and to_char(to_date(g.modify_time,'yyyymmddhh24miss'),'yyyy-mm-dd') >= #modify_time_start#
+			}
+			{
+				and to_char(to_date(g.modify_time,'yyyymmddhh24miss'),'yyyy-mm-dd') <= #modify_time_end#
+			}
+			order by g.CREATE_TIME desc
+		]]>
+	</sql>
+	<sql name="DELETEBYID">
+		<![CDATA[
+			delete from x_dataset_global where id=#id#
+		]]>
+	</sql>
+</mapping>
+
+
+

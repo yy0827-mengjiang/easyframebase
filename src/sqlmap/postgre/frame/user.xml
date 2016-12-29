@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.user">
+
+	<sql name="seqObj">
+		<![CDATA[
+			select nextval('E_UR_seq') v_user_id
+		]]>
+	</sql>
+	
+	<sql name="userMaxExt">
+		<![CDATA[
+			select cast(max(t.ext15) as integer)+1 v_max_manager_id from e_user t
+		]]>
+	</sql>
+
+	<sql name="userAttrDim">
+		<![CDATA[
+			SELECT ATTR_CODE,'EXT'||ROW_NUMBER() OVER() as COLUMN_NAME 
+			FROM E_USER_ATTR_DIM T 
+			where NOT EXISTS (SELECT 1 FROM e_user_ext_column_attr WHERE ATTR_CODE=T.ATTR_CODE)
+		]]>
+	</sql>
+	
+	<sql name="isExist">
+		<![CDATA[
+			select count(1) FROM pg_class AS c, pg_attribute AS a WHERE a.attrelid = c.oid AND a.attnum > 0 AND c.relname = '${param.CODE_TABLE}' and a.attname='AREA_NO'
+		]]>
+	</sql>
+	
+	<sql name="userMenuId">
+		<![CDATA[
+			select resources_id from e_menu t LEFT JOIN D_SUBSYSTEM t1 ON t.ext1=t1.subsystem_id WHERE coalesce(t1.subsystem_id,'-1')='-1' and t.url='pages/frame/portal/user/UserManager.jsp' limit 1 offset 0
+		]]>
+	</sql>
+	
+	<sql name="userInfo">
+		<![CDATA[
+			select user_name, login_id from e_user where user_id=#userId#
+		]]>
+	</sql>
+	
+	<sql name="rolesOfUserObj">
+		<![CDATA[
+			SELECT coalesce(string_agg(ROLE_CODE,','),'') "ROLES" FROM E_USER_ROLE WHERE USER_ID=#user_id# group by USER_ID
+		]]>
+	</sql>
+	
+	<sql name="menuResource">
+	   <![CDATA[
+	   		SELECT RESOURCES_ID CURRENT_MENU_ID FROM E_MENU t WHERE  T.URL='pages/frame/user/UserManager.jsp' limit 1 
+	   ]]>		
+	</sql>
+	
+	<sql name="editUserRole">
+		<![CDATA[
+
+			%{
+			 	for(item1:deleteRoles.list){
+			 		echo("delete from e_user_role where role_code=#item1.ROLE_CODE# and user_id=#userId#;");
+					echo("insert into E_OPERATION_LOG(USER_ID,MENU_ID,OPERATE_TYPE_CODE,OPERATE_RESULT,CONTENT,CLIENT_IP,CREATE_DATE) VALUES(#UserInfo.USER_ID#,#userMenuId.resources_id#,'4','1',concat('用户' || #userInfo.user_name# || '(' || #userInfo.login_id# || ') 删除角色' || #item1.ROLE_CODE# || '(' || #item1.ROLE_NAME# || ')'),#UserInfo.IP#,#time()#);");
+			 	}
+			 }
+			 
+			 %{
+			 	for(item1:addRoles.list){
+					echo("insert into e_user_role(role_code,user_id) values(#item1.ROLE_CODE#, #userId#);");
+			 		echo("insert into E_OPERATION_LOG(USER_ID,MENU_ID,OPERATE_TYPE_CODE,OPERATE_RESULT,CONTENT,CLIENT_IP,CREATE_DATE) VALUES(#UserInfo.USER_ID#,#userMenuId.resources_id#,'4','1',concat('用户' || #userInfo.user_name# || '(' || #userInfo.login_id# || ') 删除角色' || #item1.ROLE_CODE# || '(' || #item1.ROLE_NAME# || ')'),#UserInfo.IP#,#time()#);");
+			 	}
+			}
+
+		 ]]>
+	</sql>
+	
+	
+</mapping>

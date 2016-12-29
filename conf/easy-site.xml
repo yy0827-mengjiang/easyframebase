@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<propertys>
+		<property>
+			<name>easy.configuration.version</name>
+			<value>1.8</value>
+			<description>EASY框架配置文件版本号</description>
+		</property>
+	</propertys>
+	
+	<propertys>
+		<property>
+			<name>easy.debug</name>
+			<value>true</value>
+			<description>EASY框架是否调试模式</description>
+		</property>
+	</propertys>
+	<!-- 
+	<property>
+		<name>easy.datasource.database.pagesql.DB2/LINUXX8664</name>
+		<value>
+			<![CDATA[
+			select * from ( select ROW_NUMBER() OVER() as rownum,init.* from ($sql) init) where rownum > ${(pageNumber - 1) * pageSize} and rownum <= ${pageNumber * pageSize} 
+			]]>
+		</value>
+		<description>DB2分页SQL</description>
+	</property>
+	 -->
+	<!-- <mappings>
+		<mapping resource="sqlmap/frame/oracle_account.xml"/>
+	</mappings> -->
+	
+	<!-- 
+	<mappings>
+		<mapping resource="sqlmap/frame/mysql_account.xml"/>
+	</mappings>
+	 -->
+	<!-- 
+	 <mappings>
+		
+		<mapping resource="sqlmap/oracle/test.xml"/>
+		<mapping resource="sqlmap/db2/frame/log.xml"/>
+		<mapping resource="sqlmap/db2/frame/collect.xml"/>
+		<mapping resource="sqlmap/db2/frame/menuManager.xml"/>
+		<mapping resource="sqlmap/db2/frame/roleManager.xml"/>
+		<mapping resource="sqlmap/db2/frame/menuind.xml"/>
+		<mapping resource="sqlmap/db2/frame/indicator.xml"/>
+		<mapping resource="sqlmap/db2/frame/download.xml"/>
+		<mapping resource="sqlmap/db2/frame/account.xml"/>
+		<mapping resource="sqlmap/db2/frame/framenotice.xml"/>
+		<mapping resource="sqlmap/db2/frame/framerole.xml"/>
+		<mapping resource="sqlmap/db2/frame/findPwd.xml"/>
+		<mapping resource="sqlmap/db2/frame/homesql.xml"/>
+		<mapping resource="sqlmap/db2/frame/subsystem.xml"/>
+		<mapping resource="sqlmap/db2/frame/userext.xml"/>
+		<mapping resource="sqlmap/db2/frame/user.xml"/>
+		
+		
+		<mapping resource="sqlmap/db2/xbuilder/component.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/reportManager.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/authorize.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/account.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/globalDataset.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/reportSql.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/xmeta.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/dimensionManager.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/dimension.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/syncJsp.xml"/>
+		<mapping resource="sqlmap/db2/xbuilder/formulate.xml"/>
+		
+ 		<mapping resource="sqlmap/db2/test.xml"/>
+		
+		<mapping resource="sqlmap/db2/kpi/base_kpi.xml"/>
+		<mapping resource="sqlmap/db2/kpi/cube.xml"/>
+		<mapping resource="sqlmap/db2/kpi/dataAudit.xml"/>
+		<mapping resource="sqlmap/db2/kpi/dim.xml"/>
+		<mapping resource="sqlmap/db2/kpi/form_kpi.xml"/>
+		<mapping resource="sqlmap/db2/kpi/formulaKpi.xml"/>
+		<mapping resource="sqlmap/db2/kpi/kpiFaile.xml"/>
+		<mapping resource="sqlmap/db2/kpi/kpiQueryAndAuditxml.xml"/>
+		<mapping resource="sqlmap/db2/kpi/kpiVersion.xml"/>
+		<mapping resource="sqlmap/db2/kpi/setting.xml"/>
+		<mapping resource="sqlmap/db2/kpi/tableManager.xml"/>
+		<mapping resource="sqlmap/db2/kpi/view.xml"/>
+		<mapping resource="sqlmap/db2/kpi/kpi_meta.xml"/>
+		<mapping resource="sqlmap/db2/kpi/kpi_sql.xml"/>
+		
+		<mapping resource="sqlmap/db2/kpi/formulaKpiClass.xml"/>
+		<mapping resource="sqlmap/db2/kpi/formulaKpiUtilClass.xml"/>
+		<mapping resource="sqlmap/db2/kpi/RelationShipClass.xml"/>
+	</mappings>
+-->		
+		 <mappings>
+		
+		<mapping resource="sqlmap/postgre/frame/log.xml"/>
+		<mapping resource="sqlmap/postgre/frame/collect.xml"/>
+		<mapping resource="sqlmap/postgre/frame/menuManager.xml"/>
+		<mapping resource="sqlmap/postgre/frame/roleManager.xml"/>
+		<mapping resource="sqlmap/postgre/frame/menuind.xml"/>
+		<mapping resource="sqlmap/postgre/frame/indicator.xml"/>
+		<mapping resource="sqlmap/postgre/frame/download.xml"/>
+		<mapping resource="sqlmap/postgre/frame/account.xml"/>
+		<mapping resource="sqlmap/postgre/frame/framenotice.xml"/>
+		<mapping resource="sqlmap/postgre/frame/framerole.xml"/>
+		<mapping resource="sqlmap/postgre/frame/findPwd.xml"/>
+		<mapping resource="sqlmap/postgre/frame/homesql.xml"/>
+		<mapping resource="sqlmap/postgre/frame/subsystem.xml"/>
+		<mapping resource="sqlmap/postgre/frame/userext.xml"/>
+		<mapping resource="sqlmap/postgre/frame/user.xml"/>
+		
+		<mapping resource="sqlmap/postgre/xbuilder/component.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/reportManager.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/authorize.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/account.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/globalDataset.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/reportSql.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/xmeta.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/dimensionManager.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/dimension.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/syncJsp.xml"/>
+		<mapping resource="sqlmap/postgre/xbuilder/formulate.xml"/>
+		
+ 		<mapping resource="sqlmap/postgre/test.xml"/>
+		
+		<mapping resource="sqlmap/postgre/kpi/base_kpi.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/cube.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/dataAudit.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/dim.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/form_kpi.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/formulaKpi.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/kpiFaile.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/kpiQueryAndAuditxml.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/kpiVersion.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/setting.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/tableManager.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/view.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/kpi_meta.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/kpi_sql.xml"/>
+		
+		<mapping resource="sqlmap/postgre/kpi/formulaKpiClass.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/formulaKpiUtilClass.xml"/>
+		<mapping resource="sqlmap/postgre/kpi/RelationShipClass.xml"/>
+		<!-- 	
+			 <mappings>
+		
+		<mapping resource="sqlmap/oracle/test.xml"/>
+		<mapping resource="sqlmap/oracle/frame/log.xml"/>
+		<mapping resource="sqlmap/oracle/frame/collect.xml"/>
+		<mapping resource="sqlmap/oracle/frame/menuManager.xml"/>
+		<mapping resource="sqlmap/oracle/frame/roleManager.xml"/>
+		<mapping resource="sqlmap/oracle/frame/menuind.xml"/>
+		<mapping resource="sqlmap/oracle/frame/indicator.xml"/>
+		<mapping resource="sqlmap/oracle/frame/download.xml"/>
+		<mapping resource="sqlmap/oracle/frame/account.xml"/>
+		<mapping resource="sqlmap/oracle/frame/framenotice.xml"/>
+		<mapping resource="sqlmap/oracle/frame/framerole.xml"/>
+		<mapping resource="sqlmap/oracle/frame/findPwd.xml"/>
+		<mapping resource="sqlmap/oracle/frame/homesql.xml"/>
+		<mapping resource="sqlmap/oracle/frame/subsystem.xml"/>
+		<mapping resource="sqlmap/oracle/frame/userext.xml"/>
+		<mapping resource="sqlmap/oracle/frame/user.xml"/>
+		
+		
+		<mapping resource="sqlmap/oracle/xbuilder/component.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/reportManager.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/authorize.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/account.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/globalDataset.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/reportSql.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/xmeta.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/dimensionManager.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/dimension.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/syncJsp.xml"/>
+		<mapping resource="sqlmap/oracle/xbuilder/formulate.xml"/>
+		
+		<mapping resource="sqlmap/oracle/kpi/base_kpi.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/cube.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/dataAudit.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/dim.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/form_kpi.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/formulaKpi.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/kpiFaile.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/kpiQueryAndAuditxml.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/kpiVersion.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/setting.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/tableManager.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/view.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/kpi_meta.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/kpi_sql.xml"/>
+		
+		<mapping resource="sqlmap/oracle/kpi/formulaKpiClass.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/formulaKpiUtilClass.xml"/>
+		<mapping resource="sqlmap/oracle/kpi/RelationShipClass.xml"/>
+		-->		
+	</mappings>
+</configuration>

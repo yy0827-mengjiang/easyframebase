@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+body{font-size:12px;}
+table{font-size:1em;}
+body{font-family:"Trebuchet MS", "Helvetica", "Arial", "Verdana", "sans-serif";}
+.layout-grid{width:100%;}
+.layout-grid td{vertical-align:top;}
+.layout-grid td.left-nav{width:140px;}
+.layout-grid td.normal{border-left:1px solid #eee;padding:20px 24px;font-family:"Trebuchet MS", "Helvetica", "Arial", "Verdana", "sans-serif";}
+.layout-grid td.demos{background:url('/images/demos_bg.jpg') no-repeat;height:337px;overflow:hidden;}
+.normal h3, .normal h4{margin:0;font-weight:normal;}
+.normal h3{padding:0 0 9px;font-size:1.8em;}
+.normal h4{padding-bottom:21px;border-bottom:1px dashed #999;font-size:1.2em;font-weight:bold;}
+.normal p{font-size:1.2em;}
+/* Demos*/
+.demos-nav, .demos-nav dt, .demos-nav dd, .demos-nav ul, .demos-nav li{margin:0;padding:0}
+.demos-nav{float:left;width:170px;font-size:1.3em;}
+.demos-nav dt, .demos-nav h4{margin:0;padding:0;font:normal 13px "Trebuchet MS", "Helvetica", "Arial", "Verdana", "sans-serif";color:#e87b10;}
+.demos-nav dt, .demos-nav h4{background:#689ccd;border-top:1px solid #5385b4;border-bottom:1px solid #5385b4;color:#fff;font-size:13px;padding:4px 3px 4px 15px;}
+.demos-nav dd a, .demos-nav li a{display:block;padding:4px 3px 4px 15px;font-size:110%;text-decoration:none;color:#555;margin:0;height:14px;line-height:14px;background:#f5f5f5;border-bottom:1px solid #fff;}
+.demos-nav dd a:hover, .demos-nav dd a:focus, .demos-nav dd a:hover, .demos-nav dd a:focus{background:#fff;color:#000;-moz-border-radius:5px;-webkit-border-radius:5px;border:1px solid #f4f4f4;border-right:1px solid #fff;position:relative;right:-1px;top:0;width:150px;}
+.demos-nav dd a.selected{background:#fff;color:#000;-moz-border-radius:5px;-webkit-border-radius:5px;border:1px solid #f4f4f4;border-right:1px solid #fff;position:relative;right:-1px;top:0;width:150px;}
+.exampleWarp{background:#fff;margin:0 15px;}
+.exampleWarp .titOne{margin:5px 0 10px 0;padding:0 0 0 7px;font-size:14px!important;color:#f60;line-height:1.5;}
+.exampleWarp .titOne em{padding-left:5px;color:#555;}
+.exampleWarp .titTwo{margin:10px 0;padding:2px 0 2px 10px;  border:1px solid #f5f5f5; font-size:12px;color:#333;background:url("icons/blueblock.png") left top no-repeat #f9f9f9;line-height:1.5;}
+.exampleWarp .titThree{font-size:12px; overflow:hidden; height:22px;line-height:22px;text-align:left;margin:0;padding:0;padding-left:10px; margin-top:10px;background:url("icons/redblock.png") left top no-repeat #f9f9f9;}
+.parameters{border-collapse:collapse;width:100%;}
+.parameters td{border:1px solid #f1f1f1;padding-left:5px;line-height:1.3;font-weight:normal;}
+.parametersbox{background:;text-align:left!important;}
+
+.lable {border:1px solid #f1f1f1;  background:#f5f5f5; color:#dd3e24; margin:0 0 10px 0; padding:5px 10px; line-height:1.7;}
+.lable a { padding-left:7px; margin:0 8px 0 1px; background:url("icons/link.gif") left top no-repeat; color:#0000ff;}
+.lable1 {overflow:hidden; border:1px solid #f1f1f1;  background:#fff; color:#dd3e24; margin:0 0 10px 0; padding:5px 10px; line-height:1.7;}
+.lable1 img { margin:10px 0;}
+.lable1 a { padding-left:7px; margin:0 8px 0 1px; background:url("icons/link.gif") left top no-repeat; color:#0000ff;}
+.lable2 input,.lable2 textarea{margin:5px 0;}
+#COLUMNLINE1, #COLUMNLINE, #COLUMNLINE2, #col1, #col011, #COLUMN1, #COLUMN2, #col4, #bar1, #bar2, #col2, #line1, #line2, #pie1, #pie2, #col4, #rent_char4, #rent_char5{margin:0 0 10px 0!important;}

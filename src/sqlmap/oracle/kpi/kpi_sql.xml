@@ -1,0 +1,71 @@
+<mapping namespace="kpi.sql">
+	<sql name="querySQLCube">
+		<![CDATA[
+			 SELECT CUBE_DATASOURCE AS "CUBE_DATASOURCE", 
+			 		CUBE_ATTR  AS "CUBE_ATTR"
+			   FROM X_KPI_CUBE 
+			  WHERE CUBE_CODE=#cube_code#
+		]]>
+	</sql>
+	<sql name="querySQLRalKey">
+		<![CDATA[
+			SELECT (CASE WHEN TABLE_NAME IS NULL 
+			             THEN 'KPI_COM' 
+			             ELSE TABLE_NAME END) AS "TABLE_NAME",
+				   COLUMN_CODE AS "COLUMN_CODE",
+				   COLUMN_IDX AS "COLUMN_IDX" 
+		     FROM X_KPI_RAL_KEY
+		    WHERE CUBE_CODE=#cube_code#
+		]]>
+	</sql>
+	<sql name="querySQLRalDim"> 
+		<![CDATA[
+		 	 SELECT (CASE WHEN TABLE_NAME IS NULL
+		 	              THEN 'KPI_COM' 
+		 	              ELSE TABLE_NAME END) AS "TABLE_NAME",
+		 	         COLUMN_CODE AS "COLUMN_CODE",
+		 	         ID AS "COLUMN_IDX" 
+		 	   FROM X_KPI_RAL_DIM 
+		 	  WHERE CUBE_CODE=#cube_code# 
+
+		 ]]>	       
+	</sql>
+	<sql name="querySQLRalAttr"> 
+		<![CDATA[
+		 	 SELECT (CASE WHEN TABLE_NAME IS NULL
+					THEN 'KPI_COM'
+					ELSE TABLE_NAME END) AS "TABLE_NAME",
+			        COLUMN_NAME AS "COLUMN_CODE",
+			        COLUMN_IDX AS "COLUMN_IDX" 
+			  FROM X_KPI_RAL_ATTR 
+			 WHERE CUBE_CODE=#cube_code# 
+
+		 ]]>	       
+	</sql>
+	<sql name="querySQLDimTable">
+		<![CDATA[
+			SELECT (CASE WHEN RAL.TABLE_NAME IS NULL 
+				   THEN 'KPI_COM' 
+				   ELSE RAL.TABLE_NAME END) AS "TABLE_NAME",
+				   RAL.COLUMN_CODE AS "COLUMN_CODE",
+				   RAL.DIM_ORD AS "COLUMN_IDX" 
+			 FROM  X_KPI_DIM_CODE DIM 
+		INNER JOIN X_KPI_RAL_DIM RAL 
+		        ON DIM.DIM_CODE=RAL.DIM_CODE 
+		       AND DIM.DIM_TYPE IN('D','M') 
+		       AND CUBE_CODE=#cube_code# 
+	 	]]>
+	</sql>
+	<sql name="querySQLAttrTable">
+		<![CDATA[
+			 SELECT (CASE WHEN TABLE_NAME IS NULL 
+					   THEN 'KPI_COM' 
+					   ELSE TABLE_NAME END) AS "TABLE_NAME",
+					   COLUMN_NAME AS "COLUMN_CODE",
+					   COLUMN_IDX AS "COLUMN_IDX" 
+				  FROM X_KPI_RAL_ATTR 
+			    WHERE  ATTR_TYPE IN('D','M') 
+			       AND CUBE_CODE=#cube_code#  
+		]]>
+	</sql>
+</mapping>

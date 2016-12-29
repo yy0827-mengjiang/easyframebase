@@ -1,0 +1,44 @@
+
+/* ---------------------------------- 基础登录 ---------------------------------- */
+
+/* bonc登录 > 主容器 */
+#boncEntry input{ background:#fff!important;}
+
+/* bonc登录 > 顶部信息栏 */
+#boncEntry .EntryHead{ background-color:#199ed8;}
+#boncEntry .EntryHead h1{ border-right-color:#96d4e3; background:url("images/boncLayout/bg/boncFrameLogo.png") no-repeat;}
+#boncEntry .EntryHead h2{color:#fff;}
+#boncEntry .EntryCon{ background:#f8f8f8 url("images/boncLayout/bg/bgEntry.jpg") left 0 no-repeat;}
+
+/* bonc登录 > 中部录入 */
+/*#boncEntry .EntryCon .EntryGroup:after{ content:url("images/boncLayout/bg/imgEntry.png");}!dis*/
+.boncLogin_check p{  color:#ff0000;}
+#boncEntry .EntryCon .EntryGroupLine{border-color:#919191;background-color:#fff;}
+#boncEntry .EntryCon .EntryGroupLine:hover{border-color:#199ed8; }
+#boncEntry .EntryCon .EntryGroupLine input{border:none !important;background-image:none !important;}
+#boncEntry .EntryCon .EntryGroupLine input:focus{outline:none; }
+#boncEntry .EntryCon .onFocus {border-color:#199ed8!important; box-shadow:0 0 6px #199ed8!important;}
+
+/* bonc登录 > 中部录入 > 图标基础 */
+#boncEntry .EntryCon .iconUser{background:url("images/boncLayout/bg/iconUser.png") no-repeat;}
+#boncEntry .EntryCon .onFocus .iconUser {background:url("images/boncLayout/bg/iconUser_active.png") no-repeat;}
+#boncEntry .EntryCon .iconPassword{background:url("images/boncLayout/bg/iconPassword.png") no-repeat;}
+#boncEntry .EntryCon .onFocus .iconPassword {background:url("images/boncLayout/bg/iconPassword_active.png") no-repeat;}
+#boncEntry .EntryCon .iconCode{background:url("images/boncLayout/bg/iconCode.png") no-repeat;}
+#boncEntry .EntryCon .onFocus .iconCode {background:url("images/boncLayout/bg/iconCode_active.png") no-repeat;}
+
+#boncEntry .EntryCon .btnCode{color:#999 !important;background:url("images/boncLayout/bg/iconRefresh.png") right 0 no-repeat;}
+#boncEntry .EntryCon .btnCode:hover,
+#boncEntry .EntryCon .btnCode:focus{color:#199ed8 !important;background:url("images/boncLayout/bg/iconRefreshActive.png") right 0 no-repeat;}
+
+/* bonc登录 > 中部录入 > 提交按钮 */
+#boncEntry .EntryCon .btnSubmit a,
+#boncEntry .EntryCon .btnSubmit button{ border-bottom-color:#367fa9; color:#fff;background-color:#199ed8;}
+#boncEntry .EntryCon .btnSubmit a.submit:hover,
+#boncEntry .EntryCon .btnSubmit a.submit:focus,
+#boncEntry .EntryCon .btnSubmit button:focus{ background-color:#367fa9; border-bottom-color:#307298;}
+#boncEntry .EntryCon .btnSubmit a.submit:active {background-color:#199ed8; border-bottom-color:#367fa9; }
+#boncEntry .EntryCon .btnSubmit a.find{color:#999; background:transparent;}
+
+/* bonc登录 > 底部信息 */
+#boncEntry .EntryFoot{border-top-color:#f1f1f1; background-color:#f1f1f1;color:#666;}

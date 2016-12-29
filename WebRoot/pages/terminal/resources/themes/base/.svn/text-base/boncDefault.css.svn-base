@@ -1,0 +1,71 @@
+@charset "utf-8";
+
+/* =============================== 东方国信 / 重置浏览器内核属性  / 唯一样式表 / 20161008 =============================== */
+
+/* HTML4.01 标签规范 */
+
+body {font-family:'Microsoft Yahei'; background-color:#fff; font-size:14px;}
+button{ border:none; cursor:pointer;}
+
+a:link, a:visited{ text-decoration:none;outline:none; }
+a:hover, a:focus, a:active{ text-decoration:underline;}
+
+
+a, abbr, acronym, address, applet, article, aside, audio,
+b, blockquote, big, body,
+center, canvas, caption, cite, code,
+datalist, dd, del, details, dfn, dl, div, dt,
+em, embed,
+fieldset, figcaption, figure, font, footer, form,
+h1, h2, h3, h4, h5, h6, header, html,
+i, iframe, img, ins,
+kbd,
+keygen,
+label, legend, li,
+meter,
+nav, menu,
+object, ol, output,
+p, pre, progress,
+q,
+s, samp, section, small, span, source, strike, strong, sub, sup,
+table, tbody, tfoot, thead, th, tr, tt,
+u, ul, var{ margin:0; padding:0;}
+
+h1, h2, h3, h4, h5, h6, th, td, table, input, button, select, textarea{ }
+body, input, button, select, textarea{}
+em, cite, address, optgroup{ font-style:normal;}
+kbd, samp, code{ font-family:monospace;}
+
+img, input, button, select, textarea{ vertical-align:middle;}
+ul, ol{ list-style:none;}
+img, fieldset{ border:0;}
+abbr, acronym{ border-bottom:1px dotted black; cursor:help;}
+table{ border-collapse:collapse; border-spacing:0;}
+
+legend, hr{ overflow:hidden; position:absolute; left:0; top:0;}
+legend, hr, caption{ visibility:hidden; width:0; height:0; font-size:0; line-height:0;}
+
+/* HTML5 标签规范 */
+article, aside, audio, canvas, datalist, details, embed, figcaption, figure, footer, header, hgroup, keygen, meter, nav, output, progress, section, source, video{ display: block;}
+mark, rp, rt, ruby, summary, time{ display: inline;}
+
+/* 全选默认色*/
+::selection { background:#199ed8; color:#fff;}
+::-moz-selection { background:#199ed8; color:#fff;}
+::-webkit-selection {  background:#199ed8; color:#fff;}
+
+/* chrome 表单cookie机制处理 */
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px white inset;}
+
+/* */
+input, a {outline:none;}
+
+/* webkit内核 模拟滚动条 */
+::-webkit-scrollbar{padding-left:1px; background-color:#fff; overflow:visible; width:13px; height:13px; }
+::-webkit-scrollbar-thumb{ background-color:rgba(0, 0, 0, .2); background-clip:padding-box; border:2px solid transparent;  min-height:15px; box-shadow:inset 1px 1px 0 rgba(0, 0, 0, .1),inset 0 -1px 0 rgba(0, 0, 0, .07); border-radius:12px;}
+::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0, 0, 0, .3); border:2px solid transparent;}
+::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(0, 0, 0, .5); border:2px solid transparent;}
+::-webkit-scrollbar-button{height:0; width:0;}
+::-webkit-scrollbar-track{background-clip:padding-box; border:solid transparent; border-width:0 0 0 4px; border-radius:0;}
+::-webkit-scrollbar-corner{background:transparent;}
+

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.findpwd">
+	<sql name="queryForId">
+		<![CDATA[
+			SELECT COUNT(1) COU FROM E_USER WHERE MOBILE = #id# AND STATE='1'
+		]]>
+	</sql>
+	<sql name="checksum">
+		<![CDATA[
+			select count(1) cou
+			  from (select count(1) chongzhi_cou
+			          from e_find_back_password_log t
+			         where t.login_id = #id#
+			           and to_char(t.create_time, 'yyyymmdd') = to_char(sysdate, 'yyyymmdd')) t
+			 where t.chongzhi_cou > 5
+		]]>
+	</sql>
+	<sql name="var_msg_id">
+		<![CDATA[
+			SELECT TO_CHAR(CURRENT TIMESTAMP,'YYYYMMDDHH24MISSFF3') MSG_ID FROM DUAL
+		]]>
+	</sql>
+	<sql name="inSMS">
+		<![CDATA[
+			INSERT INTO ISP_DM.SMS_SENDING
+				  (MSG_ID,
+				   MSG_NO,
+				   DEST_TERMID,
+				   MSG_CONTENT,
+				   CREATE_TIME,
+				   SYS_NO,
+				   SEND_COUNT,
+				   ISEMERGENT)
+				VALUES
+				  (NEXTVAL for ISP_DM.SMS_SEQ,
+				   120,
+				   #id#,
+				   '您好,您对企业数据应用门户系统的工号[' || #id# || ']进行了找回密码操作,本次获取到的验证码为[%{yanzheng_code}],本次操作时间为[' ||  TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') || '],如本次为您本人操作,请及时修改您的密码!',
+				   sysdate,
+				   '101200044',
+				   0,
+				   '0')
+		]]>
+	</sql>
+	<sql name="delRANDCODE">
+		<![CDATA[
+			DELETE FROM E_FIND_BACK_PASSWORD_RANDCODE WHERE LOGIN_ID = #id#
+		]]>
+	</sql>
+	<sql name="delRANDCODE">
+		<![CDATA[
+			INSERT INTO E_FIND_BACK_PASSWORD_RANDCODE VALUES (#id#, '%{ip}', sysdate,'%{yanzheng_code}')
+		]]>
+	</sql>
+	<sql name="inlog">
+		<![CDATA[
+			INSERT INTO e_find_back_password_log VALUES (#id#, '%{ip}', sysdate, 'ISPIRE')
+		]]>
+	</sql>
+	<sql name="_login_id_t">
+		<![CDATA[
+			SELECT COUNT(1) COU FROM E_FIND_BACK_PASSWORD_RANDCODE WHERE LOGIN_ID = #id# AND RAND_CODE = #findPwdRand#
+		]]>
+	</sql>
+	<sql name="up1">
+		<![CDATA[
+			UPDATE E_USER SET PASSWORD = '%{pwd_new}', UPDATE_USER=#id#, UPDATE_DATE=sysdate WHERE MOBILE = #id#
+		]]>
+	</sql>
+	<sql name="up2">
+		<![CDATA[
+			INSERT INTO ISP_DM.SMS_SENDING
+					  (MSG_ID,
+					   MSG_NO,
+					   DEST_TERMID,
+					   MSG_CONTENT,
+					   CREATE_TIME,
+					   SYS_NO,
+					   SEND_COUNT,
+					   ISEMERGENT)
+					VALUES
+					  (ISP_DM.SMS_SEQ.NEXTVAL,
+					   120,
+					   #id#,
+					   '您好,您对企业数据应用门户系统的工号[' || #id# || ']进行了找回密码操作,您的密码已经修改为[%{random_pwd}],本次操作时间为[' ||  TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') || '],请使用新密码登录系统并及时修改您的密码!',
+					   sysdate,
+					   '101200044',
+					   0,
+					   '0')
+		]]>
+	</sql>
+	<sql name="ERR_INFO">
+		<![CDATA[
+			INSERT INTO E_LOGIN_ERR_INFO(LOGIN_ID,UPDATE_DATE) VALUES(#userName#,SYSDATE)
+		]]>
+	</sql>
+	<sql name="E_USER">
+		<![CDATA[
+			SELECT COUNT(1) FLAG FROM E_USER WHERE MOBILE=#userName# AND STATE='2'
+		]]>
+	</sql>
+	<sql name="errNumObj0">
+		<![CDATA[
+			SELECT COUNT(1) ERR_NUM FROM E_LOGIN_ERR_INFO WHERE LOGIN_ID=#userName# AND TO_CHAR(UPDATE_DATE,'YYYYMMDD')=TO_CHAR(SYSDATE,'YYYYMMDD')
+		]]>
+	</sql>
+	<sql name="errNumObj1">
+		<![CDATA[
+			SELECT -1 ERR_NUM from dual
+		]]>
+	</sql>
+</mapping>
+
+
+
